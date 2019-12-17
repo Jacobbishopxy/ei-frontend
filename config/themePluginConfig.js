@@ -110,5 +110,23 @@ export default {
         '@primary-color': '#722ED1',
       },
     },
+    {
+      key: 'theme1',
+      fileName: 'theme1.css',
+      modifyVars: {
+        '@primary-color': '#13C2C2',
+        '@menu-dark-color': '#324444',
+        '@menu-dark-bg': '#5A5A5A',
+      },
+    },
+    {
+      key: 'theme2',
+      fileName: 'theme2.css',
+      modifyVars: {
+        '@primary-color': '#4992BF',
+        '@menu-dark-color': '#9B9B9B',
+        '@menu-dark-bg': '#3A3A3A',
+      },
+    },
   ],
 };

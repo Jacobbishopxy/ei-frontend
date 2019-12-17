@@ -2,6 +2,7 @@ import defaultSettings from './defaultSettings'; // https://umijs.org/config/
 
 import slash from 'slash2';
 import themePluginConfig from './themePluginConfig';
+
 const { pwa } = defaultSettings; // preview.pro.ant.design only do not use in your production ;
 // preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
 
@@ -109,6 +110,30 @@ export default {
               icon: 'crown',
               component: './Admin',
               authority: ['admin'],
+            },
+            {
+              path: '/data',
+              name: '数据',
+              icon: 'smile',
+              routes: [
+                {
+                  path: '/data/industryCement',
+                  name: '水泥',
+                  component: './data/IndustryCement',
+                },
+              ],
+            },
+            {
+              path: '/research',
+              name: '投研',
+              icon: 'smile',
+              routes: [
+                {
+                  path: '/research/tradingview',
+                  name: 'TradingView',
+                  component: './research/TradingView',
+                },
+              ],
             },
             {
               component: './404',

@@ -1,4 +1,5 @@
 @import '~antd/es/style/themes/default.less';
+//@import './theme';
 
 html,
 body,
@@ -38,15 +39,38 @@ ol {
   .ant-table {
     width: 100%;
     overflow-x: auto;
+
     &-thead > tr,
     &-tbody > tr {
       > th,
       > td {
         white-space: pre;
+
         > span {
           display: block;
         }
       }
     }
   }
+}
+
+.ant-pro-global-footer {
+  margin-top: 6px !important;
+  margin-bottom: 6px !important;
+}
+
+.ant-pro-global-footer-links {
+  margin-bottom: 0 !important;
+}
+
+.body-warp-theme1 {
+  // theme1下的全局变量在此定义
+  --font-color: #000000;
+  --bg-color: #011313;
+}
+
+.body-warp-theme2 {
+  // theme2下的全局变量在此定义
+  --font-color: #ffffff;
+  --bg-color: #ffffff;
 }
