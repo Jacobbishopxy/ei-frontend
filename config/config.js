@@ -2,13 +2,13 @@ import defaultSettings from './defaultSettings'; // https://umijs.org/config/
 
 import slash from 'slash2';
 import themePluginConfig from './themePluginConfig';
+import proxy from './proxy';
+import webpackPlugin from './plugin.config';
 
-const { pwa } = defaultSettings; // preview.pro.ant.design only do not use in your production ;
-// preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
-
-const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env;
+const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION, REACT_APP_ENV } = process.env;
 const isAntDesignProPreview = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site';
 const plugins = [
+  ['umi-plugin-antd-icon-config', {}],
   [
     'umi-plugin-react',
     {
@@ -29,19 +29,6 @@ const plugins = [
         webpackChunkName: true,
         level: 3,
       },
-      pwa: pwa
-        ? {
-            workboxPluginMode: 'InjectManifest',
-            workboxOptions: {
-              importWorkboxFrom: 'local',
-            },
-          }
-        : false, // default close dll, because issue https://github.com/ant-design/ant-design-pro/issues/4665
-      // dll features https://webpack.js.org/plugins/dll-plugin/
-      // dll: {
-      //   include: ['dva', 'dva/router', 'dva/saga', 'dva/fetch'],
-      //   exclude: ['@babel/runtime', 'netlify-lambda'],
-      // },
     },
   ],
   [
@@ -99,39 +86,51 @@ export default {
               redirect: '/welcome',
             },
             {
-              path: '/welcome',
               name: 'welcome',
+              path: '/welcome',
               icon: 'smile',
               component: './Welcome',
             },
             {
-              path: '/admin',
               name: 'admin',
+              path: '/admin',
               icon: 'crown',
               component: './Admin',
               authority: ['admin'],
             },
             {
-              path: '/data',
-              name: '数据',
-              icon: 'smile',
+              name: 'business-data',
+              path: '/bizData',
+              icon: 'dashboard',
               routes: [
                 {
-                  path: '/data/industryCement',
-                  name: '水泥',
-                  component: './data/IndustryCement',
+                  name: 'cement',
+                  path: '/bizData/industryCement',
+                  component: './bizData/IndustryCement',
                 },
               ],
             },
             {
+              name: 'research',
               path: '/research',
-              name: '投研',
-              icon: 'smile',
+              icon: 'experiment',
               routes: [
                 {
+                  name: 'candlestick',
                   path: '/research/tradingview',
-                  name: 'TradingView',
                   component: './research/TradingView',
+                },
+              ],
+            },
+            {
+              name: 'demo',
+              path: '/demo',
+              icon: 'rocket',
+              routes: [
+                {
+                  name: 'custom-grids',
+                  path: '/demo/draggablegrid',
+                  component: './demo/DraggableGrid',
                 },
               ],
             },
@@ -152,8 +151,10 @@ export default {
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
     // ...darkTheme,
+    primaryColor: defaultSettings.primaryColor,
   },
   define: {
+    REACT_APP_ENV: REACT_APP_ENV || false,
     ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION:
       ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION || '', // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
   },
@@ -190,11 +191,6 @@ export default {
   manifest: {
     basePath: '/',
   }, // chainWebpack: webpackPlugin,
-  // proxy: {
-  //   '/server/api/': {
-  //     target: 'https://preview.pro.ant.design/',
-  //     changeOrigin: true,
-  //     pathRewrite: { '^/server': '' },
-  //   },
-  // },
+  proxy: proxy[REACT_APP_ENV || 'dev'],
+  chainWebpack: webpackPlugin,
 };

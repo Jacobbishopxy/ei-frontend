@@ -48,4 +48,13 @@ export default {
   'menu.editor.flow': 'Flow Editor',
   'menu.editor.mind': 'Mind Editor',
   'menu.editor.koni': 'Koni Editor',
+
+  'menu.business-data': 'Business Data',
+  'menu.business-data.cement': 'Cement',
+
+  'menu.research': 'Research',
+  'menu.research.candlestick': 'Candlestick',
+
+  'menu.demo': 'Demo',
+  'menu.demo.custom-grids': 'Custom Grids',
 };

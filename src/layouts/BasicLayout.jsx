@@ -32,36 +32,18 @@ const noMatch = (
  */
 const menuDataRender = menuList =>
   menuList.map(item => {
-    const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
+    const localItem = {...item, children: item.children ? menuDataRender(item.children) : []};
     return Authorized.check(item.authority, localItem, null);
   });
 
-const defaultFooterDom = <DefaultFooter copyright="2019 xieyu@infore.com" links={[]} />;
+const defaultFooterDom = <DefaultFooter copyright="2019-2020 xieyu@infore.com" links={false}/>;
 
 const footerRender = () => {
   if (!isAntDesignPro()) {
     return defaultFooterDom;
   }
 
-  return (
-    <>
-      {defaultFooterDom}
-      <div
-        style={{
-          padding: '0px 12px 12px',
-          textAlign: 'center',
-        }}
-      >
-        <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer">
-          <img
-            src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg"
-            width="82px"
-            alt="netlify logo"
-          />
-        </a>
-      </div>
-    </>
-  );
+  return defaultFooterDom;
 };
 
 const BasicLayout = props => {
@@ -138,7 +120,7 @@ const BasicLayout = props => {
       footerRender={footerRender}
       menuDataRender={menuDataRender}
       formatMessage={formatMessage}
-      rightContentRender={() => <RightContent />}
+      rightContentRender={() => <RightContent/>}
       siderWidth={220}
       {...props}
       {...settings}
@@ -150,7 +132,7 @@ const BasicLayout = props => {
   );
 };
 
-export default connect(({ global, settings }) => ({
+export default connect(({global, settings}) => ({
   collapsed: global.collapsed,
   settings,
 }))(BasicLayout);

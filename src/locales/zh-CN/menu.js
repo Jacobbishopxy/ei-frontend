@@ -48,4 +48,13 @@ export default {
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
+
+  'menu.business-data': '数据',
+  'menu.business-data.cement': '水泥',
+
+  'menu.research': '投研',
+  'menu.research.candlestick': 'K线',
+
+  'menu.demo': '案例',
+  'menu.demo.custom-grids': '自定义骨架',
 };

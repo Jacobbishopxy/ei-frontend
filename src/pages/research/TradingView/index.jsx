@@ -3,15 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { Spin } from 'antd';
 import styles from './index.less';
 
-export default () => {
-  return (
+export default () =>
+  (
     <PageHeaderWrapper content="TradingView Demo" className={styles.main}>
-      <div
-        style={{
-          paddingTop: 10,
-          textAlign: 'center',
-        }}
-      ></div>
+      <div style={{paddingTop: 10, textAlign: 'center'}}/>
     </PageHeaderWrapper>
   );
-};

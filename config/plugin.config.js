@@ -20,7 +20,7 @@ function getModulePackageName(module) {
   return packageName;
 }
 
-export const webpackPlugin = config => {
+const webpackPlugin = config => {
   // optimize chunks
   config.optimization // share the same chunks across different modules
     .runtimeChunk(false)
@@ -63,3 +63,5 @@ export const webpackPlugin = config => {
       },
     });
 };
+
+export default webpackPlugin;

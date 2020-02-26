@@ -1,16 +1,9 @@
-# Ant Design Pro
+# Ei Frontend
 
-This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.
 
 ## Environment Prepare
 
 Install `node_modules`:
-
-```bash
-npm install
-```
-
-or
 
 ```bash
 yarn
@@ -25,33 +18,51 @@ Scripts provided in `package.json`. It's safe to modify or add additional script
 ### Start project
 
 ```bash
-npm start
+yarn dev
 ```
 
-### Build project
+### Build project & Run in production
 
 ```bash
-npm run build
+yarn build
+yarn start
 ```
 
 ### Check code style
 
 ```bash
-npm run lint
+yarn lint
 ```
 
 You can also use script to auto fix some lint error:
 
 ```bash
-npm run lint:fix
+yarn lint:fix
 ```
 
 ### Test code
 
 ```bash
-npm test
+yarn test
 ```
 
-## More
+## Project Structure
 
-You can view full document on our [official website](https://pro.ant.design). And welcome any feedback in our [github](https://github.com/ant-design/ant-design-pro).
+```
+config
+    |---config.js
+    |---defaultSetting.js
+    |---plugin.config.js
+    |---themePluginConfig.js
+
+public
+
+src
+    |---components
+    |---pages
+
+```
+
+
+1. `config/config.js`: Basic menu config
+

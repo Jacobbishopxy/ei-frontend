@@ -5,7 +5,7 @@ function getFakeCaptcha(req, res) {
 export default {
   // 支持值为 Object 和 Array
   'GET /api/currentUser': {
-    name: 'Serati Ma',
+    name: 'Jacob Xie',
     avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
     userid: '00000001',
     email: 'antdesign@alipay.com',
@@ -19,22 +19,6 @@ export default {
       },
       {
         key: '1',
-        label: '专注设计',
-      },
-      {
-        key: '2',
-        label: '辣~',
-      },
-      {
-        key: '3',
-        label: '大长腿',
-      },
-      {
-        key: '4',
-        label: '川妹子',
-      },
-      {
-        key: '5',
         label: '海纳百川',
       },
     ],

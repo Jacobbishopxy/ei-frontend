@@ -13,6 +13,10 @@ const CodePreview = ({ children }) => (
 
 export default () => (
   <PageHeaderWrapper>
-    <Card>欢迎来到盈峰资本-权益投资部主页！</Card>
+    <Card>
+      <div style={{textAlign: 'center'}}>
+        欢迎来到盈峰资本-权益投资部主页！
+      </div>
+    </Card>
   </PageHeaderWrapper>
 );
