@@ -121,7 +121,7 @@ const BasicLayout = props => {
       menuDataRender={menuDataRender}
       formatMessage={formatMessage}
       rightContentRender={() => <RightContent/>}
-      siderWidth={220}
+      siderWidth={200}
       {...props}
       {...settings}
     >

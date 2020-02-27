@@ -10,7 +10,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: 'Infore Capital',
+  title: 'InforeCapital',
   pwa: false,
   iconfontUrl: '',
 };
