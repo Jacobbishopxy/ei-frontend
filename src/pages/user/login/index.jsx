@@ -1,4 +1,3 @@
-import { WechatOutlined } from '@ant-design/icons';
 import { Alert, Checkbox } from 'antd';
 import React, { useState } from 'react';
 import { Link } from 'umi';
@@ -108,8 +107,6 @@ const Login = props => {
         </div>
         <Submit loading={submitting}>登录</Submit>
         <div className={styles.other}>
-          其他登录方式
-          <WechatOutlined className={styles.icon}/>
           <Link className={styles.register} to="/user/register">
             注册账户
           </Link>

@@ -50,7 +50,7 @@ const UserLayout = props => {
           </div>
           {children}
         </div>
-        <DefaultFooter copyright="2019 xieyu@infore.com" links={[]} />
+        <DefaultFooter copyright="2019-2020 xieyu@infore.com" links={[]} />
       </div>
     </>
   );

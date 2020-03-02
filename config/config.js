@@ -4,8 +4,7 @@ import slash from 'slash2';
 import themePluginConfig from './themePluginConfig';
 import proxy from './proxy';
 import webpackPlugin from './plugin.config';
-
-const {ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION, REACT_APP_ENV} = process.env;
+const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION, REACT_APP_ENV } = process.env;
 const isAntDesignProPreview = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site';
 const plugins = [
   ['umi-plugin-antd-icon-config', {}],
@@ -129,8 +128,13 @@ export default {
               routes: [
                 {
                   name: 'custom-grids',
-                  path: '/demo/draggablegrid',
+                  path: '/demo/draggableGrid',
                   component: './demo/DraggableGrid',
+                },
+                {
+                  name: 'grafana-embed',
+                  path: '/demo/grafanaembed',
+                  component: './demo/grafanaEmbed',
                 },
               ],
             },
@@ -151,14 +155,14 @@ export default {
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
     // ...darkTheme,
-    primaryColor: defaultSettings.primaryColor,
+    "primary-color": defaultSettings.primaryColor,
   },
   define: {
     REACT_APP_ENV: REACT_APP_ENV || false,
     ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION:
       ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION || '', // preview.pro.ant.design only do not use in your
-                                                               // production ; preview.pro.ant.design
-                                                               // 专用环境变量，请不要在你的项目中使用它。
+    // production ; preview.pro.ant.design
+    // 专用环境变量，请不要在你的项目中使用它。
   },
   ignoreMomentLocale: true,
   lessLoaderOptions: {
