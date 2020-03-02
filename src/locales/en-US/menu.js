@@ -57,5 +57,4 @@ export default {
 
   'menu.demo': 'Demo',
   'menu.demo.custom-grids': 'Custom Grids',
-  'menu.demo.grafana-embed': 'Grafana Embed',
 };

@@ -131,11 +131,6 @@ export default {
                   path: '/demo/draggableGrid',
                   component: './demo/DraggableGrid',
                 },
-                {
-                  name: 'grafana-embed',
-                  path: '/demo/grafanaembed',
-                  component: './demo/grafanaEmbed',
-                },
               ],
             },
             {

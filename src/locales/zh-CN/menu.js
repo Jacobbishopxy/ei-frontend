@@ -57,5 +57,4 @@ export default {
 
   'menu.demo': '案例',
   'menu.demo.custom-grids': '自定义骨架',
-  'menu.demo.grafana-embed': 'Grafana嵌套',
 };

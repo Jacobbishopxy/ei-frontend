@@ -1,42 +1,38 @@
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import React, { useState, useEffect } from 'react';
-import { Button, Card } from 'antd';
+import React from 'react';
+import { Button, Divider } from 'antd';
 
 import RGL, { WidthProvider } from 'react-grid-layout';
 import _ from 'lodash';
+import styles from './index.less'
 
 const ResponsiveGridLayout = WidthProvider(RGL);
 
-export default class MyResponsiveGrid extends React.PureComponent {
+export default class CustomGrid extends React.PureComponent {
 
   static defaultProps = {
     className: 'layout',
     cols: 12,
     breakpoints: {lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0},
-    rowHeight: 100,
-    // onLayoutChange: () => {}
+    rowHeight: 110,
   };
 
   constructor(props) {
     super(props);
 
-    this.clientRef = React.createRef();
-
     this.state = {
-      items: [0, 1, 2, 3].map(i => ({
+      items: [0, 1].map(i => ({
         i: i.toString(),
         x: (i % 2) * 6,
         y: (i % 2) * 2,
         w: 6,
-        h: 2
+        h: 4
       })),
       newCounter: 0,
     };
-
   }
 
   onAddItem = () => {
-    console.log('adding', `n${this.state.newCounter}`);
     this.setState({
       items: this.state.items.concat({
         i: `n${this.state.newCounter}`,
@@ -50,8 +46,7 @@ export default class MyResponsiveGrid extends React.PureComponent {
     });
   };
 
-  onLayoutChange = (currentLayout, allLayouts) => {
-    // this.props.onLayoutChange(layout);
+  onLayoutChange = currentLayout => {
     this.setState({layout: currentLayout});
   };
 
@@ -63,45 +58,45 @@ export default class MyResponsiveGrid extends React.PureComponent {
   };
 
   onRemoveItem = i => {
-    console.log('removing', i);
     this.setState({items: _.reject(this.state.items, {i: i})});
   };
 
   createElement = el => {
     const {i} = el;
     return (
-      <Card key={i}
-            data-grid={el}
-            size='small'
-            extra={
-              <Button
-                type='danger'
-                shape='circle'
-                size='small'
-                className="remove"
-                onClick={() => this.onRemoveItem(i)}
-              >
-                X
-              </Button>
-            }
+      <div key={i}
+           className={styles.customCardLayer}
+           data-grid={el}
       >
-        <span className="text">{i}</span>
-      </Card>
+        <div className={styles.cardHead}>
+          <Button
+            shape='circle'
+            size='small'
+            onClick={() => this.onRemoveItem(i)}
+          >
+            🗑️
+          </Button>
+        </div>
+        <embed
+          className={styles.cardContent}
+          src="https://snapshot.raintank.io/dashboard-solo/snapshot/y7zwi2bZ7FcoTlB93WN7yWO4aMiz3pZb?from=1493369923321&to=1493377123321&panelId=4"
+        />
+      </div>
     );
   };
 
   render() {
-    const layouts = () => null;
+    const {items} = this.state;
     return (
       <PageHeaderWrapper>
         <Button type='primary' onClick={this.onAddItem}>Add Item</Button>
         <ResponsiveGridLayout
-          // onLayoutChange={this.onLayoutChange}
-          onLayoutChange={layouts}
+          layout={items}
+          onLayoutChange={this.onLayoutChange}
           onBreakPointChange={this.onBreakpointChange}
           {...this.props}
         >
-          {this.state.items.map(this.createElement)}
+          {items.map(this.createElement)}
         </ResponsiveGridLayout>
       </PageHeaderWrapper>
     )

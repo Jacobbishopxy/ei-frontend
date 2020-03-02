@@ -4,7 +4,6 @@
 
 const express = require('express');
 const path = require('path');
-const fs = require('fs');
 
 const app = express();
 
@@ -14,11 +13,14 @@ app.use(express.static(path.join(__dirname, 'dist')));
 //   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 // });
 
+app.get('/api/currentUserAvatar', (req, res) => {
+  res.sendFile(path.join(__dirname, 'src/assets', 'logo-simple.png'))
+});
+
 app.get('/api/currentUser', (req, res) => {
-  console.log('/api/currentUser');
   res.send({
     name: 'Jacob Xie',
-    avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
+    avatar: 'http://localhost:7999/api/currentUserAvatar',
     userid: '00000001',
     email: 'xieyu@infore.com',
     signature: '',
@@ -34,21 +36,21 @@ app.get('/api/currentUser', (req, res) => {
         label: '海纳百川',
       },
     ],
-    notifyCount: 12,
-    unreadCount: 11,
+    notifyCount: 0,
+    unreadCount: 0,
     country: 'China',
     geographic: {
       province: {
-        label: '浙江省',
+        label: '广东省',
         key: '330000',
       },
       city: {
-        label: '杭州市',
+        label: '深圳市',
         key: '330100',
       },
     },
-    address: '西湖区工专路 77 号',
-    phone: '0752-268888888',
+    address: '太平金融大厦29楼',
+    phone: '123123',
   })
 });
 
