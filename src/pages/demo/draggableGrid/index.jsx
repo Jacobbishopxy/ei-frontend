@@ -1,12 +1,15 @@
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import React from 'react';
-import { Button, Divider } from 'antd';
+import { Button, Select } from 'antd';
 
 import RGL, { WidthProvider } from 'react-grid-layout';
 import _ from 'lodash';
-import styles from './index.less'
+
+import DataCard from '@/components/CustomPanel/DataCard';
 
 const ResponsiveGridLayout = WidthProvider(RGL);
+
+const tmpLink = 'http://grafana.ei.infore.com/d-solo/WfMG8caWk/xing-ye-shui-ni?orgId=1&from=1425371993587&to=1583224793588&var-region1=%E5%85%A8%E5%9B%BD&var-region2=%E5%8D%8E%E5%8C%97&var-region3=%E5%8D%8E%E4%B8%9C&panelId=6'
 
 export default class CustomGrid extends React.PureComponent {
 
@@ -21,7 +24,7 @@ export default class CustomGrid extends React.PureComponent {
     super(props);
 
     this.state = {
-      items: [0, 1].map(i => ({
+      items: [0].map(i => ({
         i: i.toString(),
         x: (i % 2) * 6,
         y: (i % 2) * 2,
@@ -29,8 +32,14 @@ export default class CustomGrid extends React.PureComponent {
         h: 4
       })),
       newCounter: 0,
+      selectedItem: null,
     };
   }
+
+  onSelectItem = value => {
+    console.log(value)
+    this.setState({selectedItem: value})
+  };
 
   onAddItem = () => {
     this.setState({
@@ -39,7 +48,7 @@ export default class CustomGrid extends React.PureComponent {
         x: 0,
         y: Infinity,
         w: 6,
-        h: 2
+        h: 4
       }),
       // Increment the counter to ensure key is always unique.
       newCounter: this.state.newCounter + 1
@@ -63,23 +72,12 @@ export default class CustomGrid extends React.PureComponent {
 
   createElement = el => {
     const {i} = el;
+
     return (
-      <div key={i}
-           className={styles.customCardLayer}
-           data-grid={el}
-      >
-        <div className={styles.cardHead}>
-          <Button
-            shape='circle'
-            size='small'
-            onClick={() => this.onRemoveItem(i)}
-          >
-            🗑️
-          </Button>
-        </div>
-        <embed
-          className={styles.cardContent}
-          src="https://snapshot.raintank.io/dashboard-solo/snapshot/y7zwi2bZ7FcoTlB93WN7yWO4aMiz3pZb?from=1493369923321&to=1493377123321&panelId=4"
+      <div key={i} data-grid={el}>
+        <DataCard
+          onRemoveItem={() => this.onRemoveItem(i)}
+          embedLink={tmpLink}
         />
       </div>
     );
@@ -89,7 +87,12 @@ export default class CustomGrid extends React.PureComponent {
     const {items} = this.state;
     return (
       <PageHeaderWrapper>
-        <Button type='primary' onClick={this.onAddItem}>Add Item</Button>
+        <Select style={{width: 120, marginRight: 20}} onChange={this.onSelectItem} placeholder='选择模块'>
+          <Select.Option value="embedLink">
+            链接
+          </Select.Option>
+        </Select>
+        <Button type='primary' onClick={this.onAddItem}>添加</Button>
         <ResponsiveGridLayout
           layout={items}
           onLayoutChange={this.onLayoutChange}
