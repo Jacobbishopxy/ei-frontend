@@ -119,6 +119,11 @@ export default {
                   path: '/research/tradingview',
                   component: './research/TradingView',
                 },
+                {
+                  name: 'grafana',
+                  path: '/research/grafanaview',
+                  component: './research/GrafanaView',
+                },
               ],
             },
             {
@@ -130,6 +135,11 @@ export default {
                   name: 'custom-grids',
                   path: '/demo/draggableGrid',
                   component: './demo/DraggableGrid',
+                },
+                {
+                  name: 'testpage',
+                  path: '/demo/testpage',
+                  component: './demo/TestPage',
                 },
               ],
             },
@@ -150,7 +160,7 @@ export default {
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
     // ...darkTheme,
-    "primary-color": defaultSettings.primaryColor,
+    'primary-color': defaultSettings.primaryColor,
   },
   define: {
     REACT_APP_ENV: REACT_APP_ENV || false,

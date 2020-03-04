@@ -54,7 +54,9 @@ export default {
 
   'menu.research': 'Research',
   'menu.research.candlestick': 'Candlestick',
+  'menu.research.grafana': 'Grafana',
 
   'menu.demo': 'Demo',
   'menu.demo.custom-grids': 'Custom Grids',
+  'menu.demo.testpage': 'Test',
 };
