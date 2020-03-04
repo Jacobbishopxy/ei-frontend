@@ -1,22 +1,37 @@
 import React from 'react';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { Card, Typography, Alert } from 'antd';
-import styles from './Welcome.less';
+import { Carousel } from 'antd';
 
-const CodePreview = ({ children }) => (
-  <pre className={styles.pre}>
-    <code>
-      <Typography.Text copyable>{children}</Typography.Text>
-    </code>
-  </pre>
-);
+import inforeCover1 from '../assets/infore-cover1.jpg';
+import inforeCover2 from '../assets/infore-cover2.jpg';
+import inforeCover3 from '../assets/infore-cover3.jpg';
+
+import styles from './Welcome.less'
 
 export default () => (
-  <PageHeaderWrapper>
-    <Card>
-      <div style={{textAlign: 'center'}}>
-        欢迎来到盈峰资本-权益投资部主页！
+  <>
+    <style jsx global>{`
+        .ant-carousel .slick-slide {
+          text-align: center;
+          height: 100%;
+          line-height: 145px;
+          overflow: hidden;
+        }
+
+        .ant-carousel .slick-slide img {
+          color: #fff;
+        }
+    `}</style>
+
+    <Carousel autoplay effect="fade" speed={5000} className={styles.container}>
+      <div>
+        <img src={inforeCover1} alt='infore-cover1' className={styles.cover}/>
       </div>
-    </Card>
-  </PageHeaderWrapper>
+      <div>
+        <img src={inforeCover2} alt='infore-cover2' className={styles.cover}/>
+      </div>
+      <div>
+        <img src={inforeCover3} alt='infore-cover3' className={styles.cover}/>
+      </div>
+    </Carousel>
+  </>
 );

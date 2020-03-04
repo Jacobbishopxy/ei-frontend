@@ -1,11 +1,11 @@
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import React, { useState, useEffect } from 'react';
-import { Spin } from 'antd';
-import styles from './index.less';
+import React from 'react';
 
-export default () =>
-  (
-    <PageHeaderWrapper content="TradingView Demo" className={styles.main}>
-      <div style={{paddingTop: 10, textAlign: 'center'}}/>
-    </PageHeaderWrapper>
-  );
+export default () => (
+  <PageHeaderWrapper>
+    <embed
+      src="http://tradingview.ei.infore.com/"
+      width="100%" height="900" frameBorder="0"
+    />
+  </PageHeaderWrapper>
+);
