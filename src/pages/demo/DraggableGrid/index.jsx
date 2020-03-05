@@ -9,8 +9,6 @@ import DataCardMain from '@/components/CustomPanel/DataCard';
 
 const ResponsiveGridLayout = WidthProvider(RGL);
 
-const tmpLink = 'http://grafana.ei.infore.com/d-solo/WfMG8caWk/xing-ye-shui-ni?orgId=1&from=1425371993587&to=1583224793588&var-region1=%E5%85%A8%E5%9B%BD&var-region2=%E5%8D%8E%E5%8C%97&var-region3=%E5%8D%8E%E4%B8%9C&panelId=6'
-
 export default class CustomGrid extends React.PureComponent {
 
   static defaultProps = {
@@ -37,22 +35,20 @@ export default class CustomGrid extends React.PureComponent {
   }
 
   onSelectItem = value => {
-    console.log(value)
     this.setState({selectedItem: value})
   };
 
   onAddItem = () => {
-    this.setState({
-      items: this.state.items.concat({
-        i: `n${this.state.newCounter}`,
-        x: 0,
-        y: Infinity,
-        w: 6,
-        h: 4
-      }),
-      // Increment the counter to ensure key is always unique.
-      newCounter: this.state.newCounter + 1
+    const {items, newCounter} = this.state;
+    const newItems = items.concat({
+      i: `n${newCounter}`,
+      x: 0,
+      y: Infinity,
+      w: 6,
+      h: 4
     });
+
+    this.setState({items: newItems, newCounter: newCounter + 1});
   };
 
   onLayoutChange = currentLayout => {
@@ -67,7 +63,8 @@ export default class CustomGrid extends React.PureComponent {
   };
 
   onRemoveItem = i => {
-    this.setState({items: _.reject(this.state.items, {i: i})});
+    const {items} = this.state;
+    this.setState({items: _.reject(items, {i})});
   };
 
   createElement = el => {
@@ -75,9 +72,7 @@ export default class CustomGrid extends React.PureComponent {
 
     return (
       <div key={i} data-grid={el}>
-        <DataCardMain
-          onRemoveItem={() => this.onRemoveItem(i)}
-        />
+        <DataCardMain onRemoveItem={() => this.onRemoveItem(i)}/>
       </div>
     );
   };
