@@ -5,7 +5,7 @@ import { Button, Select } from 'antd';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import _ from 'lodash';
 
-import DataCard from '@/components/CustomPanel/DataCard';
+import DataCardMain from '@/components/CustomPanel/DataCard';
 
 const ResponsiveGridLayout = WidthProvider(RGL);
 
@@ -75,9 +75,8 @@ export default class CustomGrid extends React.PureComponent {
 
     return (
       <div key={i} data-grid={el}>
-        <DataCard
+        <DataCardMain
           onRemoveItem={() => this.onRemoveItem(i)}
-          embedLink={tmpLink}
         />
       </div>
     );

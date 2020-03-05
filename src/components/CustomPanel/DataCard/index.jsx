@@ -2,39 +2,23 @@
  * Created by Jacob Xie on 3/2/2020.
  */
 
-import React, { useState, useEffect } from 'react';
-import { Button, Modal, Input } from 'antd';
+import React, { useState } from 'react';
+import { Button, Input, Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import styles from './index.less'
 
 const {confirm} = Modal;
 
-const EmbedModal = props => {
-  // const [embedLink, setEmbedLink] = useState("");
+const EmbedModal = ({onSet}) => {
   const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  // useEffect(() => {
-  //
-  //   setTimeout(() => {
-  //     setLoading(true)
-  //   }, 2000)
-  //
-  // }, [visible]);
-
+  const [embedLink, setEmbedLink] = useState('');
 
   const handleOk = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setVisible(false);
-    }, 2000)
+    onSet(embedLink);
+    setVisible(false);
   };
 
-  const inputOnChange = e => {
-    console.log(e)
-  }
-
+  const inputOnchange = e => setEmbedLink(e.target.value);
 
   return (
     <>
@@ -45,10 +29,9 @@ const EmbedModal = props => {
         title="请在下方输入链接："
         visible={visible}
         onOk={handleOk}
-        confirmLoading={loading}
         onCancel={() => setVisible(false)}
       >
-        <Input placeholder='链接' allowClear onChange={inputOnChange}/>
+        <Input placeholder='链接' allowClear onChange={inputOnchange}/>
       </Modal>
     </>
   );
@@ -66,11 +49,15 @@ const confirmDelete = onRemove => (
 );
 
 
-const DataCard = ({onRemoveItem, embedLink}) => (
+const DataCardMain = ({onRemoveItem}) => {
+
+  const [embedLink, setEmbedLink] = useState(() => null);
+
+  return (
     <div className={styles.cardMain}>
       <div className={styles.cardHead}>
         <div>
-          <EmbedModal/>
+          <EmbedModal onSet={setEmbedLink}/>
         </div>
         <Button
           shape='circle'
@@ -80,11 +67,16 @@ const DataCard = ({onRemoveItem, embedLink}) => (
           🗑️
         </Button>
       </div>
-      <embed
-        className={styles.cardContent}
-        src={embedLink}
-      />
+      {
+        embedLink == null ?
+          <p>请输入链接</p> :
+          <embed
+            className={styles.cardContent}
+            src={embedLink}
+          />
+      }
     </div>
   );
+};
 
-export default DataCard;
+export default DataCardMain;
