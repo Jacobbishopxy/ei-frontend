@@ -1,6 +1,6 @@
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import React from 'react';
-
+import { message } from 'antd';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import _ from 'lodash';
 
@@ -9,6 +9,20 @@ import ControlCard from '@/components/CustomPanel/ControlCard';
 import EmbedLinkContent from '@/components/CustomPanel/EmbedLinkContent';
 
 const ResponsiveGridLayout = WidthProvider(RGL);
+
+const selectModeToAdd = modeName => {
+
+  switch (modeName) {
+    case 'embedLink':
+      return <EmbedLinkContent/>;
+    case 'text':
+      return <h1>Text</h1>;
+    case 'image':
+      return <h1>Img</h1>;
+    default:
+      return <EmbedLinkContent/>;
+  }
+};
 
 export default class CustomGrid extends React.PureComponent {
 
@@ -29,9 +43,10 @@ export default class CustomGrid extends React.PureComponent {
         y: (i % 2) * 2,
         w: 6,
         h: 4,
+        selectedMode: 'embedLink'
       })),
       newCounter: 0,
-      selectedItem: null,
+      selectedMode: null,
     };
   }
 
@@ -45,22 +60,29 @@ export default class CustomGrid extends React.PureComponent {
   }
 
   onSelectItem = value => {
-    this.setState({selectedItem: value})
+    this.setState({selectedMode: value})
   };
 
   onAddItem = () => {
-    const {items, newCounter} = this.state;
-    const newItems = items.concat({
-      i: `n${newCounter}`,
-      x: 0,
-      y: Infinity,
-      w: 6,
-      h: 4,
-    });
-
-    this.setState({items: newItems, newCounter: newCounter + 1});
+    const {selectedMode} = this.state;
+    if (selectedMode != null) {
+      const {items, newCounter} = this.state;
+      const {cols} = this.props;
+      const newItems = items.concat({
+        i: `n${newCounter}`,
+        x: (items.length * 6) % cols,
+        y: Infinity,
+        w: 6,
+        h: 4,
+        selectedMode
+      });
+      this.setState({items: newItems, newCounter: newCounter + 1});
+    } else {
+      message.warning('请选择一种模块添加')
+    }
   };
 
+  // todo: local提供记住当前布局，后端提供commit后全局布局
   onLayoutChange = currentLayout => {
     this.setState({layout: currentLayout});
   };
@@ -78,12 +100,14 @@ export default class CustomGrid extends React.PureComponent {
   };
 
   createElement = el => {
-    const {i} = el;
-    const cc = <EmbedLinkContent/>;
+    const {i, selectedMode} = el;
 
     return (
       <div key={i} data-grid={el}>
-        <DataCard onRemoveItem={() => this.onRemoveItem(i)} cardContent={cc}/>
+        <DataCard
+          onRemoveItem={() => this.onRemoveItem(i)}
+          cardContent={selectModeToAdd(selectedMode)}
+        />
       </div>
     );
   };
