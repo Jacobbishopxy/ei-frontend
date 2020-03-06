@@ -6,6 +6,7 @@ import _ from 'lodash';
 
 import DataCard from '@/components/CustomPanel/DataCard';
 import ControlCard from '@/components/CustomPanel/ControlCard';
+import EmbedLinkContent from '@/components/CustomPanel/EmbedLinkContent';
 
 const ResponsiveGridLayout = WidthProvider(RGL);
 
@@ -78,10 +79,11 @@ export default class CustomGrid extends React.PureComponent {
 
   createElement = el => {
     const {i} = el;
+    const cc = <EmbedLinkContent/>;
 
     return (
       <div key={i} data-grid={el}>
-        <DataCard onRemoveItem={() => this.onRemoveItem(i)}/>
+        <DataCard onRemoveItem={() => this.onRemoveItem(i)} cardContent={cc}/>
       </div>
     );
   };

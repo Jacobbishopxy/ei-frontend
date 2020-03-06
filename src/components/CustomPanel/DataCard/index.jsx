@@ -7,38 +7,8 @@ import { Button, Input, message, Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import styles from './index.less'
 
-const {confirm} = Modal;
-
-const EmbedModal = ({onSet}) => {
-  const [visible, setVisible] = useState(false);
-  const [embedLink, setEmbedLink] = useState('');
-
-  const handleOk = () => {
-    onSet(embedLink);
-    setVisible(false);
-  };
-
-  const inputOnchange = e => setEmbedLink(e.target.value);
-
-  return (
-    <>
-      <Button type='primary' shape='round' size='small' onClick={() => setVisible(true)}>
-        点此输入链接
-      </Button>
-      <Modal
-        title="请在下方输入链接："
-        visible={visible}
-        onOk={handleOk}
-        onCancel={() => setVisible(false)}
-      >
-        <Input placeholder='链接' allowClear onChange={inputOnchange}/>
-      </Modal>
-    </>
-  );
-};
-
 const confirmDelete = onRemove =>
-  confirm({
+  Modal.confirm({
     title: '是否删除该模块？',
     icon: <ExclamationCircleOutlined/>,
     okText: '是',
@@ -48,9 +18,8 @@ const confirmDelete = onRemove =>
   });
 
 
-const DataCard = ({onRemoveItem}) => {
+const DataCard = ({onRemoveItem, cardContent}) => {
 
-  const [embedLink, setEmbedLink] = useState(null);
   const [title, setTitle] = useState('点击修改标题');
   const [titleVisible, setTitleVisible] = useState(true);
 
@@ -66,7 +35,7 @@ const DataCard = ({onRemoveItem}) => {
 
   return (
     <div className={styles.cardMain}>
-      <div className={[styles.cardHead, 'draggableZone'].join(' ')}>
+      <div className={styles.cardHead}>
         <div>
           {titleVisible ?
             <Button type='link' size='small' onClick={() => setTitleVisible(false)}>
@@ -75,25 +44,26 @@ const DataCard = ({onRemoveItem}) => {
             <Input placeholder='请输入标题' size='small' allowClear onPressEnter={changeTitle} onBlur={changeTitle}/>
           }
         </div>
-        <Button
-          shape='circle'
-          size='small'
-          onClick={() => confirmDelete(onRemoveItem)}
-        >
-          🗑️
-        </Button>
+        <div>
+          <Button
+            shape='circle'
+            size='small'
+            className='draggableZone'
+            style={{marginRight: 10}}
+          >
+            🧲
+          </Button>
+          <Button
+            shape='circle'
+            size='small'
+            onClick={() => confirmDelete(onRemoveItem)}
+          >
+            🗑️
+          </Button>
+        </div>
       </div>
       <hr style={{margin: 0, borderColor: 'white'}}/>
-      {
-        embedLink == null ?
-          <div className={styles.cardContentAlter}>
-            <EmbedModal onSet={setEmbedLink}/>
-          </div> :
-          <embed
-            className={styles.cardContent}
-            src={embedLink}
-          />
-      }
+      {cardContent}
     </div>
   );
 };
