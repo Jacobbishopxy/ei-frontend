@@ -1,6 +1,5 @@
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import React from 'react';
-import { Button, Select } from 'antd';
 
 import RGL, { WidthProvider } from 'react-grid-layout';
 import _ from 'lodash';
@@ -28,7 +27,7 @@ export default class CustomGrid extends React.PureComponent {
         x: (i % 2) * 6,
         y: (i % 2) * 2,
         w: 6,
-        h: 4
+        h: 4,
       })),
       newCounter: 0,
       selectedItem: null,
@@ -55,7 +54,7 @@ export default class CustomGrid extends React.PureComponent {
       x: 0,
       y: Infinity,
       w: 6,
-      h: 4
+      h: 4,
     });
 
     this.setState({items: newItems, newCounter: newCounter + 1});
@@ -101,6 +100,7 @@ export default class CustomGrid extends React.PureComponent {
           layout={items}
           onLayoutChange={this.onLayoutChange}
           onBreakPointChange={this.onBreakpointChange}
+          draggableHandle='.draggableZone'
           {...this.props}
         >
           {items.map(this.createElement)}

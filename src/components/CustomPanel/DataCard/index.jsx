@@ -66,7 +66,7 @@ const DataCard = ({onRemoveItem}) => {
 
   return (
     <div className={styles.cardMain}>
-      <div className={[styles.cardHead, 'cardHeadDraggable'].join(' ')}>
+      <div className={[styles.cardHead, 'draggableZone'].join(' ')}>
         <div>
           {titleVisible ?
             <Button type='link' size='small' onClick={() => setTitleVisible(false)}>
@@ -83,6 +83,7 @@ const DataCard = ({onRemoveItem}) => {
           🗑️
         </Button>
       </div>
+      <hr style={{margin: 0, borderColor: 'white'}}/>
       {
         embedLink == null ?
           <div className={styles.cardContentAlter}>
