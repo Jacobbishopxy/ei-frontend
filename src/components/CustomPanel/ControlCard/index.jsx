@@ -3,15 +3,16 @@
  */
 
 import React from 'react';
-import { Button, Input, Select, DatePicker, Tooltip, Menu, Dropdown } from 'antd';
+import { Button, Input, Tooltip, Menu, Dropdown } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 
 import styles from './index.less'
-import { DownOutlined } from '@ant-design/icons';
 
 
 const AddModuleMenu = ({onAddModule}) => (
   <Menu onClick={onAddModule}>
     <Menu.Item key="embedLink">链接</Menu.Item>
+    <Menu.Item key="table">表格</Menu.Item>
     <Menu.Item key="text">文字</Menu.Item>
     <Menu.Item key="image">图片</Menu.Item>
   </Menu>
@@ -19,7 +20,6 @@ const AddModuleMenu = ({onAddModule}) => (
 
 const ControlCard = ({
                        onSelectSymbol,
-                       onSelectDate,
                        onAddModule,
                        onSaveModule
                      }) => {
@@ -33,14 +33,6 @@ const ControlCard = ({
           placeholder='选择股票'
           size='small'
           style={{width: 120, marginRight: 10}}
-        />
-        <DatePicker
-          onChange={onSelectDate}
-          format='YYYY-M-DD'
-          picker='week'
-          size='small'
-          placeholder='选择日期'
-          style={{marginRight: 10}}
         />
       </div>
       <div className={styles.controlContent}>
@@ -68,6 +60,6 @@ const ControlCard = ({
       </div>
     </div>
   );
-}
+};
 
 export default ControlCard;

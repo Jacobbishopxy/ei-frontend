@@ -137,9 +137,9 @@ export default {
                   component: './demo/DraggableGrid',
                 },
                 {
-                  name: 'testpage',
-                  path: '/demo/testpage',
-                  component: './demo/TestPage',
+                  name: 'gql-data-fetch',
+                  path: '/demo/gqldatafetch',
+                  component: './demo/GqlDataFetch',
                 },
               ],
             },

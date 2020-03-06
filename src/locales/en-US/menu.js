@@ -58,5 +58,5 @@ export default {
 
   'menu.demo': 'Demo',
   'menu.demo.custom-grids': 'Custom Grids',
-  'menu.demo.testpage': 'Test',
+  'menu.demo.gql-data-fetch': 'Gql Data Fetch',
 };

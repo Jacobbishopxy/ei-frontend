@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 import { Button, Input, Modal } from 'antd';
-import styles from './EmbedLinkContent.less';
+import styles from './Common.less';
 
 
 const EmbedModal = ({onSet}) => {

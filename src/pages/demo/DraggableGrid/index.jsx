@@ -15,6 +15,8 @@ const selectModeToAdd = modeName => {
   switch (modeName) {
     case 'embedLink':
       return <EmbedLinkContent/>;
+    case 'table':
+      return <h1>Table</h1>;
     case 'text':
       return <h1>Text</h1>;
     case 'image':
