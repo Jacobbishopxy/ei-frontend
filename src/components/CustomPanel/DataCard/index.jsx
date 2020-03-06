@@ -37,7 +37,7 @@ const EmbedModal = ({onSet}) => {
   );
 };
 
-const confirmDelete = onRemove => (
+const confirmDelete = onRemove =>
   confirm({
     title: '是否删除该模块？',
     icon: <ExclamationCircleOutlined/>,
@@ -45,11 +45,10 @@ const confirmDelete = onRemove => (
     okType: 'danger',
     cancelText: '否',
     onOk: onRemove
-  })
-);
+  });
 
 
-const DataCardMain = ({onRemoveItem}) => {
+const DataCard = ({onRemoveItem}) => {
 
   const [embedLink, setEmbedLink] = useState(null);
   const [title, setTitle] = useState('点击修改标题');
@@ -57,24 +56,20 @@ const DataCardMain = ({onRemoveItem}) => {
 
   const changeTitle = e => {
     const input = e.target.value;
-    if (input !== "") {
+    if (input !== '') {
       setTitle(e.target.value);
     } else {
-      message.warning("标题不可为空")
+      message.warning('标题不可为空')
     }
     setTitleVisible(true);
   };
 
   return (
     <div className={styles.cardMain}>
-      <div className={styles.cardHead}>
+      <div className={[styles.cardHead, 'cardHeadDraggable'].join(' ')}>
         <div>
           {titleVisible ?
-            <Button
-              type='link'
-              size='small'
-              onClick={() => setTitleVisible(false)}
-            >
+            <Button type='link' size='small' onClick={() => setTitleVisible(false)}>
               {title}
             </Button> :
             <Input placeholder='请输入标题' size='small' allowClear onPressEnter={changeTitle} onBlur={changeTitle}/>
@@ -102,4 +97,4 @@ const DataCardMain = ({onRemoveItem}) => {
   );
 };
 
-export default DataCardMain;
+export default DataCard;

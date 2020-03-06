@@ -5,7 +5,8 @@ import { Button, Select } from 'antd';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import _ from 'lodash';
 
-import DataCardMain from '@/components/CustomPanel/DataCard';
+import DataCard from '@/components/CustomPanel/DataCard';
+import ControlCard from '@/components/CustomPanel/ControlCard';
 
 const ResponsiveGridLayout = WidthProvider(RGL);
 
@@ -32,6 +33,15 @@ export default class CustomGrid extends React.PureComponent {
       newCounter: 0,
       selectedItem: null,
     };
+  }
+
+  onSelectSymbol = value => {
+    console.log(value.target.value)
+  };
+
+  onSelectDate = (date, dateString) => {
+    console.log(date)
+    console.log(dateString)
   }
 
   onSelectItem = value => {
@@ -72,7 +82,7 @@ export default class CustomGrid extends React.PureComponent {
 
     return (
       <div key={i} data-grid={el}>
-        <DataCardMain onRemoveItem={() => this.onRemoveItem(i)}/>
+        <DataCard onRemoveItem={() => this.onRemoveItem(i)}/>
       </div>
     );
   };
@@ -81,12 +91,12 @@ export default class CustomGrid extends React.PureComponent {
     const {items} = this.state;
     return (
       <PageHeaderWrapper>
-        <Select style={{width: 120, marginRight: 20}} onChange={this.onSelectItem} placeholder='选择模块'>
-          <Select.Option value="embedLink">
-            链接
-          </Select.Option>
-        </Select>
-        <Button type='primary' onClick={this.onAddItem}>添加</Button>
+        <ControlCard
+          onSelectSymbol={this.onSelectSymbol}
+          onSelectDate={this.onSelectDate}
+          onSelectModule={this.onSelectItem}
+          onAddModule={this.onAddItem}
+        />
         <ResponsiveGridLayout
           layout={items}
           onLayoutChange={this.onLayoutChange}
