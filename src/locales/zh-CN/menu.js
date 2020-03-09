@@ -59,4 +59,5 @@ export default {
   'menu.demo': '案例',
   'menu.demo.custom-grids': '自定义骨架',
   'menu.demo.gql-data-fetch': 'gql数据获取',
+  'menu.demo.xlxs-data-grid': 'Xlxs数据表',
 };

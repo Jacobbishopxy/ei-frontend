@@ -141,6 +141,11 @@ export default {
                   path: '/demo/gqldatafetch',
                   component: './demo/GqlDataFetch',
                 },
+                {
+                  name: 'xlxs-data-grid',
+                  path: '/demo/xlxsdatagrid',
+                  component: './demo/XlxsDataGrid',
+                },
               ],
             },
             {
