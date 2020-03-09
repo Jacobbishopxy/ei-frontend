@@ -46,7 +46,7 @@ const DataFetchDemo = () => {
       setData(result);
     };
 
-    fetchData();
+    fetchData().catch();
   }, [search]);
 
   return (
