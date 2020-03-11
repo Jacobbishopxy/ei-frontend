@@ -4,12 +4,22 @@
 
 import _ from 'lodash';
 
-export const antdTableColumnsGenerator = headConfigs =>
-  headConfigs.map((item, index) => ({
+export const antdTableColumnsGenerator = (headConfigs, renderFn = null) => {
+  const result = headConfigs.map((item, index) => ({
     title: item.name,
     dataIndex: item.key,
     key: index
   }));
+  if (renderFn !== null) {
+    return result.concat({
+      title: '操作',
+      key: 'operation',
+      render: renderFn
+    })
+  }
+  return result;
+};
+
 
 export const getHeadConfigsTitle = headConfigs =>
   headConfigs.map(item => item.name);
