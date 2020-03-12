@@ -3,16 +3,16 @@
  */
 
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import React, { useState, useEffect } from 'react';
-import { Row, Col, Button, Input, Table, message } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Input, message, Row, Table } from 'antd';
 import Papa from 'papaparse';
 import _ from 'lodash';
 import { GraphQLClient } from 'graphql-request';
 
 import {
   antdTableColumnsGenerator,
-  getHeadConfigsTitle,
   getHeadConfigsMappingNameKey,
+  getHeadConfigsTitle,
   rawDataKeysConvert
 } from '@/pages/bizData/modelConfigFn';
 import { cementPrice } from '@/pages/bizData/modelConfig';
@@ -56,6 +56,27 @@ const deleteCementPrice = async (start, end) => {
   return deleteIndustryCementPrice;
 };
 
+const cementPriceNew = `
+mutation cementPrice($data: [IndustryCementTypeInput1]) {
+  newIndustryCementPrice(data: $data)
+}
+`;
+
+const newCementPrice = async data => {
+  const d = data
+    .map(item => (_.reduce(item, (o, v, k) => {
+      if (k === 'date') {
+        o[k] = v
+      } else if (k !== 'key') {
+        o[k] = +v
+      }
+      return o;
+    }, {})));
+  const result = await client.request(cementPriceNew, {data: d});
+  const {newIndustryCementPrice} = result;
+  return newIndustryCementPrice;
+};
+
 const papaConfig = {
   skipEmptyLines: true,
   header: true
@@ -85,9 +106,10 @@ const convertDbData = data =>
   data.map((item, index) => ({...item, date: numberToDateString(+item.date), key: index}));
 
 
-const cacheTableColRenderFn = (text, record) => (
+const generateTableColRenderFn = actionFn => (text, record) => (
   <span>
     <Button
+      onClick={() => actionFn(record)}
       type='primary'
       size='small'
     >
@@ -95,42 +117,44 @@ const cacheTableColRenderFn = (text, record) => (
     </Button>
   </span>
 );
-
-const dbTableColRenderFn = (text, record) => (
-  <span>
-    <Button
-      onClick={() => {
-        const re = new RegExp('-', 'g');
-        const d = record.date.replace(re, "");
-        deleteCementPrice(d, d).catch()
-      }}
-      type='primary'
-      size='small'
-    >
-      删除
-    </Button>
-  </span>
-);
-
-const cacheTableColumns = antdTableColumnsGenerator(cementPrice, cacheTableColRenderFn);
-const dbTableColumns = antdTableColumnsGenerator(cementPrice, dbTableColRenderFn);
 
 
 export default () => {
   const [rawStringData, setRawStringData] = useState('');
   const [convertedData, setConvertedData] = useState([]);
   const [dbData, setDbData] = useState([]);
+  const [dbDataRefresh, setDbDataRefresh] = useState(0);
 
   useEffect(() => {
-
-    getCementPrice('20190101', '20200101').then(res => {
-      setDbData(convertDbData(res))
-    }).catch();
-
-  }, [dbData]);
+      getCementPrice('20200101', '20200301').then(res => {
+        setDbData(convertDbData(res))
+      }).catch()
+    }, [dbDataRefresh]
+  );
 
   const readFromTextArea = ({target: {value}}) => setRawStringData(value);
   const cvtData = () => setConvertedData(convertRawStringData(cementPrice, rawStringData));
+
+  const removeCacheTableRow = record =>
+    setConvertedData(convertedData.filter(v => v.key !== record.key));
+  const removeDbTableRow = record => {
+    const re = new RegExp('-', 'g');
+    const d = record.date.replace(re, '');
+    deleteCementPrice(d, d).then(() => setDbDataRefresh(dbDataRefresh + 1))
+  };
+
+  const uploadNewData = () => {
+    if (convertedData.length !== 0) {
+      newCementPrice(convertedData)
+        .then(() => {
+          setDbDataRefresh(dbDataRefresh + 1);
+          setConvertedData([]);
+        });
+    }
+  };
+
+  const cacheTableColumns = antdTableColumnsGenerator(cementPrice, generateTableColRenderFn(removeCacheTableRow));
+  const dbTableColumns = antdTableColumnsGenerator(cementPrice, generateTableColRenderFn(removeDbTableRow));
 
   return (
     <PageHeaderWrapper>
@@ -140,6 +164,7 @@ export default () => {
             rows={4}
             allowClear
             onBlur={readFromTextArea}
+            placeholder='请将符合格式的Excel数据粘着在此'
           />
           <br/>
 
@@ -157,7 +182,7 @@ export default () => {
           />
 
           <Button
-
+            onClick={uploadNewData}
           >
             确认上传
           </Button>
