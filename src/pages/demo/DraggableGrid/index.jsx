@@ -1,12 +1,12 @@
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import React from 'react';
-import { message } from 'antd';
 import RGL, { WidthProvider } from 'react-grid-layout';
-import _ from 'lodash';
 
 import DataCard from '@/components/CustomPanel/DataCard';
 import ControlCard from '@/components/CustomPanel/ControlCard';
 import EmbedLinkContent from '@/components/CustomPanel/EmbedLinkContent';
+
+import { updateModels, addModel, removeModel } from '@/utilities/gridLayoutModel';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -38,14 +38,7 @@ export default class CustomGrid extends React.PureComponent {
     super(props);
 
     this.state = {
-      items: [0].map(i => ({
-        i: i.toString(),
-        x: (i % 2) * 6,
-        y: (i % 2) * 2,
-        w: 6,
-        h: 4,
-        selectedMode: 'embedLink'
-      })),
+      cards: [],  // todo: componentDidMount需要从后端获取配置信息
       newCounter: 0
     };
   }
@@ -54,69 +47,54 @@ export default class CustomGrid extends React.PureComponent {
     console.log(value.target.value)
   };
 
-  onSelectDate = (date, dateString) => {
-    console.log(date)
-    console.log(dateString)
-  };
-
   onAddItem = selectedMode => {
     const sm = selectedMode.key;
-    if (sm != null) {
-      const {items, newCounter} = this.state;
-      const {cols} = this.props;
-      const newItems = items.concat({
-        i: `n${newCounter}`,
-        x: (items.length * 6) % cols,
-        y: Infinity,
-        w: 6,
-        h: 4,
-        selectedMode: sm
-      });
-      this.setState({items: newItems, newCounter: newCounter + 1});
-    } else {
-      message.warning('请选择一种模块添加')
-    }
+    const {cards, newCounter} = this.state;
+    const newModel = addModel(newCounter, cards, sm);
+    const newCards = cards.concat(newModel);
+    this.setState({cards: newCards, newCounter: newCounter + 1});
   };
 
-  // todo: local提供记住当前布局，后端提供commit后全局布局
   onLayoutChange = currentLayout => {
-    this.setState({layout: currentLayout});
+    const {cards} = this.state;
+    const newCards = updateModels(cards, currentLayout);
+
+    this.setState({cards: newCards});
   };
 
   onRemoveItem = i => {
-    const {items} = this.state;
-    this.setState({items: _.reject(items, {i})});
+    const {cards} = this.state;
+    const newCards = removeModel(cards, i);
+    this.setState({cards: newCards});
   };
 
   createElement = el => {
-    const {i, selectedMode} = el;
+    const {coordinate, content} = el;
 
     return (
-      <div key={i} data-grid={el}>
+      <div key={coordinate.i} data-grid={coordinate}>
         <DataCard
-          onRemoveItem={() => this.onRemoveItem(i)}
-          cardContent={selectModeToAdd(selectedMode)}
+          onRemoveItem={() => this.onRemoveItem(coordinate.i)}
+          cardContent={selectModeToAdd(content.type)}
         />
       </div>
     );
   };
 
   render() {
-    const {items} = this.state;
+    const {cards} = this.state;
     return (
       <PageHeaderWrapper>
         <ControlCard
           onSelectSymbol={this.onSelectSymbol}
-          onSelectDate={this.onSelectDate}
           onAddModule={this.onAddItem}
         />
         <ReactGridLayout
-          layout={items}
           onLayoutChange={this.onLayoutChange}
           draggableHandle='.draggableZone'
           {...this.props}
         >
-          {items.map(this.createElement)}
+          {cards.map(this.createElement)}
         </ReactGridLayout>
       </PageHeaderWrapper>
     )
