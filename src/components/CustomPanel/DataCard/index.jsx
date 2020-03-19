@@ -7,6 +7,26 @@ import { Button, Input, message, Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import styles from './index.less'
 
+import EmbedLinkContent from '@/components/CustomPanel/EmbedLinkContent';
+
+
+const selectModeToAdd = modeName => {
+
+  switch (modeName) {
+    case 'embedLink':
+      return <EmbedLinkContent/>;
+    case 'table':
+      return <h1>Table</h1>;
+    case 'text':
+      return <h1>Text</h1>;
+    case 'image':
+      return <h1>Img</h1>;
+    default:
+      return <EmbedLinkContent/>;
+  }
+};
+
+
 const confirmDelete = onRemove =>
   Modal.confirm({
     title: '是否删除该模块？',
@@ -18,9 +38,15 @@ const confirmDelete = onRemove =>
   });
 
 
+const checkDataCardTitle = title => {
+  if (title === '') return '请输入标题';
+  return title
+};
+
+
 const DataCard = ({onRemoveItem, cardContent}) => {
 
-  const [title, setTitle] = useState('点击修改标题');
+  const [title, setTitle] = useState(checkDataCardTitle(cardContent.title));
   const [titleVisible, setTitleVisible] = useState(true);
 
   const changeTitle = e => {
@@ -63,7 +89,7 @@ const DataCard = ({onRemoveItem, cardContent}) => {
         </div>
       </div>
       <hr style={{margin: 0, borderColor: 'white'}}/>
-      {cardContent}
+      {selectModeToAdd(cardContent.contentType)}
     </div>
   );
 };

@@ -21,7 +21,12 @@ const EmbedModal = ({onSet}) => {
 
   return (
     <>
-      <Button type='primary' shape='round' size='small' onClick={() => setVisible(true)}>
+      <Button
+        type='primary'
+        shape='round'
+        size='small'
+        onClick={() => setVisible(true)}
+      >
         点此输入链接
       </Button>
       <Modal

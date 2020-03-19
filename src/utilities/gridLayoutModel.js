@@ -3,6 +3,7 @@
  */
 
 import _ from 'lodash';
+import { currentTimeStamp } from '@/utilities/utils';
 
 /**
  * coordinate: {
@@ -61,7 +62,7 @@ export class GridLayoutModel {
 
 export const addModel = (i, currentLayout, contentType) => {
   const coordinate = {
-    i: `${currentLayout.length + i}`,
+    i: `${currentTimeStamp()}`,
     x: (currentLayout.length * 6) % 12,
     y: Infinity,
     w: 6,

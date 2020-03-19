@@ -5,7 +5,6 @@ import RGL, { WidthProvider } from 'react-grid-layout';
 
 import DataCard from '@/components/CustomPanel/DataCard';
 import ControlCard from '@/components/CustomPanel/ControlCard';
-import EmbedLinkContent from '@/components/CustomPanel/EmbedLinkContent';
 
 import {
   updateModels,
@@ -18,21 +17,6 @@ import {
 
 const ReactGridLayout = WidthProvider(RGL);
 
-const selectModeToAdd = modeName => {
-
-  switch (modeName) {
-    case 'embedLink':
-      return <EmbedLinkContent/>;
-    case 'table':
-      return <h1>Table</h1>;
-    case 'text':
-      return <h1>Text</h1>;
-    case 'image':
-      return <h1>Img</h1>;
-    default:
-      return <EmbedLinkContent/>;
-  }
-};
 
 const useDidMountEffect = (func, deps) => {
   const didMount = useRef(false);
@@ -78,8 +62,7 @@ const CustomGrid = () => {
   };
 
   const onAddItem = selectedMode => {
-    const sm = selectedMode.key;
-    const newModel = addModel(counter, cards, sm);
+    const newModel = addModel(counter, cards, selectedMode.key);
     const newCards = cards.concat(newModel);
     setCards(newCards);
     setCounter(counter + 1);
@@ -102,7 +85,7 @@ const CustomGrid = () => {
       <div key={coordinate.i} data-grid={coordinate}>
         <DataCard
           onRemoveItem={() => onRemoveItem(coordinate.i)}
-          cardContent={selectModeToAdd(content.contentType)}
+          cardContent={content}
         />
       </div>
     );
