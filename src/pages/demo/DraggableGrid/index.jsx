@@ -1,5 +1,5 @@
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import RGL, { WidthProvider } from 'react-grid-layout';
 
 import DataCard from '@/components/CustomPanel/DataCard';
@@ -26,78 +26,70 @@ const selectModeToAdd = modeName => {
   }
 };
 
-export default class CustomGrid extends React.PureComponent {
+const CustomGrid = () => {
 
-  static defaultProps = {
-    className: 'layout',
-    cols: 12,
-    rowHeight: 100,
-  };
+  const [cards, setCards] = useState([]);
+  const [counter, setCounter] = useState(0);
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      cards: [],  // todo: componentDidMount需要从后端获取配置信息
-      newCounter: 0
-    };
-  }
-
-  onSelectSymbol = value => {
+  const onSelectSymbol = value => {
     console.log(value.target.value)
   };
 
-  onAddItem = selectedMode => {
+  const onAddItem = selectedMode => {
     const sm = selectedMode.key;
-    const {cards, newCounter} = this.state;
-    const newModel = addModel(newCounter, cards, sm);
+    const newModel = addModel(counter, cards, sm);
     const newCards = cards.concat(newModel);
-    this.setState({cards: newCards, newCounter: newCounter + 1});
+    setCards(newCards);
+    setCounter(counter + 1);
   };
 
-  onLayoutChange = currentLayout => {
-    const {cards} = this.state;
+  const onLayoutChange = currentLayout => {
     const newCards = updateModels(cards, currentLayout);
-
-    this.setState({cards: newCards});
+    setCards(newCards);
   };
 
-  onRemoveItem = i => {
-    const {cards} = this.state;
+  const onRemoveItem = i => {
     const newCards = removeModel(cards, i);
-    this.setState({cards: newCards});
+    setCards(newCards)
   };
 
-  createElement = el => {
+  const createElement = el => {
     const {coordinate, content} = el;
 
     return (
       <div key={coordinate.i} data-grid={coordinate}>
         <DataCard
-          onRemoveItem={() => this.onRemoveItem(coordinate.i)}
+          onRemoveItem={() => onRemoveItem(coordinate.i)}
           cardContent={selectModeToAdd(content.type)}
         />
       </div>
     );
   };
 
-  render() {
-    const {cards} = this.state;
+  const onSaveModule = () => {
+    console.log(cards);
+
+  };
+
     return (
       <PageHeaderWrapper>
         <ControlCard
-          onSelectSymbol={this.onSelectSymbol}
-          onAddModule={this.onAddItem}
+          onSelectSymbol={onSelectSymbol}
+          onAddModule={onAddItem}
+          onSaveModule={onSaveModule}  // todo: 需要连接后端API保存配置与mongoDB
         />
         <ReactGridLayout
-          onLayoutChange={this.onLayoutChange}
+          onLayoutChange={onLayoutChange}
           draggableHandle='.draggableZone'
-          {...this.props}
+          className='layout'
+          cols={12}
+          rowHeight={100}
         >
-          {cards.map(this.createElement)}
+          {cards.map(createElement)}
         </ReactGridLayout>
       </PageHeaderWrapper>
     )
-  }
-}
 
+};
+
+export default CustomGrid;

@@ -85,6 +85,33 @@ export const removeModel = (cards, i) =>
  * @param currentLayout
  */
 export const updateModels = (cards, currentLayout) =>
-  _.zip(cards, currentLayout).map(item => new GridLayoutModel(item[1], item[0].content));
+  _.zip(cards, currentLayout).map(item => {
+    const cd = {
+      i: item[1].i,
+      x: item[1].x,
+      y: item[1].y,
+      h: item[1].h,
+      w: item[1].w,
+    };
+    return new GridLayoutModel(cd, item[0].content)
+  });
 
+
+const gridLayoutUrl = 'http://localhost:2020/grid-layout';
+
+const genPostOptions = obj => ({
+  method: 'POST',
+  headers: {
+    'Content-type': 'application/json'
+  },
+  body: JSON.stringify(obj)
+});
+
+export function getGridLayout(id) {
+  return fetch(`${gridLayoutUrl}?id=${id}`)
+}
+
+export function updateGridLayout(obj) {
+  return fetch(gridLayoutUrl, genPostOptions(obj))
+}
 
