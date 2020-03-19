@@ -1,12 +1,20 @@
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { message } from 'antd';
 import RGL, { WidthProvider } from 'react-grid-layout';
 
 import DataCard from '@/components/CustomPanel/DataCard';
 import ControlCard from '@/components/CustomPanel/ControlCard';
 import EmbedLinkContent from '@/components/CustomPanel/EmbedLinkContent';
 
-import { updateModels, addModel, removeModel } from '@/utilities/gridLayoutModel';
+import {
+  updateModels,
+  addModel,
+  removeModel,
+  getGridLayout,
+  updateGridLayout,
+  GridLayoutModel
+} from '@/utilities/gridLayoutModel';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -26,10 +34,44 @@ const selectModeToAdd = modeName => {
   }
 };
 
+const useDidMountEffect = (func, deps) => {
+  const didMount = useRef(false);
+
+  useEffect(() => {
+    if (didMount.current) func();
+    else didMount.current = true;
+  }, deps)
+};
+
+const gridLayoutId = 'test';
+
 const CustomGrid = () => {
 
   const [cards, setCards] = useState([]);
   const [counter, setCounter] = useState(0);
+  const [saveLayout, setSaveLayout] = useState(0);
+
+  useEffect(() => {
+    getGridLayout(gridLayoutId)
+      .then(res => res.json())
+      .then(data => {
+        setCards(data.layouts.map(lo => new GridLayoutModel(lo.coordinate, lo.content)))
+      })
+      .catch(err => console.log('getGridLayout', err))
+  }, []);
+
+  useDidMountEffect(() => {
+    const saveMode = {
+      id: gridLayoutId,
+      layouts: cards
+    };
+    updateGridLayout(saveMode)
+      .then(res => {
+        if (res.ok) message.success('保存成功');
+        else message.warn('保存失败，请联系管理员');
+      })
+      .catch(err => console.log('updateGridLayout', err))
+  }, [saveLayout]);
 
   const onSelectSymbol = value => {
     console.log(value.target.value)
@@ -60,35 +102,35 @@ const CustomGrid = () => {
       <div key={coordinate.i} data-grid={coordinate}>
         <DataCard
           onRemoveItem={() => onRemoveItem(coordinate.i)}
-          cardContent={selectModeToAdd(content.type)}
+          cardContent={selectModeToAdd(content.contentType)}
         />
       </div>
     );
   };
 
+  // todo: 需要改进Card内容保存，例`EmbedLinkContent`输入链接后需要反馈至父组件
   const onSaveModule = () => {
-    console.log(cards);
-
+    setSaveLayout(saveLayout + 1);
   };
 
-    return (
-      <PageHeaderWrapper>
-        <ControlCard
-          onSelectSymbol={onSelectSymbol}
-          onAddModule={onAddItem}
-          onSaveModule={onSaveModule}  // todo: 需要连接后端API保存配置与mongoDB
-        />
-        <ReactGridLayout
-          onLayoutChange={onLayoutChange}
-          draggableHandle='.draggableZone'
-          className='layout'
-          cols={12}
-          rowHeight={100}
-        >
-          {cards.map(createElement)}
-        </ReactGridLayout>
-      </PageHeaderWrapper>
-    )
+  return (
+    <PageHeaderWrapper>
+      <ControlCard
+        onSelectSymbol={onSelectSymbol}
+        onAddModule={onAddItem}
+        onSaveModule={onSaveModule}
+      />
+      <ReactGridLayout
+        onLayoutChange={onLayoutChange}
+        draggableHandle='.draggableZone'
+        className='layout'
+        cols={12}
+        rowHeight={100}
+      >
+        {cards.map(createElement)}
+      </ReactGridLayout>
+    </PageHeaderWrapper>
+  )
 
 };
 

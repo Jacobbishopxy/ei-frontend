@@ -49,8 +49,8 @@ export class GridLayoutModel {
     return this.content.title;
   }
 
-  get type() {
-    return this.content.type;
+  get contentType() {
+    return this.content.contentType;
   }
 
   get hyperLink() {
@@ -59,9 +59,9 @@ export class GridLayoutModel {
 }
 
 
-export const addModel = (i, currentLayout, type) => {
+export const addModel = (i, currentLayout, contentType) => {
   const coordinate = {
-    i: i.toString(),
+    i: `${currentLayout.length + i}`,
     x: (currentLayout.length * 6) % 12,
     y: Infinity,
     w: 6,
@@ -69,7 +69,7 @@ export const addModel = (i, currentLayout, type) => {
   };
   const content = {
     title: '',
-    type,
+    contentType,
     hyperLink: ''
   };
   return new GridLayoutModel(coordinate, content);
