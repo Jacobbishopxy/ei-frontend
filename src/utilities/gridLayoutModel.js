@@ -30,32 +30,64 @@ export class GridLayoutModel {
     return this.coordinate.i;
   }
 
+  set i(v) {
+    this.coordinate.i = v;
+  }
+
   get x() {
     return this.coordinate.x;
+  }
+
+  set x(v) {
+    this.coordinate.x = v;
   }
 
   get y() {
     return this.coordinate.y;
   }
 
+  set y(v) {
+    this.coordinate.y = v;
+  }
+
   get h() {
     return this.coordinate.h;
+  }
+
+  set h(v) {
+    this.coordinate.h = v;
   }
 
   get w() {
     return this.coordinate.w;
   }
 
+  set w(v) {
+    this.coordinate.x = v;
+  }
+
   get title() {
     return this.content.title;
+  }
+
+  set title(v) {
+    this.content.title = v;
   }
 
   get contentType() {
     return this.content.contentType;
   }
 
+  set contentType(v) {
+    this.content.contentType = v;
+  }
+
   get hyperLink() {
     return this.content.hyperLink;
+  }
+
+  set hyperLink(v) {
+    this.content.hyperLink = v;
   }
 }
 

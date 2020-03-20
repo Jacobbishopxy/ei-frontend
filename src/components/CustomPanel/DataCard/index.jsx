@@ -10,11 +10,16 @@ import styles from './index.less'
 import EmbedLinkContent from '@/components/CustomPanel/EmbedLinkContent';
 
 
-const selectModeToAdd = modeName => {
+const selectModeToAdd = modeName => (cardContent, saveContentCfg) => {
+
+  const defaultType = <EmbedLinkContent
+    cardContent={cardContent}
+    saveContentCfg={saveContentCfg}
+  />;
 
   switch (modeName) {
     case 'embedLink':
-      return <EmbedLinkContent/>;
+      return defaultType;
     case 'table':
       return <h1>Table</h1>;
     case 'text':
@@ -22,7 +27,7 @@ const selectModeToAdd = modeName => {
     case 'image':
       return <h1>Img</h1>;
     default:
-      return <EmbedLinkContent/>;
+      return defaultType;
   }
 };
 
@@ -44,7 +49,7 @@ const checkDataCardTitle = title => {
 };
 
 
-const DataCard = ({onRemoveItem, cardContent}) => {
+const DataCard = ({onRemoveItem, cardContent, saveContentCfg}) => {
 
   const [title, setTitle] = useState(checkDataCardTitle(cardContent.title));
   const [titleVisible, setTitleVisible] = useState(true);
@@ -52,12 +57,16 @@ const DataCard = ({onRemoveItem, cardContent}) => {
   const changeTitle = e => {
     const input = e.target.value;
     if (input !== '') {
-      setTitle(e.target.value);
+      const v = e.target.value;
+      setTitle(v);
+      saveContentCfg({title: v})
     } else {
       message.warning('标题不可为空')
     }
     setTitleVisible(true);
   };
+
+  const selectMode = selectModeToAdd(cardContent.contentType)
 
   return (
     <div className={styles.cardMain}>
@@ -89,7 +98,7 @@ const DataCard = ({onRemoveItem, cardContent}) => {
         </div>
       </div>
       <hr style={{margin: 0, borderColor: 'white'}}/>
-      {selectModeToAdd(cardContent.contentType)}
+      {selectMode(cardContent, saveContentCfg)}
     </div>
   );
 };

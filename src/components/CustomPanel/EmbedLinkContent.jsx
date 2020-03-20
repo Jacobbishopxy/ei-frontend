@@ -41,14 +41,25 @@ const EmbedModal = ({onSet}) => {
   );
 };
 
-const EmbedLinkContent = () => {
-  const [embedLink, setEmbedLink] = useState(null);
+const checkContentEmbedLink = embedLink => {
+  if (embedLink !== '') return embedLink;
+  return '';
+};
+
+const EmbedLinkContent = ({cardContent, saveContentCfg}) => {
+  const [embedLink, setEmbedLink] = useState(checkContentEmbedLink(cardContent.hyperLink));
+
+  const onSet = el => {
+    setEmbedLink(el);
+    saveContentCfg({hyperLink: el});
+  };
+
   return (
     <>
       {
-        embedLink == null ?
+        embedLink === '' ?
           <div className={styles.cardContentAlter}>
-            <EmbedModal onSet={setEmbedLink}/>
+            <EmbedModal onSet={onSet}/>
           </div> :
           <embed
             className={styles.cardContent}

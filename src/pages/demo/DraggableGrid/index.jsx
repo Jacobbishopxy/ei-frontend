@@ -78,23 +78,35 @@ const CustomGrid = () => {
     setCards(newCards)
   };
 
-  const createElement = el => {
+  const createElement = (el, index) => {
     const {coordinate, content} = el;
+
+    const saveContentCfg = ({title, hyperLink}) => {
+      const newCards = cards.map((item, idx) => {
+        if (idx === index) {
+          if (title !== undefined)
+            item.title = title;
+          if (hyperLink !== undefined)
+            item.hyperLink = hyperLink;
+        }
+        return item;
+      });
+
+      setCards(newCards);
+    };
 
     return (
       <div key={coordinate.i} data-grid={coordinate}>
         <DataCard
           onRemoveItem={() => onRemoveItem(coordinate.i)}
           cardContent={content}
+          saveContentCfg={saveContentCfg}
         />
       </div>
     );
   };
 
-  // todo: 需要改进Card内容保存，例`EmbedLinkContent`输入链接后需要反馈至父组件
-  const onSaveModule = () => {
-    setSaveLayout(saveLayout + 1);
-  };
+  const onSaveModule = () => setSaveLayout(saveLayout + 1);
 
   return (
     <PageHeaderWrapper>
@@ -110,7 +122,7 @@ const CustomGrid = () => {
         cols={12}
         rowHeight={100}
       >
-        {cards.map(createElement)}
+        {cards.map((ele, index) => createElement(ele, index))}
       </ReactGridLayout>
     </PageHeaderWrapper>
   )
