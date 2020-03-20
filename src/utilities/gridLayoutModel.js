@@ -130,7 +130,7 @@ export const updateModels = (cards, currentLayout) =>
   });
 
 
-const gridLayoutUrl = 'http://localhost:2020/grid-layout';
+const gridLayoutUrl = 'http://api.ei.infore.com/ei/grid-layout';
 
 const genPostOptions = obj => ({
   method: 'POST',

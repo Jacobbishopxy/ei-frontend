@@ -57,10 +57,6 @@ const CustomGrid = () => {
       .catch(err => console.log('updateGridLayout', err))
   }, [saveLayout]);
 
-  const onSelectSymbol = value => {
-    console.log(value.target.value)
-  };
-
   const onAddItem = selectedMode => {
     const newModel = addModel(counter, cards, selectedMode.key);
     const newCards = cards.concat(newModel);
@@ -111,7 +107,6 @@ const CustomGrid = () => {
   return (
     <PageHeaderWrapper>
       <ControlCard
-        onSelectSymbol={onSelectSymbol}
         onAddModule={onAddItem}
         onSaveModule={onSaveModule}
       />

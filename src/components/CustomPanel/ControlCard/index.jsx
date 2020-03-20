@@ -27,13 +27,17 @@ const ControlCard = ({
   return (
     <div className={styles.controlMain}>
       <div className={styles.controlContent}>
-        <Input
-          onPressEnter={onSelectSymbol}
-          onBlur={onSelectSymbol}
-          placeholder='选择股票'
-          size='small'
-          style={{width: 120, marginRight: 10}}
-        />
+        {
+          onSelectSymbol === undefined ?  // todo: later use other component to control grid's global variables
+            <></> :
+            <Input
+              onPressEnter={onSelectSymbol}
+              onBlur={onSelectSymbol}
+              placeholder='选择股票'
+              size='small'
+              style={{width: 120, marginRight: 10}}
+            />
+        }
       </div>
       <div className={styles.controlContent}>
         <div>
