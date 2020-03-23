@@ -140,8 +140,8 @@ const genPostOptions = obj => ({
   body: JSON.stringify(obj)
 });
 
-export function getGridLayout(id) {
-  return fetch(`${gridLayoutUrl}?id=${id}`)
+export function getGridLayout(panel) {
+  return fetch(`${gridLayoutUrl}?panel=${panel}`)
 }
 
 export function updateGridLayout(obj) {

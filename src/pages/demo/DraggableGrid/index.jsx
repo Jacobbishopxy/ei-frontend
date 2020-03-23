@@ -27,7 +27,7 @@ const useDidMountEffect = (func, deps) => {
   }, deps)
 };
 
-const gridLayoutId = 'test';
+const gridLayoutPanel = 'test';
 
 const CustomGrid = () => {
 
@@ -36,7 +36,7 @@ const CustomGrid = () => {
   const [saveLayout, setSaveLayout] = useState(0);
 
   useEffect(() => {
-    getGridLayout(gridLayoutId)
+    getGridLayout(gridLayoutPanel)
       .then(res => res.json())
       .then(data => {
         setCards(data.layouts.map(lo => new GridLayoutModel(lo.coordinate, lo.content)))
@@ -46,7 +46,7 @@ const CustomGrid = () => {
 
   useDidMountEffect(() => {
     const saveMode = {
-      id: gridLayoutId,
+      id: gridLayoutPanel,
       layouts: cards
     };
     updateGridLayout(saveMode)
