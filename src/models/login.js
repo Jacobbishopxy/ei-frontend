@@ -1,6 +1,6 @@
 import { stringify } from 'querystring';
-import router from 'umi/router';
-import { fakeAccountLogin, getFakeCaptcha } from '@/services/login';
+import { history } from 'umi';
+import { fakeAccountLogin } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 
@@ -10,7 +10,7 @@ const Model = {
     status: undefined,
   },
   effects: {
-    * login({payload}, {call, put}) {
+    *login({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
       yield put({
         type: 'changeLoginStatus',
@@ -20,7 +20,7 @@ const Model = {
       if (response.status === 'ok') {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
-        let {redirect} = params;
+        let { redirect } = params;
 
         if (redirect) {
           const redirectUrlParams = new URL(redirect);
@@ -37,19 +37,15 @@ const Model = {
           }
         }
 
-        router.replace(redirect || '/');
+        history.replace(redirect || '/');
       }
     },
 
-    * getCaptcha({payload}, {call}) {
-      yield call(getFakeCaptcha, payload);
-    },
-
     logout() {
-      const {redirect} = getPageQuery(); // Note: There may be security issues, please note
+      const { redirect } = getPageQuery(); // Note: There may be security issues, please note
 
       if (window.location.pathname !== '/user/login' && !redirect) {
-        router.replace({
+        history.replace({
           pathname: '/user/login',
           search: stringify({
             redirect: window.location.href,
@@ -59,9 +55,9 @@ const Model = {
     },
   },
   reducers: {
-    changeLoginStatus(state, {payload}) {
+    changeLoginStatus(state, { payload }) {
       setAuthority(payload.currentAuthority);
-      return {...state, status: payload.status, type: payload.type};
+      return { ...state, status: payload.status, type: payload.type };
     },
   },
 };

@@ -1,6 +1,5 @@
 import React from 'react';
-import Redirect from 'umi/redirect';
-import { connect } from 'dva';
+import { Redirect, connect } from 'umi';
 import Authorized from '@/utils/Authorized';
 import { getRouteAuthority } from '@/utils/utils';
 
