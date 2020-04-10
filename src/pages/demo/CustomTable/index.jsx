@@ -3,82 +3,193 @@
  */
 
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import React, { useState, useEffect } from 'react';
-import { Row, Col, Form, Input, Button } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import React, { useState, useEffect, useRef } from 'react';
+import { Row, Col, Form, Input, Modal, Button, Select, Radio, Card, Typography } from 'antd';
+import { SmileOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import styles from './index.less';
 
 
+const layout = {
+  labelCol: {offset: 2, span: 4},
+  wrapperCol: {span: 16}
+};
+
+const tailLayout = {
+  wrapperCol: {
+    offset: 4,
+    span: 20
+  }
+};
+
+const useResetFormOnCloseModal = ({form, visible}) => {
+  const prevVisibleRef = useRef();
+
+  useEffect(() => {
+    prevVisibleRef.current = visible;
+  }, [visible])
+
+  const prevVisible = prevVisibleRef.current;
+
+  useEffect(() => {
+    if (!visible && prevVisible) form.resetFields();
+  }, [visible])
+};
+
+
+const formItemLabel = (infoMsg, alertMsg) =>
+  <div>
+    <span style={{marginRight: 10}}>{infoMsg}</span>
+    <InfoCircleOutlined style={{marginRight: 5, color: 'red'}}/>
+    <span style={{color: 'red'}}>{alertMsg}</span>
+  </div>
+
+
+const ModalForm = ({visible, onCancel}) => {
+
+  const [form] = Form.useForm();
+  useResetFormOnCloseModal({form, visible})
+
+  const onOk = () => {
+    form.submit();
+  };
+
+  return (
+    <Modal
+      title="列明细"
+      visible={visible}
+      onOk={onOk}
+      onCancel={onCancel}
+      maskClosable={false}
+      width={450}
+    >
+      <Form
+        form={form}
+        layout="vertical"
+        name="fieldForm"
+      >
+        <Form.Item
+          name="name"
+          label={formItemLabel('英文名称', '不可与其它列重复')}
+          rules={[{required: true}]}
+        >
+          <Input/>
+        </Form.Item>
+        <Form.Item
+          name="alias"
+          label={formItemLabel('中文别名', '不可与其它列重复')}
+          rules={[{required: true}]}
+        >
+          <Input/>
+        </Form.Item>
+        <Form.Item
+          name="type"
+          label="数据类型"
+          rules={[{required: true}]}
+        >
+          <Select>
+            <Select.Option value={2}>字符</Select.Option>
+            <Select.Option value={9}>日期</Select.Option>
+            <Select.Option value={1}>小数</Select.Option>
+            <Select.Option value={16}>整数</Select.Option>
+            <Select.Option value={8}>布尔</Select.Option>
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name="index"
+          label={formItemLabel('联合索引', '确保数据唯一性')}
+        >
+          <Radio.Group defaultValue="non" buttonStyle="solid" style={{width: '100%'}}>
+            <Radio.Button style={{width: '33%'}} value="non">无</Radio.Button>
+            <Radio.Button style={{width: '33%'}} value="asc">升序</Radio.Button>
+            <Radio.Button style={{width: '33%'}} value="dsc">降序</Radio.Button>
+          </Radio.Group>
+        </Form.Item>
+        <Form.Item
+          name="description"
+          label="描述"
+        >
+          <Input/>
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
+}
+
+const createdFieldDetail = (field, index) => {
+  const title = `列 ${index + 1}`
+  return (
+    <Card title={title} style={{width: 300}} size='small'>
+      <div>英文字段: {field.name}</div>
+      <div>中文别名: {field.alias}</div>
+      <div>数据类型: {field.type}</div>
+      <div>联合索引: {field.index}</div>
+      <div>字段描述: {field.description}</div>
+    </Card>
+  )
+}
+
+// todo: edit/delete operation for existing fieldDetail
+
 export default () => {
 
-  const onFinish = values => {
-    console.log('Received values of form: ', values);
-  };
+  const [visible, setVisible] = useState(false);
+
+  const showUserModal = () => setVisible(true);
+  const hideUserModal = () => setVisible(false);
+  const onFinish = values => console.log('Finish:', values);
 
   return (
     <PageHeaderWrapper>
       <Row>
         <Col offset={8} span={8}>
-          <div style={{marginBottom: 20}}>Passengers:</div>
-          <Form className={styles.dynamicDeleteButton} onFinish={onFinish}>
-            <Form.List name="names">
-              {
-                (fields, {add, remove}) => (
-                  <div>
-                    {
-                      fields.map((field) => (
-                        <Form.Item
-                          required={false}
-                          key={field.key}
-                        >
-                          <Form.Item
-                            {...field}
-                            validateTrigger={['onChange', 'onBlur']}
-                            rules={[
-                              {
-                                required: true,
-                                whitespace: true,
-                                message: 'Please input passenger\'s name or delete this field.'
-                              }
-                            ]}
-                            noStyle
-                          >
-                            <Input placeholder="passenger name" style={{width: '90%'}}/>
-                          </Form.Item>
-                          {
-                            fields.length > 1 ? (
-                              <MinusCircleOutlined
-                                className={styles.dynamicDeleteButton}
-                                style={{margin: '0 8px'}}
-                                onClick={() => remove(field.name)}
-                              />
-                            ) : null
-                          }
-                        </Form.Item>
-                      ))
-                    }
-                    <Form.Item>
-                      <Button
-                        type="dashed"
-                        onClick={add}
-                        style={{width: '90%'}}
-                      >
-                        <PlusOutlined/> Add field
-                      </Button>
-                    </Form.Item>
-                  </div>
-                )
-
+          <Form.Provider
+            onFormFinish={(name, {values, forms}) => {
+              if (name === 'fieldForm') {
+                const {basicForm} = forms;
+                const mongoCollection = basicForm.getFieldValue('mongoCollection') || [];
+                basicForm.setFieldsValue({
+                  mongoCollection: [...mongoCollection, values],
+                })
+                setVisible(false);
               }
-            </Form.List>
-
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-
+            }}
+          >
+            <Form {...layout} name="basicForm" onFinish={onFinish}>
+              <Form.Item
+                name="group"
+                label="表名称"
+                rules={[{required: true}]}
+              >
+                <Input/>
+              </Form.Item>
+              <Form.Item
+                label="列明细"
+                shouldUpdate={(prevValues, curValues) => prevValues.users !== curValues.users}
+              >
+                {({getFieldValue}) => {
+                  const mongoCollection = getFieldValue('mongoCollection') || [];
+                  return mongoCollection.length ? (
+                    <ul>
+                      {mongoCollection.map((field, index) => (
+                        <li key={index} className="mongoCollection">
+                          {createdFieldDetail(field, index)}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <Typography.Text className="ant-form-text" type="secondary">
+                      <SmileOutlined/> 暂无。
+                    </Typography.Text>
+                  )
+                }}
+              </Form.Item>
+              <Form.Item {...tailLayout}>
+                <Button htmlType="submit" type="primary">提交</Button>
+                <Button htmlType="submit" style={{margin: '0 8px'}} onClick={showUserModal}>添加列</Button>
+              </Form.Item>
+            </Form>
+            <ModalForm visible={visible} onCancel={hideUserModal}/>
+          </Form.Provider>
         </Col>
       </Row>
     </PageHeaderWrapper>

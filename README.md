@@ -53,7 +53,6 @@ config
     |---config.js
     |---defaultSetting.js
     |---plugin.config.js
-    |---themePluginConfig.js
 
 public
 
