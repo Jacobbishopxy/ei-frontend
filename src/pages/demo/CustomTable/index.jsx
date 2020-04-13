@@ -39,8 +39,8 @@ const useResetFormOnCloseModal = ({form, visible}) => {
 const formItemLabel = (infoMsg, alertMsg) =>
   <div>
     <span style={{marginRight: 10}}>{infoMsg}</span>
-    <InfoCircleOutlined style={{marginRight: 5, color: 'red'}}/>
-    <span style={{color: 'red'}}>{alertMsg}</span>
+    <InfoCircleOutlined style={{marginRight: 5, color: '#c41d7f'}}/>
+    <span style={{color: '#c41d7f'}}>{alertMsg}</span>
   </div>
 
 
@@ -49,9 +49,7 @@ const ModalForm = ({visible, onCancel}) => {
   const [form] = Form.useForm();
   useResetFormOnCloseModal({form, visible})
 
-  const onOk = () => {
-    form.submit();
-  };
+  const onOk = () => form.submit();
 
   return (
     <Modal
@@ -96,10 +94,10 @@ const ModalForm = ({visible, onCancel}) => {
         </Form.Item>
         <Form.Item
           name="index"
-          label={formItemLabel('联合索引', '确保数据唯一性')}
+          label={formItemLabel('关键字段', '确保数据唯一性')}
         >
           <Radio.Group defaultValue="non" buttonStyle="solid" style={{width: '100%'}}>
-            <Radio.Button style={{width: '33%'}} value="non">无</Radio.Button>
+            <Radio.Button style={{width: '34%'}} value="non">无</Radio.Button>
             <Radio.Button style={{width: '33%'}} value="asc">升序</Radio.Button>
             <Radio.Button style={{width: '33%'}} value="dsc">降序</Radio.Button>
           </Radio.Group>
@@ -115,10 +113,16 @@ const ModalForm = ({visible, onCancel}) => {
   );
 }
 
-const createdFieldDetail = (field, index) => {
+const createdFieldDetail = (field, index, onRemove) => {
   const title = `列 ${index + 1}`
+  const extra = <Button onClick={onRemove} size='small' type='danger'>删除</Button>
   return (
-    <Card title={title} style={{width: 300}} size='small'>
+    <Card
+      title={title}
+      style={{width: 300}}
+      size='small'
+      extra={extra}
+    >
       <div>英文字段: {field.name}</div>
       <div>中文别名: {field.alias}</div>
       <div>数据类型: {field.type}</div>
@@ -130,13 +134,17 @@ const createdFieldDetail = (field, index) => {
 
 // todo: edit/delete operation for existing fieldDetail
 
+// todo: auto filled for commonly used field, e.g. 'date', 'symbol', 'region', 'price'...
+
 export default () => {
 
   const [visible, setVisible] = useState(false);
 
   const showUserModal = () => setVisible(true);
   const hideUserModal = () => setVisible(false);
-  const onFinish = values => console.log('Finish:', values);
+  const onFinish = values => {
+    console.log('Finish: ', values)
+  };
 
   return (
     <PageHeaderWrapper>
@@ -162,33 +170,38 @@ export default () => {
               >
                 <Input/>
               </Form.Item>
+
               <Form.Item
                 label="列明细"
-                shouldUpdate={(prevValues, curValues) => prevValues.users !== curValues.users}
+                shouldUpdate={(prevValues, curValues) => prevValues.mongoCollection !== curValues.mongoCollection}
               >
                 {({getFieldValue}) => {
                   const mongoCollection = getFieldValue('mongoCollection') || [];
+
                   return mongoCollection.length ? (
                     <ul>
                       {mongoCollection.map((field, index) => (
-                        <li key={index} className="mongoCollection">
+                        <li key={field.name} className="mongoCollection">
                           {createdFieldDetail(field, index)}
                         </li>
                       ))}
                     </ul>
                   ) : (
                     <Typography.Text className="ant-form-text" type="secondary">
-                      <SmileOutlined/> 暂无。
+                      <SmileOutlined/> 请点击添加列
                     </Typography.Text>
                   )
                 }}
               </Form.Item>
+
               <Form.Item {...tailLayout}>
                 <Button htmlType="submit" type="primary">提交</Button>
                 <Button htmlType="submit" style={{margin: '0 8px'}} onClick={showUserModal}>添加列</Button>
               </Form.Item>
             </Form>
+
             <ModalForm visible={visible} onCancel={hideUserModal}/>
+
           </Form.Provider>
         </Col>
       </Row>
