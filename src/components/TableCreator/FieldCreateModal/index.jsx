@@ -33,7 +33,7 @@ export default ({visible, onCreate, onCancel}) => {
         layout='vertical'
         name='modalForm'
         initialValues={{
-          'indexOption': 'non'
+          'indexOption': undefined
         }}
       >
         <Form.Item
@@ -70,7 +70,7 @@ export default ({visible, onCreate, onCancel}) => {
           extra="确保数据唯一性"
         >
           <Radio.Group buttonStyle="solid" style={{width: '100%'}}>
-            <Radio.Button style={{width: '34%'}} value="non">非关键</Radio.Button>
+            <Radio.Button style={{width: '34%'}} value={undefined}>非关键</Radio.Button>
             <Radio.Button style={{width: '33%'}} value="asc">升序</Radio.Button>
             <Radio.Button style={{width: '33%'}} value="dsc">降序</Radio.Button>
           </Radio.Group>
