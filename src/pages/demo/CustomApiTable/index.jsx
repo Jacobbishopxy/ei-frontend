@@ -1,7 +1,21 @@
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import React, { useState, useEffect } from 'react';
-import { Button, Dropdown, Space, Modal, Form, Input, Radio, Select, Row, Col, Card, Menu, message } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import {
+  Button,
+  Dropdown,
+  Space,
+  Modal,
+  Form,
+  Input,
+  Radio,
+  Select,
+  Row,
+  Col,
+  Card,
+  Menu,
+  message
+} from 'antd';
+import { DownOutlined, StarOutlined } from '@ant-design/icons';
 import _ from 'lodash';
 
 import styles from './index.less';
@@ -91,11 +105,13 @@ const FieldCreateForm = ({visible, onCreate, onCancel}) => {
 
 const FieldDisplay = ({field, index, onRemove}) => {
   const title = `字段序号 ${index + 1}`
-  const extra = <Button onClick={onRemove} size='small' type='danger'>删除</Button>
+  const extra = <Button onClick={onRemove} size='small' type='link' danger ghost>删除</Button>
+  const style = field.indexOption ? {backgroundColor: 'rgba(114, 46, 209, 0.2)'} : {}
+
   return (
     <Card
       title={title}
-      style={{width: 200}}
+      style={{width: 200, height: 180, ...style}}
       size='small'
       extra={extra}
     >
@@ -111,14 +127,14 @@ const FieldDisplay = ({field, index, onRemove}) => {
 const PreDefinedField = ({onClick}) => {
   const menu = (
     <Menu onClick={onClick}>
-      <Menu.Item key='date'>
-        日期
+      <Menu.Item key='date' style={{color: 'rgba(114, 46, 209, 1)'}}>
+        <StarOutlined/> 日期
       </Menu.Item>
-      <Menu.Item key='symbol'>
-        代码
+      <Menu.Item key='symbol' style={{color: 'rgba(114, 46, 209, 1)'}}>
+        <StarOutlined/> 代码
       </Menu.Item>
-      <Menu.Item key='region'>
-        地区
+      <Menu.Item key='region' style={{color: 'rgba(114, 46, 209, 1)'}}>
+        <StarOutlined/> 地区
       </Menu.Item>
       <Menu.Item key='price'>
         价格
@@ -138,9 +154,9 @@ const preDefinedFieldMap = key => {
     case 'date':
       return {fieldName: 'date', nameAlias: '日期', fieldType: 9, indexOption: 'asc', description: 'e.g. 20190101'};
     case 'symbol':
-      return {fieldName: 'symbol', nameAlias: '代码', fieldType: 2, indexOption: 'asc', description: 'e.g. 000001.SZ'};
+      return {fieldName: 'symbol', nameAlias: '代码', fieldType: 2, indexOption: 'dsc', description: 'e.g. 000001.SZ'};
     case 'region':
-      return {fieldName: 'region', nameAlias: '地区', fieldType: 2, indexOption: 'asc', description: '地区'};
+      return {fieldName: 'region', nameAlias: '地区', fieldType: 2, indexOption: 'dsc', description: '地区'};
     case 'price':
       return {fieldName: 'price', nameAlias: '价格', fieldType: 1, description: '带小数点'};
     default:
@@ -149,14 +165,54 @@ const preDefinedFieldMap = key => {
 };
 
 
+const generateCreateCollectionData = (collectionName, fieldList) => {
+  if (collectionName === '') {
+    message.error('表名称不可为空！')
+    return {};
+  }
+
+  const cols = fieldList.map(item => {
+    if (item.indexOption !== undefined) {
+      const asc = item.indexOption === 'asc'
+      return {...item, indexOption: {ascending: asc}}
+    }
+    return item;
+  })
+
+  return ({
+    collectionName,
+    cols
+  })
+}
+
+const FiledListSkeleton = ({fieldList, onRemoveField}) => {
+  if (fieldList.length) {
+    return fieldList.map((field, index) => (
+      <Col span={4}>
+        <FieldDisplay
+          field={field}
+          index={index}
+          onRemove={() => onRemoveField(index)}
+          key={field.name}
+        />
+      </Col>
+    ))
+  }
+  return <div style={{height: 180}}/>
+}
+
+
 export default () => {
 
   const [visible, setVisible] = useState(false);
+  const [collectionName, setCollectionName] = useState('');
   const [fieldList, setFieldList] = useState([]);
 
   const modalClose = () => setVisible(false);
   const modalOpen = () => setVisible(true);
 
+  const onSetCollectionName = e =>
+    setCollectionName(e.target.value)
 
   const ifFieldNameDuplicated = newField => {
     if (_.isEmpty(newField)) {
@@ -184,9 +240,23 @@ export default () => {
   const onRemoveField = idx =>
     setFieldList(fieldList.filter((item, index) => index !== idx))
 
+  const onSubmitCreateNewCollection = () => {
+    const r = generateCreateCollectionData(collectionName, fieldList)
+    console.log(r)
+  }
+
   return (
     <PageHeaderWrapper>
-      <Row>
+      <Row style={{marginBottom: 10}}>
+        <Col offset={6}>
+          <Space>
+            新建表名称：
+            <Input placeholder='英文名称' onBlur={onSetCollectionName}/>
+          </Space>
+        </Col>
+      </Row>
+
+      <Row style={{marginBottom: 10}}>
         <Col offset={6} span={10}>
           <Space direction='horizontal'>
             <Button
@@ -202,22 +272,20 @@ export default () => {
         </Col>
       </Row>
 
-      <Row>
+      <Row style={{marginBottom: 10}}>
         <Col offset={2} span={18}>
           <Row>
-            {fieldList.map((field, index) => {
-              return (
-                <Col span={4}>
-                  <FieldDisplay
-                    field={field}
-                    index={index}
-                    onRemove={() => onRemoveField(index)}
-                    key={field.name}
-                  />
-                </Col>
-              )
-            })}
+            <FiledListSkeleton
+              fieldList={fieldList}
+              onRemoveField={onRemoveField}
+            />
           </Row>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col offset={6}>
+          <Button type='primary' onClick={onSubmitCreateNewCollection}>提交</Button>
         </Col>
       </Row>
 
