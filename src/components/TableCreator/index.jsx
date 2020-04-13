@@ -13,6 +13,9 @@ import {
 } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import _ from 'lodash';
+import png1 from '../../../public/icons/1.png'
+import png2 from '../../../public/icons/2.png'
+import png3 from '../../../public/icons/3.png'
 
 import FieldCreateModal from './FieldCreateModal'
 import FieldListDisplay from './FieldListDisplay'
@@ -85,6 +88,7 @@ export default ({onSubmit}) => {
       <Row style={{marginBottom: 10}}>
         <Col offset={6}>
           <Space>
+            <img src={png1} style={{height: 20, width: 20}} alt='1'/>
             新建表名称：
             <Input
               placeholder='英文名称'
@@ -98,6 +102,7 @@ export default ({onSubmit}) => {
       <Row style={{marginBottom: 10}}>
         <Col offset={6} span={10}>
           <Space direction='horizontal'>
+            <img src={png2} style={{height: 20, width: 20}} alt='2'/>
             <Button
               type="primary"
               onClick={modalOpen}
@@ -123,7 +128,10 @@ export default ({onSubmit}) => {
 
       <Row>
         <Col offset={6}>
-          <Button type='primary' onClick={onSubmitCreateNewCollection}>提交</Button>
+          <Space>
+            <img src={png3} style={{height: 20, width: 20}} alt='3'/>
+            <Button type='primary' onClick={onSubmitCreateNewCollection}>提交</Button>
+          </Space>
         </Col>
       </Row>
 
