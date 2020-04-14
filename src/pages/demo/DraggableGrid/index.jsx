@@ -1,10 +1,11 @@
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { message } from 'antd';
 import RGL, { WidthProvider } from 'react-grid-layout';
 
 import DataCard from '@/components/CustomPanel/DataCard';
 import ControlCard from '@/components/CustomPanel/ControlCard';
+import { useDidMountEffect } from '@/utilities/utils';
 
 import {
   updateModels,
@@ -17,15 +18,6 @@ import {
 
 const ReactGridLayout = WidthProvider(RGL);
 
-
-const useDidMountEffect = (func, deps) => {
-  const didMount = useRef(false);
-
-  useEffect(() => {
-    if (didMount.current) func();
-    else didMount.current = true;
-  }, deps)
-};
 
 const gridLayoutPanel = 'test';
 

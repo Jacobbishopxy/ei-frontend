@@ -3,20 +3,49 @@
  */
 
 import React from 'react';
-import { Button, Card, Space } from 'antd';
+import { Button, Card, Space, Tooltip, Modal } from 'antd';
+import { ToolOutlined, DeleteOutlined } from '@ant-design/icons';
 
 
-const FieldDisplay = ({field, index, onRemove}) => {
+const onRemoveConfirm = (onRemove) => Modal.confirm({
+  title: '确认删除该字段？',
+  okType: 'danger',
+  onOk: onRemove,
+})
+
+
+const CardExtra = ({onEdit, onRemove}) => (
+  <Space size='small'>
+    <Tooltip title='修改'>
+      <Button
+        shape='circle'
+        size='small'
+        icon={<ToolOutlined/>}
+        onClick={onEdit}
+      />
+    </Tooltip>
+    <Tooltip title='删除'>
+      <Button
+        shape='circle'
+        size='small'
+        icon={<DeleteOutlined/>}
+        onClick={() => onRemoveConfirm(onRemove)}
+      />
+    </Tooltip>
+  </Space>
+)
+
+
+const FieldDisplay = ({field, index, onEdit, onRemove}) => {
   const title = `字段序号 ${index + 1}`
-  const extra = <Button onClick={onRemove} size='small' type='link' danger ghost>删除</Button>
   const style = field.indexOption ? {backgroundColor: 'rgba(114, 46, 209, 0.2)'} : {}
 
   return (
     <Card
       title={title}
-      style={{width: 200, height: 180, ...style}}
+      style={{width: 200, height: 175, ...style}}
       size='small'
-      extra={extra}
+      extra={<CardExtra onEdit={onEdit} onRemove={onRemove}/>}
     >
       <div>英文字段: {field.fieldName}</div>
       <div>中文别名: {field.nameAlias}</div>
@@ -27,7 +56,7 @@ const FieldDisplay = ({field, index, onRemove}) => {
   )
 };
 
-export default ({fieldList, onRemoveField}) => {
+export default ({fieldList, onEditField, onRemoveField}) => {
   if (fieldList.length) {
     return (
       <Space>
@@ -36,6 +65,7 @@ export default ({fieldList, onRemoveField}) => {
             <FieldDisplay
               field={field}
               index={index}
+              onEdit={() => onEditField(index)}
               onRemove={() => onRemoveField(index)}
             />
           </div>
@@ -43,5 +73,5 @@ export default ({fieldList, onRemoveField}) => {
       </Space>
     )
   }
-  return <div style={{height: 180}}/>
+  return <div style={{height: 190}}/>
 }

@@ -45,7 +45,7 @@ export default ({onClick}) => {
   );
   return (
     <Dropdown overlay={menu}>
-      <Button>添加预定义字段 <DownOutlined/></Button>
+      <Button style={{width: 150}}>预定义字段 <DownOutlined/></Button>
     </Dropdown>
   )
 };

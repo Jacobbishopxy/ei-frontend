@@ -2,12 +2,35 @@
  * Created by Jacob Xie on 4/13/2020.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form, Input, Modal, Radio, Select } from 'antd';
+import _ from 'lodash';
 
 
-export default ({visible, onCreate, onCancel}) => {
+const setInitValues = d => {
+  if (_.isEmpty(d)) {
+    return {
+      'indexOption': undefined
+    }
+  }
+  return d;
+}
+
+export default ({initialValues, visible, onCreate, onCancel}) => {
   const [form] = Form.useForm();
+  const ifCreate = _.isEmpty(initialValues);
+
+  useEffect(() => {
+    if (form && visible) {
+      if (initialValues) {
+        setTimeout (() => form.setFieldsValue({
+          ...initialValues,
+        }), 0);
+      } else {
+        form.resetFields();
+      }
+    }
+  }, [initialValues]);
 
   const onOk = () => form
     .validateFields()
@@ -19,22 +42,22 @@ export default ({visible, onCreate, onCancel}) => {
       console.log('Validate failed: ', err)
     })
 
+
   return (
     <Modal
       visible={visible}
-      title="创建列明细"
+      title={ifCreate ? '创建字段' : '修改字段'}
       okText="确认"
       cancelText="取消"
       onCancel={onCancel}
       onOk={onOk}
+      maskClosable={false}
     >
       <Form
         form={form}
         layout='vertical'
         name='modalForm'
-        initialValues={{
-          'indexOption': undefined
-        }}
+        initialValues={setInitValues(initialValues)}
       >
         <Form.Item
           name='fieldName'
