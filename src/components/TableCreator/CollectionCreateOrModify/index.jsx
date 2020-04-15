@@ -1,4 +1,3 @@
-
 /**
  * Created by Jacob Xie on 4/15/2020.
  */
@@ -6,6 +5,8 @@
 import React, { useState } from 'react';
 import { Input, Radio, Space, Tooltip } from 'antd';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+
+import { useDidMountEffect } from '@/utilities/utils';
 
 const CheckCollectionSuffix = ({nameValid}) => {
   if (nameValid === 1) {
@@ -22,40 +23,43 @@ const CheckCollectionSuffix = ({nameValid}) => {
       </Tooltip>
     )
   }
-  return (
-    <></>
-  )
+  return <></>
 }
 
-export default ({onSetCollectionName, onCollectionCreateOrModifyOnChange}) => {
+export default ({onSetCollectionProp}) => {
+  const [collectionName, setCollectionName] = useState('')
+  const [ifCreate, setIfCreate] = useState('create')
   const [collectionNameValid, setCollectionNameValid] = useState(0)
 
-  const setCollectionName = e => {
-    const collectionName = e.target.value
-    const res = onSetCollectionName(collectionName)
+  const setCollectionProp = () => {
+    const res = onSetCollectionProp(collectionName, ifCreate === 'create')
     if (res) {
       setCollectionNameValid(1)
-    } else {
+    }
+    if (!res) {
       setCollectionNameValid(2)
+    }
+    if (res === undefined) {
+      setCollectionNameValid(0)
     }
   }
 
-  const collectionCreateOrModifyOnChange = e => {
-    const createOrModify = e.target.value
-    onCollectionCreateOrModifyOnChange(createOrModify)
-  }
+  const inputOnBlur = e => setCollectionName(e.target.value);
+  const radioOnChange = e => setIfCreate(e.target.value);
+
+  useDidMountEffect(setCollectionProp, [collectionName, ifCreate])
 
   return (
     <Space>
       <Input
         placeholder='       英文表名称'
-        onBlur={setCollectionName}
+        onBlur={inputOnBlur}
         suffix={<CheckCollectionSuffix nameValid={collectionNameValid}/>}
         style={{width: 150}}
       />
       <Radio.Group
-        onChange={collectionCreateOrModifyOnChange}
-        defaultValue='create'
+        defaultValue={ifCreate}
+        onChange={radioOnChange}
         style={{marginLeft: 15}}
       >
         <Radio value='create'>新建</Radio>
@@ -64,3 +68,4 @@ export default ({onSetCollectionName, onCollectionCreateOrModifyOnChange}) => {
     </Space>
   )
 }
+

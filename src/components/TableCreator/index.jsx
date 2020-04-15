@@ -11,6 +11,7 @@ import {
   message
 } from 'antd';
 import _ from 'lodash';
+import styles from './index.less';
 
 import png1 from '../../../public/icons/1.png';
 import png2 from '../../../public/icons/2.png';
@@ -42,14 +43,24 @@ const generateCreateCollectionData = (collectionName, fieldList) => {
 }
 
 
+// todo
+const generateModifyCollectionData = (collectionName, fieldList) => {
+
+}
+
+
 export default ({onCheckCollection, onSubmit}) => {
 
   const [visible, setVisible] = useState(false);
-  const [collectionName, setCollectionName] = useState('');
+  const [collectionProp, setCollectionProp] = useState({name: '', ifCreate: true});
+
   const [fieldList, setFieldList] = useState([]);
 
   const [initFieldValue, setInitFieldValue] = useState({});
   const [modifyFieldIndex, setModifyFieldIndex] = useState(-1);
+
+  const resetCollectionProp = () =>
+    setCollectionProp({name: '', ifCreate: true})
 
   const resetStates = () => {
     setInitFieldValue({});
@@ -63,20 +74,10 @@ export default ({onCheckCollection, onSubmit}) => {
     setVisible(true);
   }
 
-  const onSetCollectionName = value => {
-
-    // todo: `onCheckCollection` should have functionalities as following:
-    //  1. accept string input and mode type (`create` and `modify`)
-    //  2. if `create`, list all collections and check if duplicated
-    //  3. if `modify`, return `fieldList` (query-api index & validator) if collection exists
-
-
-    setCollectionName(value)
-    return true;  // return onCheckCollection's result
+  const onSetCollectionProp = (name, ifCreate) => {
+    setCollectionProp({name, ifCreate})
+    return onCheckCollection(name, ifCreate);
   }
-
-  const collectionCreateOrModifyOnChange = value =>
-    console.log(value)
 
   const ifFieldNameDuplicated = (newField, index) => {
     if (_.isEmpty(newField)) {
@@ -111,32 +112,34 @@ export default ({onCheckCollection, onSubmit}) => {
   const onRemoveField = idx =>
     setFieldList(fieldList.filter((item, index) => index !== idx))
 
-  const onSubmitCreateNewCollection = () => {
-    const createCollectionData = generateCreateCollectionData(collectionName, fieldList)
+  const onSubmitCreateCollection = () => {
+    const createCollectionData = generateCreateCollectionData(collectionProp.name, fieldList)
     const res = onSubmit(createCollectionData);
-    if (res) {
-      setCollectionName('')
-    }
+    if (res) resetCollectionProp();
+  }
+
+  // todo
+  const onSubmitModifyCollection = () => {
+
   }
 
   return (
     <div>
-      <Row style={{marginBottom: 10}}>
+      <Row className={styles.stepRow}>
         <Col offset={2}>
           <Space>
-            <img src={png1} style={{height: 20, width: 20}} alt='1'/>
+            <img src={png1} className={styles.orderImage} alt='1'/>
             <CollectionCreateOrModify
-              onSetCollectionName={onSetCollectionName}
-              onCollectionCreateOrModifyOnChange={collectionCreateOrModifyOnChange}
+              onSetCollectionProp={onSetCollectionProp}
             />
           </Space>
         </Col>
       </Row>
 
-      <Row style={{marginBottom: 10}}>
+      <Row className={styles.stepRow}>
         <Col offset={2}>
           <Space>
-            <img src={png2} style={{height: 20, width: 20}} alt='2'/>
+            <img src={png2} className={styles.orderImage} alt='2'/>
             <Button
               type="primary"
               onClick={modalOpen}
@@ -151,7 +154,7 @@ export default ({onCheckCollection, onSubmit}) => {
         </Col>
       </Row>
 
-      <Row style={{marginBottom: 10}}>
+      <Row className={styles.stepRow}>
         <Col offset={2} span={18}>
           <FieldListDisplay
             fieldList={fieldList}
@@ -161,13 +164,13 @@ export default ({onCheckCollection, onSubmit}) => {
         </Col>
       </Row>
 
-      <Row>
+      <Row className={styles.stepRow}>
         <Col offset={2}>
           <Space>
-            <img src={png3} style={{height: 20, width: 20}} alt='3'/>
+            <img src={png3} className={styles.orderImage} alt='3'/>
             <Button
               type='primary'
-              onClick={onSubmitCreateNewCollection}
+              onClick={onSubmitCreateCollection}
             >
               提交
             </Button>
