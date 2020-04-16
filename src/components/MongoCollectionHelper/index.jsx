@@ -22,13 +22,13 @@ import FieldListDisplay from './FieldListDisplay';
 import PreDefinedFieldButton from './PreDefinedFieldButton';
 
 
-const generateCreateCollectionData = (collectionName, fieldList) => {
+const generateCollectionData = (collectionName, fieldList) => {
   if (collectionName === '') {
     message.error('表名称不可为空！')
     return {};
   }
 
-  const cols = fieldList.map(item => {
+  const fields = fieldList.map(item => {
     if (item.indexOption !== undefined) {
       const asc = item.indexOption === 'asc'
       return {...item, indexOption: {ascending: asc}}
@@ -38,16 +38,9 @@ const generateCreateCollectionData = (collectionName, fieldList) => {
 
   return ({
     collectionName,
-    cols
+    fields
   })
 }
-
-
-// todo
-const generateModifyCollectionData = (collectionName, fieldList) => {
-
-}
-
 
 export default ({onCheckCollection, onSubmit}) => {
 
@@ -112,15 +105,10 @@ export default ({onCheckCollection, onSubmit}) => {
   const onRemoveField = idx =>
     setFieldList(fieldList.filter((item, index) => index !== idx))
 
-  const onSubmitCreateCollection = () => {
-    const createCollectionData = generateCreateCollectionData(collectionProp.name, fieldList)
-    const res = onSubmit(createCollectionData);
+  const onSubmitCreateOrModifyCollection = () => {
+    const createCollectionData = generateCollectionData(collectionProp.name, fieldList)
+    const res = onSubmit(createCollectionData, collectionProp.ifCreate);
     if (res) resetCollectionProp();
-  }
-
-  // todo
-  const onSubmitModifyCollection = () => {
-
   }
 
   return (
@@ -170,7 +158,7 @@ export default ({onCheckCollection, onSubmit}) => {
             <img src={png3} className={styles.orderImage} alt='3'/>
             <Button
               type='primary'
-              onClick={onSubmitCreateCollection}
+              onClick={onSubmitCreateOrModifyCollection}
             >
               提交
             </Button>

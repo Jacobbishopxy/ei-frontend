@@ -1,13 +1,13 @@
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import React, { useState, useEffect } from 'react';
 
-import TableCreator from '@/components/TableCreator'
+import MongoCollectionHelper from '@/components/MongoCollectionHelper'
 
 
 export default () => {
 
-  const onSubmit = e =>
-    console.log(e)
+  const onSubmit = (collectionData, ifCreate) =>
+    console.log(collectionData, ifCreate)
 
   // todo: `onCheckCollection(collectionName, ifCreateCollection)` should have functionalities as following:
   //  1. accept string input and mode type (`create` and `modify`)
@@ -27,7 +27,7 @@ export default () => {
 
   return (
     <PageHeaderWrapper>
-      <TableCreator
+      <MongoCollectionHelper
         onCheckCollection={onCheckCollection}
         onSubmit={onSubmit}
       />
