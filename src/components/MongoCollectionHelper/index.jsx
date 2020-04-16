@@ -20,6 +20,7 @@ import CollectionCreateOrModify from './CollectionCreateOrModify';
 import FieldCreateModal from './FieldCreateModal';
 import FieldListDisplay from './FieldListDisplay';
 import PreDefinedFieldButton from './PreDefinedFieldButton';
+import CollectionCreateOrModifySubmit from './CollectionCreateOrModifySubmit';
 
 
 const generateCollectionData = (collectionName, fieldList) => {
@@ -44,7 +45,7 @@ const generateCollectionData = (collectionName, fieldList) => {
 
 export default ({onCheckCollection, onSubmit}) => {
 
-  const [visible, setVisible] = useState(false);
+  const [fieldModalVisible, setFieldModalVisible] = useState(false);
   const [collectionProp, setCollectionProp] = useState({name: '', ifCreate: true});
 
   const [fieldList, setFieldList] = useState([]);
@@ -52,19 +53,23 @@ export default ({onCheckCollection, onSubmit}) => {
   const [initFieldValue, setInitFieldValue] = useState({});
   const [modifyFieldIndex, setModifyFieldIndex] = useState(-1);
 
-  const resetCollectionProp = () =>
+  const [finalDisplayView, setFinalDisplayView] = useState({});
+
+  const resetCollectionProp = () => {
     setCollectionProp({name: '', ifCreate: true})
+    setFinalDisplayView({})
+  }
 
   const resetStates = () => {
     setInitFieldValue({});
     setModifyFieldIndex(-1);
   }
   const modalClose = () => {
-    setVisible(false);
+    setFieldModalVisible(false);
     resetStates();
   }
   const modalOpen = () => {
-    setVisible(true);
+    setFieldModalVisible(true);
   }
 
   const onSetCollectionProp = (name, ifCreate) => {
@@ -105,9 +110,13 @@ export default ({onCheckCollection, onSubmit}) => {
   const onRemoveField = idx =>
     setFieldList(fieldList.filter((item, index) => index !== idx))
 
+  const onBeforeSubmitCreateOrModifyCollection = () => {
+    const collectionData = generateCollectionData(collectionProp.name, fieldList)
+    setFinalDisplayView(collectionData)
+  }
+
   const onSubmitCreateOrModifyCollection = () => {
-    const createCollectionData = generateCollectionData(collectionProp.name, fieldList)
-    const res = onSubmit(createCollectionData, collectionProp.ifCreate);
+    const res = onSubmit(finalDisplayView, collectionProp.ifCreate);
     if (res) resetCollectionProp();
   }
 
@@ -156,19 +165,19 @@ export default ({onCheckCollection, onSubmit}) => {
         <Col offset={2}>
           <Space>
             <img src={png3} className={styles.orderImage} alt='3'/>
-            <Button
-              type='primary'
-              onClick={onSubmitCreateOrModifyCollection}
-            >
-              提交
-            </Button>
+            <CollectionCreateOrModifySubmit
+              presentView={finalDisplayView}
+              ifCreate={collectionProp.ifCreate}
+              onPreSubmit={onBeforeSubmitCreateOrModifyCollection}
+              onSubmit={onSubmitCreateOrModifyCollection}
+            />
           </Space>
         </Col>
       </Row>
 
       <FieldCreateModal
         initialValues={initFieldValue}
-        visible={visible}
+        visible={fieldModalVisible}
         onCreate={onCreateField}
         onCancel={modalClose}
       />
