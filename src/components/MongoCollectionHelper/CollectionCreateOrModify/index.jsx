@@ -31,18 +31,18 @@ export default ({onSetCollectionProp}) => {
   const [ifCreate, setIfCreate] = useState('create')
   const [collectionNameValid, setCollectionNameValid] = useState(0)
 
-  const setCollectionProp = () => {
-    const res = onSetCollectionProp(collectionName, ifCreate === 'create')
-    if (res) {
-      setCollectionNameValid(1)
-    }
-    if (!res) {
-      setCollectionNameValid(2)
-    }
-    if (res === undefined) {
-      setCollectionNameValid(0)
-    }
-  }
+  const setCollectionProp = () => onSetCollectionProp(collectionName, ifCreate === 'create')
+    .then(res => {
+      if (res)
+        setCollectionNameValid(1)
+
+      if (!res)
+        setCollectionNameValid(2)
+
+      if (res === undefined)
+        setCollectionNameValid(0)
+
+    })
 
   const inputOnBlur = e => setCollectionName(e.target.value);
   const radioOnChange = e => setIfCreate(e.target.value);

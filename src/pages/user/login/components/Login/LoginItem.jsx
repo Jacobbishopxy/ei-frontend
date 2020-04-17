@@ -5,9 +5,10 @@ import { getFakeCaptcha } from '@/services/login';
 import ItemMap from './map';
 import LoginContext from './LoginContext';
 import styles from './index.less';
+
 const FormItem = Form.Item;
 
-const getFormItemOptions = ({ onChange, defaultValue, customProps = {}, rules }) => {
+const getFormItemOptions = ({onChange, defaultValue, customProps = {}, rules}) => {
   const options = {
     rules: rules || customProps.rules,
   };
@@ -52,7 +53,7 @@ const LoginItem = props => {
   }, []);
   useEffect(() => {
     let interval = 0;
-    const { countDown } = props;
+    const {countDown} = props;
 
     if (timing) {
       interval = window.setInterval(() => {
@@ -83,7 +84,7 @@ const LoginItem = props => {
     const inputProps = omit(otherProps, ['onGetCaptcha', 'countDown']);
     return (
       <FormItem shouldUpdate>
-        {({ getFieldValue }) => (
+        {({getFieldValue}) => (
           <Row gutter={8}>
             <Col span={16}>
               <FormItem name={name} {...options}>

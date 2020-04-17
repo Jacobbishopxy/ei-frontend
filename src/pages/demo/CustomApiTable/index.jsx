@@ -1,7 +1,9 @@
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import MongoCollectionHelper from '@/components/MongoCollectionHelper'
+
+import { doesCollectionExist, createCollection, modifyCollection } from '@/services/eiAdmin';
 
 
 export default () => {
@@ -9,19 +11,11 @@ export default () => {
   const onSubmit = (collectionData, ifCreate) =>
     console.log(collectionData, ifCreate)
 
-  // todo: `onCheckCollection(collectionName, ifCreateCollection)` should have functionalities as following:
-  //  1. accept string input and mode type (`create` and `modify`)
-  //  2. if `create`, list all collections and check if duplicated
-  //  3. if `modify`, return `fieldList` (query-api index & validator) if collection exists
-  const onCheckCollection = (n, t) => {
+  const onCheckCollection = async (collectionName, ifCreate) => {
+    const res = await doesCollectionExist(collectionName);
 
-    console.log(`collectionName: ${n}, ifCreateCollection: ${t}`)
-    if (n === 'dd') {
-      return true
-    }
-    if (n === 'd') {
-      return false
-    }
+    if (ifCreate) return !res;
+    if (!ifCreate) return res;
     return undefined
   }
 

@@ -132,10 +132,6 @@ const createdFieldDetail = (field, index, onRemove) => {
   )
 }
 
-// todo: edit/delete operation for existing fieldDetail
-
-// todo: auto filled for commonly used field, e.g. 'date', 'symbol', 'region', 'price'...
-
 export default () => {
 
   const [visible, setVisible] = useState(false);
