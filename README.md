@@ -57,6 +57,9 @@ config
 public
 
 src
+    |---locales
+    |---models
+    |---services
     |---components
     |---pages
 
@@ -65,3 +68,14 @@ src
 
 1. `config/config.js`: Basic menu config
 
+1. src
+
+    - locales: globalization
+
+    - models: dva models, for state management
+    
+    - services: API services
+    
+    - components 
+    
+    - pages
