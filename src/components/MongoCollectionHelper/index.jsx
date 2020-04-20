@@ -116,8 +116,17 @@ export default ({onCheckCollection, onSubmit}) => {
   }
 
   const onSubmitCreateOrModifyCollection = () => {
-    const res = onSubmit(finalDisplayView, collectionProp.ifCreate);
-    if (res) resetCollectionProp();
+    const {name, ifCreate} = collectionProp
+    onSubmit(finalDisplayView, ifCreate)
+      .then(res => {
+        if (ifCreate) message.success(`${name} 创建成功！ ${res}`);
+        if (!ifCreate) message.success(`${name} 修改成功！ ${res}`);
+        resetCollectionProp();
+      })
+      .catch(res => {
+        if (ifCreate) message.error(`${name} 创建失败！ ${res}`);
+        if (!ifCreate) message.error(`${name} 修改失败！ ${res}`);
+      })
   }
 
   return (

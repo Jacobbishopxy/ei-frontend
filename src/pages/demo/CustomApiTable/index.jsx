@@ -8,14 +8,18 @@ import { doesCollectionExist, createCollection, modifyCollection } from '@/servi
 
 export default () => {
 
-  const onSubmit = (collectionData, ifCreate) =>
-    console.log(collectionData, ifCreate)
+  const onSubmit = async (collectionData, ifCreate) => {
+    let res;
+    if (ifCreate) res = await createCollection(collectionData);
+    if (!ifCreate) res = await modifyCollection(collectionData);
+    return res;
+  }
 
   const onCheckCollection = async (collectionName, ifCreate) => {
     const res = await doesCollectionExist(collectionName);
 
     if (ifCreate) return !res;
-    if (!ifCreate) return res;
+    if (!ifCreate) return res; // todo: needs `showCollection` method here, so that pass collectionInfo to child component `FieldList`
     return undefined
   }
 

@@ -17,11 +17,11 @@ function commonPostParam(data) {
 }
 
 function fetchGet(url) {
-  return fetch(url).then(res => res.json());
+  return fetch(url).then(res => res.text());
 }
 
 function fetchPost(url, jsonData) {
-  return fetch(url, commonPostParam(jsonData)).then(res => res.json());
+  return fetch(url, commonPostParam(jsonData)).then(res => res.text());
 }
 
 
@@ -77,6 +77,7 @@ app.get('/api/currentUser', (req, res) => {
 app.get('/api/ei-admin/show-collections', (req, res) =>
   fetchGet(`${eiBackendUrl}/admin/show-collections`)
     .then(json => res.send(json))
+    .catch(err => console.log(err))
 );
 
 
@@ -88,6 +89,7 @@ app.get('/api/ei-admin/does-collection-exist', (req, res) => {
 
   fetchGet(`${eiBackendUrl}/admin/does-collection-exist?collection=${collection}`)
     .then(json => res.send(json))
+    .catch(err => console.log(err))
 });
 
 /**
@@ -98,6 +100,7 @@ app.get('/api/ei-admin/show-collection', (req, res) => {
 
   fetchGet(`${eiBackendUrl}/admin/show-collection?collection=${collection}`)
     .then(json => res.send(json))
+    .catch(err => console.log(err))
 });
 
 /**
@@ -106,6 +109,7 @@ app.get('/api/ei-admin/show-collection', (req, res) => {
 app.post('/api/ei-admin/create-collection', (req, res) =>
   fetchPost(`${eiBackendUrl}/admin/create-collection`, req.body)
     .then(json => res.send(json))
+    .catch(err => console.log(err))
 );
 
 /**
@@ -114,6 +118,7 @@ app.post('/api/ei-admin/create-collection', (req, res) =>
 app.post('/api/ei-admin/modify-collection', (req, res) =>
   fetchPost(`${eiBackendUrl}/admin/modify-collection`, req.body)
     .then(json => res.send(json))
+    .catch(err => console.log(err))
 );
 
 /**
@@ -124,6 +129,7 @@ app.post('/api/ei-admin/insert-data', (req, res) => {
 
   fetchPost(`${eiBackendUrl}/admin/insert-data?collection=${collection}`, req.body)
     .then(json => res.send(json))
+    .catch(err => console.log(err))
 });
 
 /**
@@ -134,6 +140,7 @@ app.post('/api/ei-admin/query-data', (req, res) => {
 
   fetchPost(`${eiBackendUrl}/admin/query-data?collection=${collection}`, req.body)
     .then(json => res.send(json))
+    .catch(err => console.log(err))
 });
 
 /**
@@ -144,6 +151,7 @@ app.post('/api/ei-admin/query-data', (req, res) => {
 
   fetchPost(`${eiBackendUrl}/admin/query-data?collection=${collection}`, req.body)
     .then(json => res.send(json))
+    .catch(err => console.log(err))
 });
 
 
