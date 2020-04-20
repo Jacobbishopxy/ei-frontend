@@ -14,7 +14,7 @@ const onRemoveConfirm = (onRemove) => Modal.confirm({
 })
 
 
-const CardExtra = ({onEdit, onRemove}) => (
+const CardExtra = ({canModify, onEdit, onRemove}) => (
   <Space size='small'>
     <Tooltip title='修改'>
       <Button
@@ -22,6 +22,7 @@ const CardExtra = ({onEdit, onRemove}) => (
         size='small'
         icon={<ToolOutlined/>}
         onClick={onEdit}
+        disabled={!canModify}
       />
     </Tooltip>
     <Tooltip title='删除'>
@@ -30,22 +31,25 @@ const CardExtra = ({onEdit, onRemove}) => (
         size='small'
         icon={<DeleteOutlined/>}
         onClick={() => onRemoveConfirm(onRemove)}
+        disabled={!canModify}
       />
     </Tooltip>
   </Space>
 )
 
 
-const FieldDisplay = ({field, index, onEdit, onRemove}) => {
+const FieldDisplay = ({ifCreate, field, index, onEdit, onRemove}) => {
   const title = `字段序号 ${index + 1}`
   const style = field.indexOption ? {backgroundColor: 'rgba(114, 46, 209, 0.2)'} : {}
+  let canModify = true;
+  if (!ifCreate) canModify = !field.indexOption
 
   return (
     <Card
       title={title}
       style={{width: 200, height: 175, ...style}}
       size='small'
-      extra={<CardExtra onEdit={onEdit} onRemove={onRemove}/>}
+      extra={<CardExtra canModify={canModify} onEdit={onEdit} onRemove={onRemove}/>}
     >
       <div>英文字段: {field.fieldName}</div>
       <div>中文别名: {field.nameAlias}</div>
@@ -56,13 +60,14 @@ const FieldDisplay = ({field, index, onEdit, onRemove}) => {
   )
 };
 
-export default ({fieldList, onEditField, onRemoveField}) => {
+export default ({ifCreate, fieldList, onEditField, onRemoveField}) => {
   if (fieldList.length) {
     return (
       <Space>
         {fieldList.map((field, index) => (
           <div key={field.fieldName}>
             <FieldDisplay
+              ifCreate={ifCreate}
               field={field}
               index={index}
               onEdit={() => onEditField(index)}

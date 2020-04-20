@@ -79,12 +79,10 @@ export default ({fl, onCheckCollection, onSubmit}) => {
 
   const [finalDisplayView, setFinalDisplayView] = useState({});
 
-  useEffect(() => {
-    console.log('fl changed: ', fl, fieldList)
-    setFieldList(generateCollectionDataReversed(fl));
-  }, [fl])
-
-
+  useEffect(
+    () => setFieldList(generateCollectionDataReversed(fl)),
+    [fl]
+  );
 
   const resetCollectionProp = () => {
     setCollectionProp({name: '', ifCreate: true})
@@ -195,6 +193,7 @@ export default ({fl, onCheckCollection, onSubmit}) => {
       <Row className={styles.stepRow}>
         <Col offset={2} span={18}>
           <FieldListDisplay
+            ifCreate={collectionProp.ifCreate}
             fieldList={fieldList}
             onEditField={onEditField}
             onRemoveField={onRemoveField}
