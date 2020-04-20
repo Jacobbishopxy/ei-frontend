@@ -2,7 +2,7 @@
  * Created by Jacob Xie on 4/13/2020.
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Space,
@@ -41,9 +41,33 @@ const generateCollectionData = (collectionName, fieldList) => {
     collectionName,
     fields
   })
-}
+};
 
-export default ({onCheckCollection, onSubmit}) => {
+const generateCollectionDataReversed = collectionInfoJson => {
+
+  const fields = collectionInfoJson.fields ? collectionInfoJson.fields : [];
+
+  return fields.map(field => {
+    const {fieldName, fieldType, nameAlias, indexOption, description} = field;
+    let io;
+    if (indexOption) {
+      io = (field.indexOption.ascending === true) ? 'asc' : 'dsc';
+    } else {
+      io = undefined;
+    }
+
+    return {
+      fieldName,
+      fieldType,
+      nameAlias,
+      indexOption: io,
+      description
+    };
+  });
+};
+
+
+export default ({fl, onCheckCollection, onSubmit}) => {
 
   const [fieldModalVisible, setFieldModalVisible] = useState(false);
   const [collectionProp, setCollectionProp] = useState({name: '', ifCreate: true});
@@ -54,6 +78,13 @@ export default ({onCheckCollection, onSubmit}) => {
   const [modifyFieldIndex, setModifyFieldIndex] = useState(-1);
 
   const [finalDisplayView, setFinalDisplayView] = useState({});
+
+  useEffect(() => {
+    console.log('fl changed: ', fl, fieldList)
+    setFieldList(generateCollectionDataReversed(fl));
+  }, [fl])
+
+
 
   const resetCollectionProp = () => {
     setCollectionProp({name: '', ifCreate: true})
@@ -73,7 +104,8 @@ export default ({onCheckCollection, onSubmit}) => {
   }
 
   const onSetCollectionProp = (name, ifCreate) => {
-    setCollectionProp({name, ifCreate})
+    setCollectionProp({name, ifCreate});
+    // const onCheckCollectionResult =
     return onCheckCollection(name, ifCreate);
   }
 

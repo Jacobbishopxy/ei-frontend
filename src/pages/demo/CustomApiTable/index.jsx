@@ -1,12 +1,21 @@
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 
 import MongoCollectionHelper from '@/components/MongoCollectionHelper'
 
-import { doesCollectionExist, createCollection, modifyCollection } from '@/services/eiAdmin';
+import {
+  doesCollectionExist,
+  createCollection,
+  modifyCollection,
+  showCollection
+} from '@/services/eiAdmin';
 
 
 export default () => {
+
+  const [fl, setFl] = useState([]);
+
+  const clearFl = () => setFl([]);
 
   const onSubmit = async (collectionData, ifCreate) => {
     let res;
@@ -17,15 +26,20 @@ export default () => {
 
   const onCheckCollection = async (collectionName, ifCreate) => {
     const res = await doesCollectionExist(collectionName);
+    clearFl();
 
-    if (ifCreate) return !res;
-    if (!ifCreate) return res; // todo: needs `showCollection` method here, so that pass collectionInfo to child component `FieldList`
-    return undefined
+    if (ifCreate) return !res
+    if (!ifCreate) {
+      if (res) setFl(await showCollection(collectionName));
+      return res;
+    }
+    return undefined;
   }
 
   return (
     <PageHeaderWrapper>
       <MongoCollectionHelper
+        fl={fl}
         onCheckCollection={onCheckCollection}
         onSubmit={onSubmit}
       />
