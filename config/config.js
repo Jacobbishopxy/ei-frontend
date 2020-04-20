@@ -2,7 +2,8 @@
 import { defineConfig } from 'umi';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
-const { REACT_APP_ENV } = process.env;
+
+const {REACT_APP_ENV} = process.env;
 export default defineConfig({
   hash: true,
   antd: {},
@@ -111,14 +112,14 @@ export default defineConfig({
                   component: './demo/XlxsDataGrid',
                 },
                 {
-                  name: 'custom-table',
-                  path: '/demo/customtable',
-                  component: './demo/CustomTable',
+                  name: 'custom-table-operation',
+                  path: '/demo/customtableoperation',
+                  component: './demo/CustomTableOperation',
                 },
                 {
-                  name: 'custom-api-table',
-                  path: '/demo/customapitable',
-                  component: './demo/CustomApiTable',
+                  name: 'custom-table-data-operation',
+                  path: '/demo/customtabledataoperation',
+                  component: './demo/CustomTableDataOperation',
                 },
               ],
             },

@@ -60,6 +60,6 @@ export default {
   'menu.demo.custom-grids': '自定义骨架',
   'menu.demo.gql-data-fetch': 'gql数据获取',
   'menu.demo.xlxs-data-grid': 'Xlxs数据表',
-  'menu.demo.custom-table': '自定义数据表',
-  'menu.demo.custom-api-table': '自定义接口数据表',
+  'menu.demo.custom-table-operation': '自定义表操作',
+  'menu.demo.custom-table-data-operation': '自定义数据操作',
 };
