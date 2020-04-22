@@ -26,9 +26,9 @@ const CheckCollectionSuffix = ({nameValid}) => {
   return <></>
 }
 
-export default ({onSetCollectionProp}) => {
+export default ({onSetCollectionProp, hasCreateModifySelection = true}) => {
   const [collectionName, setCollectionName] = useState('')
-  const [ifCreate, setIfCreate] = useState('create')
+  const [ifCreate, setIfCreate] = useState( hasCreateModifySelection ? 'create' : 'modify')
   const [collectionNameValid, setCollectionNameValid] = useState(0)
 
   const setCollectionProp = () => onSetCollectionProp(collectionName, ifCreate === 'create')
@@ -54,17 +54,22 @@ export default ({onSetCollectionProp}) => {
       <Input
         placeholder='       英文表名称'
         onBlur={inputOnBlur}
+        onPressEnter={inputOnBlur}
         suffix={<CheckCollectionSuffix nameValid={collectionNameValid}/>}
         style={{width: 150}}
       />
-      <Radio.Group
-        defaultValue={ifCreate}
-        onChange={radioOnChange}
-        style={{marginLeft: 15}}
-      >
-        <Radio value='create'>新建</Radio>
-        <Radio value='modify'>修改</Radio>
-      </Radio.Group>
+      {
+        hasCreateModifySelection ?
+          <Radio.Group
+            defaultValue={ifCreate}
+            onChange={radioOnChange}
+            style={{marginLeft: 15}}
+          >
+            <Radio value='create'>新建</Radio>
+            <Radio value='modify'>修改</Radio>
+          </Radio.Group> :
+          <></>
+      }
     </Space>
   )
 }

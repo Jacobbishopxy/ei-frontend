@@ -103,7 +103,6 @@ export default ({fl, onCheckCollection, onSubmit}) => {
 
   const onSetCollectionProp = (name, ifCreate) => {
     setCollectionProp({name, ifCreate});
-    // const onCheckCollectionResult =
     return onCheckCollection(name, ifCreate);
   }
 
