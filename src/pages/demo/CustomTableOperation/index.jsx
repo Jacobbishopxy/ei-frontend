@@ -13,9 +13,9 @@ import {
 
 export default () => {
 
-  const [fl, setFl] = useState([]);
+  const [initFields, setInitFields] = useState([]);
 
-  const clearFl = () => setFl([]);
+  const clearFl = () => setInitFields([]);
 
   const onSubmit = async (collectionData, ifCreate) => {
     let res;
@@ -30,7 +30,8 @@ export default () => {
 
     if (ifCreate) return !res
     if (!ifCreate) {
-      if (res) setFl(await showCollection(collectionName));
+      const {fields} = await showCollection(collectionName)
+      if (res) setInitFields(fields);
       return res;
     }
     return undefined;
@@ -39,7 +40,7 @@ export default () => {
   return (
     <PageHeaderWrapper>
       <MongoCollectionHelper
-        fl={fl}
+        initFields={initFields}
         onCheckCollection={onCheckCollection}
         onSubmit={onSubmit}
       />

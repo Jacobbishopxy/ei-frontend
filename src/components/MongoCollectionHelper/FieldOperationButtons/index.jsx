@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Button, Dropdown, Menu } from 'antd';
+import { Button, Dropdown, Menu, Space } from 'antd';
 import { DownOutlined, StarOutlined } from '@ant-design/icons';
 
 const preDefinedFieldMap = key => {
@@ -22,9 +22,9 @@ const preDefinedFieldMap = key => {
 };
 
 
-export default ({onClick}) => {
+export default ({disableClick, onClickNewField, onClickPreDefined}) => {
 
-  const menuOnClick = value => onClick(preDefinedFieldMap(value.key))
+  const menuOnClick = value => onClickPreDefined(preDefinedFieldMap(value.key))
   const primaryKeyStyle = {color: 'rgba(114, 46, 209, 1)'}
 
   const menu = (
@@ -44,8 +44,21 @@ export default ({onClick}) => {
     </Menu>
   );
   return (
-    <Dropdown overlay={menu}>
-      <Button style={{width: 150}}>预定义字段 <DownOutlined/></Button>
-    </Dropdown>
+    <Space>
+      <Button
+        type="primary"
+        onClick={onClickNewField}
+        style={{width: 150}}
+        disabled={disableClick}
+      >
+        添加新字段
+      </Button>
+      <Dropdown
+        overlay={menu}
+        disabled={disableClick}
+      >
+        <Button style={{width: 150}}>预定义字段 <DownOutlined/></Button>
+      </Dropdown>
+    </Space>
   )
 };

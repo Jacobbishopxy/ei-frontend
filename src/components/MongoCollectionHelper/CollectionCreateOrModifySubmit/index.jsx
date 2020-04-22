@@ -19,7 +19,7 @@ const ModalTitle = ({ifCreate}) => {
   )
 }
 
-export default ({presentView, ifCreate, onPreSubmit, onSubmit}) => {
+export default ({disableClick, presentView, ifCreate, onPreSubmit, onSubmit}) => {
 
   const [visible, setVisible] = useState(false);
 
@@ -38,6 +38,7 @@ export default ({presentView, ifCreate, onPreSubmit, onSubmit}) => {
       <Button
         type='primary'
         onClick={buttonOnClick}
+        disabled={disableClick}
       >
         提交
       </Button>

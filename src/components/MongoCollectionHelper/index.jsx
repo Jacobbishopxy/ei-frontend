@@ -19,7 +19,7 @@ import png3 from '../../../public/icons/3.png';
 import CollectionCreateOrModify from './CollectionCreateOrModify';
 import FieldCreateModal from './FieldCreateModal';
 import FieldListDisplay from './FieldListDisplay';
-import PreDefinedFieldButton from './PreDefinedFieldButton';
+import FieldOperationButtons from './FieldOperationButtons';
 import CollectionCreateOrModifySubmit from './CollectionCreateOrModifySubmit';
 
 
@@ -43,11 +43,8 @@ const generateCollectionData = (collectionName, fieldList) => {
   })
 };
 
-const generateCollectionDataReversed = collectionInfoJson => {
-
-  const fields = collectionInfoJson.fields ? collectionInfoJson.fields : [];
-
-  return fields.map(field => {
+const generateCollectionDataReversed = collectionFields =>
+  collectionFields.map(field => {
     const {fieldName, fieldType, nameAlias, indexOption, description} = field;
     let io;
     if (indexOption) {
@@ -64,13 +61,13 @@ const generateCollectionDataReversed = collectionInfoJson => {
       description
     };
   });
-};
 
 
-export default ({fl, onCheckCollection, onSubmit}) => {
+export default ({initFields, onCheckCollection, onSubmit}) => {
 
   const [fieldModalVisible, setFieldModalVisible] = useState(false);
   const [collectionProp, setCollectionProp] = useState({name: '', ifCreate: true});
+  const [disableAction, setDisableAction] = useState(true);
 
   const [fieldList, setFieldList] = useState([]);
 
@@ -80,8 +77,8 @@ export default ({fl, onCheckCollection, onSubmit}) => {
   const [finalDisplayView, setFinalDisplayView] = useState({});
 
   useEffect(
-    () => setFieldList(generateCollectionDataReversed(fl)),
-    [fl]
+    () => setFieldList(generateCollectionDataReversed(initFields)),
+    [initFields]
   );
 
   const resetCollectionProp = () => {
@@ -99,6 +96,11 @@ export default ({fl, onCheckCollection, onSubmit}) => {
   }
   const modalOpen = () => {
     setFieldModalVisible(true);
+  }
+
+  const onCheckExist = b => {
+    if (b) setDisableAction(false);
+    if (!b) setDisableAction(true);
   }
 
   const onSetCollectionProp = (name, ifCreate) => {
@@ -166,6 +168,7 @@ export default ({fl, onCheckCollection, onSubmit}) => {
             <img src={png1} className={styles.orderImage} alt='1'/>
             <CollectionCreateOrModify
               onSetCollectionProp={onSetCollectionProp}
+              onCheckExist={onCheckExist}
             />
           </Space>
         </Col>
@@ -175,15 +178,10 @@ export default ({fl, onCheckCollection, onSubmit}) => {
         <Col offset={2}>
           <Space>
             <img src={png2} className={styles.orderImage} alt='2'/>
-            <Button
-              type="primary"
-              onClick={modalOpen}
-              style={{width: 150}}
-            >
-              添加新字段
-            </Button>
-            <PreDefinedFieldButton
-              onClick={onCreateField}
+            <FieldOperationButtons
+              disableClick={disableAction}
+              onClickNewField={modalOpen}
+              onClickPreDefined={onCreateField}
             />
           </Space>
         </Col>
@@ -205,6 +203,7 @@ export default ({fl, onCheckCollection, onSubmit}) => {
           <Space>
             <img src={png3} className={styles.orderImage} alt='3'/>
             <CollectionCreateOrModifySubmit
+              disableClick={disableAction}
               presentView={finalDisplayView}
               ifCreate={collectionProp.ifCreate}
               onPreSubmit={onBeforeSubmitCreateOrModifyCollection}
