@@ -13,12 +13,14 @@ export const antdTableColumnsGenerator = collectionFields =>
     key: item.fieldName
   }));
 
-export const antdTableColumnsAppendOperation = (tableCols, renderFn) =>
-  tableCols.concat({
+export const antdTableColumnsAppendOperation = (tableCols, renderFn) => {
+  if (tableCols.length === 0) return [];
+  return tableCols.concat({
     title: '操作',
     key: 'operation',
     render: renderFn
   });
+};
 
 
 /**
