@@ -94,7 +94,10 @@ const Login = props => {
           />
         </Tab>
         <div>
-          <Checkbox checked={autoLogin} onChange={e => setAutoLogin(e.target.checked)}>
+          <Checkbox
+            checked={autoLogin}
+            onChange={({target: {checked}}) => setAutoLogin(checked)}
+          >
             自动登录
           </Checkbox>
           <a

@@ -26,7 +26,7 @@ const CheckCollectionSuffix = ({nameValid}) => {
   return <></>
 }
 
-export default ({onSetCollectionProp, onCheckExist, hasCreateModifySelection = true}) => {
+export default ({onSetCollectionProp, onCheckExist = () => {}, hasCreateModifySelection = true}) => {
   const [collectionName, setCollectionName] = useState('')
   const [ifCreate, setIfCreate] = useState( hasCreateModifySelection ? 'create' : 'modify')
   const [collectionNameValid, setCollectionNameValid] = useState(0)
@@ -50,8 +50,8 @@ export default ({onSetCollectionProp, onCheckExist, hasCreateModifySelection = t
 
     })
 
-  const inputOnBlur = e => setCollectionName(e.target.value);
-  const radioOnChange = e => setIfCreate(e.target.value);
+  const inputOnBlur = ({target: {value}}) => setCollectionName(value);
+  const radioOnChange = ({target: {value}}) => setIfCreate(value);
 
   useDidMountEffect(setCollectionProp, [collectionName, ifCreate])
 

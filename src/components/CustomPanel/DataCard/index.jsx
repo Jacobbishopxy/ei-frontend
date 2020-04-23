@@ -54,12 +54,10 @@ const DataCard = ({onRemoveItem, cardContent, saveContentCfg}) => {
   const [title, setTitle] = useState(checkDataCardTitle(cardContent.title));
   const [titleVisible, setTitleVisible] = useState(true);
 
-  const changeTitle = e => {
-    const input = e.target.value;
-    if (input !== '') {
-      const v = e.target.value;
-      setTitle(v);
-      saveContentCfg({title: v})
+  const changeTitle = ({target: {value}}) => {
+    if (value !== '') {
+      setTitle(value);
+      saveContentCfg({title: value})
     } else {
       message.warning('标题不可为空')
     }

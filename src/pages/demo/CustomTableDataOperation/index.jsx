@@ -8,7 +8,11 @@ import {
   showCollection,
   queryData
 } from '@/services/eiAdmin';
-import { antdTableColumnsGenerator } from './modelConfigFn';
+import {
+  antdTableColumnsGenerator,
+  antdTableColumnsAppendOperation,
+  convertRawStringData
+} from './modelConfigFn';
 
 import styles from './index.less';
 
@@ -25,39 +29,41 @@ const generateTableColRenderFn = actionFn => (text, record) => (
 );
 
 
-const generateTableColumnFromCollectionInfo = (collectionInfo, operationActions) => {
-  const {fields} = collectionInfo;
-
-  return antdTableColumnsGenerator(fields, generateTableColRenderFn(operationActions))
-};
-
-const generateTableDataSourceFromQueryData = data => {
-  console.log('queryData: ', data)
-  return data.map((item, index) => ({
+const tableDataSourceAddKey = data =>
+  data.map((item, index) => ({
     key: index,
     ...item
   }));
-};
 
 
 export default () => {
 
   const [tableColumn, setTableColumn] = useState([]);
+  const [cacheData, setCacheData] = useState([]);
   const [dbData, setDbData] = useState([]);
+  const [rawStringData, setRawStringData] = useState('');
 
-  const operationActions = record =>
-    console.log('operationActions: ', record)
+  const cacheTableOperationActions = record =>
+    console.log('cacheTableOperationActions: ', record)
+  const realTableOperationActions = record =>
+    console.log('realTableOperationActions: ', record)
+
+
+  const genCacheTableColumn = () =>
+    antdTableColumnsAppendOperation(tableColumn, generateTableColRenderFn(cacheTableOperationActions));
+  const genRealTableColumn = () =>
+    antdTableColumnsAppendOperation(tableColumn, generateTableColRenderFn(realTableOperationActions));
+
 
   const setCollectionProp = async collectionName => {
     const dce = await doesCollectionExist(collectionName);
     if (dce) {
       const collectionInfo = await showCollection(collectionName);
-      const tc = generateTableColumnFromCollectionInfo(collectionInfo, operationActions);
+      const tc = antdTableColumnsGenerator(collectionInfo.fields);
       setTableColumn(tc);
 
       const rawData = await queryData(collectionName, {});
-      const ds = generateTableDataSourceFromQueryData(rawData);
-      setDbData(ds);
+      setDbData(rawData);
 
     } else {
       setTableColumn([]);
@@ -65,7 +71,16 @@ export default () => {
     }
 
     return dce;
+  };
+
+  const readFromTextArea = ({target: {value}}) => setRawStringData(value);
+
+  const cvtRawData = () => {
+    const cd = convertRawStringData(tableColumn, rawStringData);
+    setCacheData(cd)
   }
+
+  const onSubmitUpload = () => console.log(cacheData);
 
   return (
     <PageHeaderWrapper>
@@ -88,6 +103,8 @@ export default () => {
             <Input.TextArea
               rows={4}
               allowClear
+              onBlur={readFromTextArea}
+              onPressEnter={readFromTextArea}
               placeholder='请将符合格式的Excel数据粘着在此'
             />
           </Col>
@@ -97,7 +114,9 @@ export default () => {
           <Col offset={2}>
             Button here, data convert
             <br/>
-            <Button>
+            <Button
+              onClick={cvtRawData}
+            >
               转换数据
             </Button>
           </Col>
@@ -108,8 +127,8 @@ export default () => {
             Table here, converted data
             <br/>
             <Table
-              columns={tableColumn}
-              dataSource={[]}
+              columns={genCacheTableColumn()}
+              dataSource={tableDataSourceAddKey(cacheData)}
               size='small'
               pagination={false}
             />
@@ -122,6 +141,7 @@ export default () => {
             <br/>
             <Button
               type='primary'
+              onClick={onSubmitUpload}
             >
               确认上传
             </Button>
@@ -133,8 +153,8 @@ export default () => {
             Table here, real data represents
             <br/>
             <Table
-              columns={tableColumn}
-              dataSource={dbData}
+              columns={genRealTableColumn()}
+              dataSource={tableDataSourceAddKey(dbData)}
               size='small'
               pagination={false}
             />

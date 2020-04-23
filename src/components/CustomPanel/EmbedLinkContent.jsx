@@ -17,7 +17,7 @@ const EmbedModal = ({onSet}) => {
     setVisible(false);
   };
 
-  const inputOnchange = e => setEmbedLink(e.target.value);
+  const inputOnchange = ({target: {value}}) => setEmbedLink(value);
 
   return (
     <>
