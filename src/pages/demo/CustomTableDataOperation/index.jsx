@@ -1,7 +1,17 @@
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import React, { useState } from 'react';
-import { Row, Col, Input, Upload, Button, Table, message, Space } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
+import {
+  Row,
+  Col,
+  Input,
+  Upload,
+  Button,
+  Table,
+  message,
+  Space,
+  Modal
+} from 'antd';
+import { ExclamationCircleOutlined, InboxOutlined } from '@ant-design/icons';
 import _ from 'lodash';
 
 import CollectionCreateOrModify from '@/components/MongoCollectionHelper/CollectionCreateOrModify';
@@ -10,7 +20,8 @@ import {
   showCollection,
   queryData,
   showPrimaryKeys,
-  deleteData
+  deleteData,
+  insertData
 } from '@/services/eiAdmin';
 import { useDidMountEffect } from '@/utilities/utils';
 import {
@@ -30,6 +41,23 @@ import png5 from '../../../../public/icons/5.png';
 import png6 from '../../../../public/icons/6.png';
 
 
+const confirmDelete = (onConfirm) => Modal.confirm({
+  title: '确认删除',
+  icon: <ExclamationCircleOutlined/>,
+  okText: '确认',
+  okType: 'danger',
+  cancelText: '取消',
+  onOk: onConfirm
+});
+
+const confirmSubmit = (onConfirm) => Modal.confirm({
+  title: '确认上传',
+  icon: <ExclamationCircleOutlined/>,
+  okText: '确认',
+  cancelText: '取消',
+  onOk: onConfirm
+});
+
 const generateTableColRenderFn = ({modifyFn, deleteFn}) => (text, record) => (
   <Space>
     <Button
@@ -41,7 +69,7 @@ const generateTableColRenderFn = ({modifyFn, deleteFn}) => (text, record) => (
       修改
     </Button>
     <Button
-      onClick={() => deleteFn(record)}
+      onClick={() => confirmDelete(() => deleteFn(record))}
       type='danger'
       size='small'
     >
@@ -166,10 +194,14 @@ export default () => {
   }
 
   const onSubmitUpload = () => {
-    const pureData = _.omit(cacheData, ['key'])
-    console.log(pureData);
+    const pureData = cacheData.map(i => _.omit(i, ['key']))
 
-    // setShouldRerenderRealDataTable(!shouldRerenderRealDataTable);
+    insertData(colProp.collectionName, pureData)
+      .then(res => {
+        setShouldRerenderRealDataTable(!shouldRerenderRealDataTable);
+        message.success(`上传成功 ${res}`)
+      })
+      .catch(err => message.error(`上传失败 ${err}`));
   }
 
   return (
@@ -240,7 +272,7 @@ export default () => {
             <img src={png5} className={styles.orderImage} alt='5'/>
             <Button
               type='primary'
-              onClick={onSubmitUpload}
+              onClick={() => confirmSubmit(onSubmitUpload)}
             >
               确认上传
             </Button>
