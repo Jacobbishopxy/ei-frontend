@@ -89,7 +89,7 @@ app.get('/api/ei-admin/does-collection-exist', (req, res) => {
 
   fetchGet(`${eiBackendUrl}/admin/does-collection-exist?collection=${collection}`)
     .then(json => res.send(json))
-    .catch(err => console.log(err))
+    .catch(err => console.log(err));
 });
 
 /**
@@ -100,7 +100,7 @@ app.get('/api/ei-admin/show-collection', (req, res) => {
 
   fetchGet(`${eiBackendUrl}/admin/show-collection?collection=${collection}`)
     .then(json => res.send(json))
-    .catch(err => console.log(err))
+    .catch(err => console.log(err));
 });
 
 /**
@@ -122,6 +122,17 @@ app.post('/api/ei-admin/modify-collection', (req, res) =>
 );
 
 /**
+ * show-index
+ */
+app.get('/api/ei-admin/show-index', (req, res) => {
+  const {collection} = req.query;
+
+  fetchGet(`${eiBackendUrl}/admin/show-index?collection=${collection}`)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+})
+
+/**
  * insert-data
  */
 app.post('/api/ei-admin/insert-data', (req, res) => {
@@ -129,7 +140,7 @@ app.post('/api/ei-admin/insert-data', (req, res) => {
 
   fetchPost(`${eiBackendUrl}/admin/insert-data?collection=${collection}`, req.body)
     .then(json => res.send(json))
-    .catch(err => console.log(err))
+    .catch(err => console.log(err));
 });
 
 /**
@@ -140,18 +151,18 @@ app.post('/api/ei-admin/query-data', (req, res) => {
 
   fetchPost(`${eiBackendUrl}/admin/query-data?collection=${collection}`, req.body)
     .then(json => res.send(json))
-    .catch(err => console.log(err))
+    .catch(err => console.log(err));
 });
 
 /**
  * delete-data
  */
-app.post('/api/ei-admin/query-data', (req, res) => {
+app.post('/api/ei-admin/delete-data', (req, res) => {
   const {collection} = req.query;
 
-  fetchPost(`${eiBackendUrl}/admin/query-data?collection=${collection}`, req.body)
+  fetchPost(`${eiBackendUrl}/admin/delete-data?collection=${collection}`, req.body)
     .then(json => res.send(json))
-    .catch(err => console.log(err))
+    .catch(err => console.log(err));
 });
 
 

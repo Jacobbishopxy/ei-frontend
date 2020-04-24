@@ -27,6 +27,12 @@ export const createCollection = async json =>
 export const modifyCollection = async json =>
   request('/api/ei-admin/modify-collection', {method: 'POST', data: json});
 
+export const showPrimaryKeys = async collectionName => {
+  const rawRes = await request(`/api/ei-admin/show-index?collection=${collectionName}`)
+  const {key} = rawRes[1]
+  return _.keys(key)
+};
+
 export const insertData = async (collectionName, json) =>
   request(`/api/ei-admin/insert-data?collection=${collectionName}`, {method: 'POST', data: json});
 

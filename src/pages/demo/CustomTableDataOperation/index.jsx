@@ -1,18 +1,23 @@
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Row, Col, Input, Upload, Button, Table, message, Space } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
+import _ from 'lodash';
 
 import CollectionCreateOrModify from '@/components/MongoCollectionHelper/CollectionCreateOrModify';
 import {
   doesCollectionExist,
   showCollection,
-  queryData
+  queryData,
+  showPrimaryKeys,
+  deleteData
 } from '@/services/eiAdmin';
+import { useDidMountEffect } from '@/utilities/utils';
 import {
   antdTableColumnsGenerator,
   antdTableColumnsAppendOperation,
-  convertRawStringData
+  convertRawStringData,
+  tableDataSourceAddKey
 } from './modelConfigFn';
 
 import styles from './index.less';
@@ -46,12 +51,6 @@ const generateTableColRenderFn = ({modifyFn, deleteFn}) => (text, record) => (
 );
 
 
-const tableDataSourceAddKey = data =>
-  data.map((item, index) => ({
-    key: index,
-    ...item
-  }));
-
 const uploadProps = {
   name: 'file',
   multiple: true,
@@ -70,31 +69,77 @@ const uploadProps = {
 };
 
 
+const generateFilterJSON = ({primaryKeys, record}) => ({
+  filter: _.pick(record, primaryKeys)
+})
+
+
 export default () => {
 
+  const [colProp, setColProp] = useState({collectionName: '', primaryKeys: []})
   const [tableColumn, setTableColumn] = useState([]);
   const [cacheData, setCacheData] = useState([]);
-  const [dbData, setDbData] = useState([]);
+  const [shouldRerenderRealDataTable, setShouldRerenderRealDataTable] = useState(false);
+  const [realData, setRealData] = useState([]);
   const [rawStringData, setRawStringData] = useState('');
 
-  const cacheTableOperationActions = record =>
-    console.log('cacheTableOperationActions: ', record)
-  const realTableOperationActions = record =>
-    console.log('realTableOperationActions: ', record)
+  const cleanStates = () => {
+    setTableColumn([]);
+    setColProp({collectionName: '', primaryKeys: []});
+    setRealData([]);
+  };
 
 
-  const genCacheTableColumn = () => {
-    const modifyFn = () => {
-    };
-    const deleteFn = cacheTableOperationActions;
-    return antdTableColumnsAppendOperation(tableColumn, generateTableColRenderFn({modifyFn, deleteFn}));
-  }
-  const genRealTableColumn = () => {
-    const modifyFn = () => {
-    };
-    const deleteFn = realTableOperationActions;
-    return antdTableColumnsAppendOperation(tableColumn, generateTableColRenderFn({modifyFn, deleteFn}));
-  }
+  // todo: if large numbers, fetch & display optimization is required
+  const realTableDataQuery = async collectionName => {
+    const rawData = await queryData(collectionName, {});
+    setRealData(tableDataSourceAddKey(rawData));
+  };
+
+  useDidMountEffect(() => {
+    realTableDataQuery(colProp.collectionName)
+      .catch(err => console.log(`realTableDataQuery error: ${err}`));
+  }, [shouldRerenderRealDataTable])
+
+
+  const cacheTableActionDelete = record =>
+    setCacheData(cacheData.filter(v => v.key !== record.key));
+
+  // todo
+  const cacheTableActionModify = record =>
+    console.log('cacheTableActionModify: ', record);
+
+  const realTableActionDelete = record => {
+    const {collectionName, primaryKeys} = colProp;
+    const param = generateFilterJSON({primaryKeys, record});
+
+    deleteData(collectionName, param)
+      .then(res => {
+        message.success(`删除成功 ${res}`)
+        setShouldRerenderRealDataTable(!shouldRerenderRealDataTable);
+      })
+      .catch(err => message.error(`删除失败 ${err}`));
+  };
+
+  // todo
+  const realTableActionModify = record =>
+    console.log('realTableActionModify: ', record);
+
+
+  const genCacheTableColumn = () => antdTableColumnsAppendOperation(
+    tableColumn,
+    generateTableColRenderFn({
+      modifyFn: cacheTableActionModify,
+      deleteFn: cacheTableActionDelete
+    })
+  );
+  const genRealTableColumn = () => antdTableColumnsAppendOperation(
+    tableColumn,
+    generateTableColRenderFn({
+      modifyFn: realTableActionModify,
+      deleteFn: realTableActionDelete
+    })
+  );
 
 
   const setCollectionProp = async collectionName => {
@@ -104,13 +149,11 @@ export default () => {
       const tc = antdTableColumnsGenerator(collectionInfo.fields);
       setTableColumn(tc);
 
-      const rawData = await queryData(collectionName, {});
-      setDbData(rawData);
+      const pk = await showPrimaryKeys(collectionInfo.collectionName);
+      setColProp({collectionName: collectionInfo.collectionName, primaryKeys: pk});
 
-    } else {
-      setTableColumn([]);
-      setDbData([]);
-    }
+      await realTableDataQuery(collectionInfo.collectionName);
+    } else cleanStates();
 
     return dce;
   };
@@ -119,10 +162,15 @@ export default () => {
 
   const cvtRawData = () => {
     const cd = convertRawStringData(tableColumn, rawStringData);
-    setCacheData(cd)
+    setCacheData(tableDataSourceAddKey(cd))
   }
 
-  const onSubmitUpload = () => console.log(cacheData);
+  const onSubmitUpload = () => {
+    const pureData = _.omit(cacheData, ['key'])
+    console.log(pureData);
+
+    // setShouldRerenderRealDataTable(!shouldRerenderRealDataTable);
+  }
 
   return (
     <PageHeaderWrapper>
@@ -180,7 +228,7 @@ export default () => {
           <Col span={20}>
             <Table
               columns={genCacheTableColumn()}
-              dataSource={tableDataSourceAddKey(cacheData)}
+              dataSource={cacheData}
               size='small'
               pagination={false}
             />
@@ -206,7 +254,7 @@ export default () => {
           <Col span={20}>
             <Table
               columns={genRealTableColumn()}
-              dataSource={tableDataSourceAddKey(dbData)}
+              dataSource={realData}
               size='small'
               pagination={false}
             />

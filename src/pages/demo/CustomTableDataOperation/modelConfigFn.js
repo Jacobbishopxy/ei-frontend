@@ -22,6 +22,11 @@ export const antdTableColumnsAppendOperation = (tableCols, renderFn) => {
   });
 };
 
+export const tableDataSourceAddKey = data =>
+  data.map((item, index) => ({
+    key: index,
+    ...item
+  }));
 
 /**
  * convert raw string to JSON data
@@ -47,7 +52,7 @@ const getNameAndAlias = tableCols => {
 
 export const convertRawStringData = (tableCols, rawString) => {
 
-  if ( tableCols.length === 0) {
+  if (tableCols.length === 0) {
     message.error('无法识别目标字段');
     return [];
   }
