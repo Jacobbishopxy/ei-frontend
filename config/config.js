@@ -107,11 +107,6 @@ export default defineConfig({
                   component: './demo/GqlDataFetch',
                 },
                 {
-                  name: 'xlxs-data-grid',
-                  path: '/demo/xlxsdatagrid',
-                  component: './demo/XlxsDataGrid',
-                },
-                {
                   name: 'custom-table-operation',
                   path: '/demo/customtableoperation',
                   component: './demo/CustomTableOperation',

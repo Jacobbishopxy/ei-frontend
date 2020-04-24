@@ -59,7 +59,6 @@ export default {
   'menu.demo': 'Demo',
   'menu.demo.custom-grids': 'Custom Grids',
   'menu.demo.gql-data-fetch': 'Gql Data Fetch',
-  'menu.demo.xlxs-data-grid': 'Xlxs Data Grid',
   'menu.demo.custom-table-operation': 'Custom Table Operation',
   'menu.demo.custom-table-data-operation': 'Custom Table Data Operation',
 };
