@@ -46,7 +46,7 @@ const checkContentEmbedLink = embedLink => {
   return '';
 };
 
-const EmbedLinkContent = ({cardContent, saveContentCfg}) => {
+export const EmbedLinkContent = ({cardContent, saveContentCfg}) => {
   const [embedLink, setEmbedLink] = useState(checkContentEmbedLink(cardContent.hyperLink));
 
   const onSet = el => {

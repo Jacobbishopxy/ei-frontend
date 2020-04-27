@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { message } from 'antd';
 import RGL, { WidthProvider } from 'react-grid-layout';
 
-import DataCard from '@/components/CustomPanelHelper/DataCard';
-import ControlCard from '@/components/CustomPanelHelper/ControlCard';
+import { DataCard } from '@/components/CustomPanelHelper/DataCard';
+import { ControlCard } from '@/components/CustomPanelHelper/ControlCard';
 import { useDidMountEffect } from '@/utilities/utils';
 
 import {

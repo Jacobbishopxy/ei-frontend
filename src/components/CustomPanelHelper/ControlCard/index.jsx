@@ -18,7 +18,7 @@ const AddModuleMenu = ({onAddModule}) => (
   </Menu>
 );
 
-const ControlCard = ({
+export const ControlCard = ({
                        onSelectSymbol,
                        onAddModule,
                        onSaveModule

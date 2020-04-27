@@ -15,11 +15,11 @@ import styles from './index.less';
 import png1 from '../../../public/icons/1.png';
 import png2 from '../../../public/icons/2.png';
 import png3 from '../../../public/icons/3.png';
-import CollectionCreateOrModify from './CollectionCreateOrModify';
-import FieldCreateModal from './FieldCreateModal';
-import FieldListDisplay from './FieldListDisplay';
-import FieldOperationButtons from './FieldOperationButtons';
-import CollectionCreateOrModifySubmit from './CollectionCreateOrModifySubmit';
+import { CollectionCreateOrModify } from './CollectionCreateOrModify';
+import { FieldCreateModal } from './FieldCreateModal';
+import { FieldListDisplay } from './FieldListDisplay';
+import { FieldOperationButtons } from './FieldOperationButtons';
+import { CollectionCreateOrModifySubmit } from './CollectionCreateOrModifySubmit';
 
 
 const generateCollectionData = (collectionName, fieldList) => {

@@ -22,7 +22,7 @@ const preDefinedFieldMap = key => {
 };
 
 
-export default ({disableClick, onClickNewField, onClickPreDefined}) => {
+export const FieldOperationButtons = ({disableClick, onClickNewField, onClickPreDefined}) => {
 
   const menuOnClick = value => onClickPreDefined(preDefinedFieldMap(value.key))
   const primaryKeyStyle = {color: 'rgba(114, 46, 209, 1)'}
@@ -62,3 +62,6 @@ export default ({disableClick, onClickNewField, onClickPreDefined}) => {
     </Space>
   )
 };
+
+export default FieldOperationButtons;
+

@@ -14,7 +14,7 @@ import {
 import { ExclamationCircleOutlined, InboxOutlined } from '@ant-design/icons';
 import _ from 'lodash';
 
-import CollectionCreateOrModify from '@/components/MongoCollectionHelper/CollectionCreateOrModify';
+import { CollectionCreateOrModify } from '@/components/MongoCollectionHelper/CollectionCreateOrModify';
 import {
   doesCollectionExist,
   showCollection,

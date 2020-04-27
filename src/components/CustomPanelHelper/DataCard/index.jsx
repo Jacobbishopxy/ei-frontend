@@ -6,7 +6,8 @@ import React, { useState } from 'react';
 import { Button, Input, message, Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
-import EmbedLinkContent from '@/components/CustomPanelHelper/EmbedLinkContent';
+import { EmbedLinkContent } from '@/components/CustomPanelHelper/EmbedLinkContent';
+import { Emoji } from '@/components/Emoji';
 
 import styles from './index.less'
 
@@ -50,7 +51,7 @@ const checkDataCardTitle = title => {
 };
 
 
-const DataCard = ({onRemoveItem, cardContent, saveContentCfg}) => {
+export const DataCard = ({onRemoveItem, cardContent, saveContentCfg}) => {
 
   const [title, setTitle] = useState(checkDataCardTitle(cardContent.title));
   const [titleVisible, setTitleVisible] = useState(true);
@@ -85,14 +86,14 @@ const DataCard = ({onRemoveItem, cardContent, saveContentCfg}) => {
             className='draggableZone'
             style={{marginRight: 10}}
           >
-            🧲
+            <Emoji label="drag" symbol="🧲"/>
           </Button>
           <Button
             shape='circle'
             size='small'
             onClick={() => confirmDelete(onRemoveItem)}
           >
-            🗑️
+            <Emoji label="delete" symbol="🗑️"/>
           </Button>
         </div>
       </div>

@@ -60,7 +60,7 @@ const FieldDisplay = ({ifCreate, field, index, onEdit, onRemove}) => {
   )
 };
 
-export default ({ifCreate, fieldList, onEditField, onRemoveField}) => {
+export const FieldListDisplay = ({ifCreate, fieldList, onEditField, onRemoveField}) => {
   if (fieldList.length) {
     return (
       <Space>
@@ -79,4 +79,7 @@ export default ({ifCreate, fieldList, onEditField, onRemoveField}) => {
     )
   }
   return <div style={{height: 190}}/>
-}
+};
+
+export default FieldListDisplay;
+

@@ -16,14 +16,14 @@ const setInitValues = d => {
   return d;
 }
 
-export default ({initialValues, visible, onCreate, onCancel}) => {
+export const FieldCreateModal = ({initialValues, visible, onCreate, onCancel}) => {
   const [form] = Form.useForm();
   const ifCreate = _.isEmpty(initialValues);
 
   useEffect(() => {
     if (form && visible) {
       if (initialValues) {
-        setTimeout (() => form.setFieldsValue({
+        setTimeout(() => form.setFieldsValue({
           ...initialValues,
         }), 0);
       } else {
@@ -109,3 +109,6 @@ export default ({initialValues, visible, onCreate, onCancel}) => {
     </Modal>
   )
 };
+
+export default FieldCreateModal;
+

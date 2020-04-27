@@ -14,12 +14,13 @@ const ModalTitle = ({ifCreate}) => {
 
   return (
     <Space>
-      <ExclamationCircleOutlined style={{color: 'orange'}}/> <div>{text}</div>
+      <ExclamationCircleOutlined style={{color: 'orange'}}/>
+      <div>{text}</div>
     </Space>
   )
 }
 
-export default ({disableClick, presentView, ifCreate, onPreSubmit, onSubmit}) => {
+export const CollectionCreateOrModifySubmit = ({disableClick, presentView, ifCreate, onPreSubmit, onSubmit}) => {
 
   const [visible, setVisible] = useState(false);
 
@@ -57,4 +58,7 @@ export default ({disableClick, presentView, ifCreate, onPreSubmit, onSubmit}) =>
       </Modal>
     </div>
   )
-}
+};
+
+export default CollectionCreateOrModifySubmit;
+

@@ -26,9 +26,12 @@ const CheckCollectionSuffix = ({nameValid}) => {
   return <></>
 }
 
-export default ({onSetCollectionProp, onCheckExist = () => {}, hasCreateModifySelection = true}) => {
+export const CollectionCreateOrModify = ({
+                                           onSetCollectionProp, onCheckExist = () => {},
+                                           hasCreateModifySelection = true
+                                         }) => {
   const [collectionName, setCollectionName] = useState('')
-  const [ifCreate, setIfCreate] = useState( hasCreateModifySelection ? 'create' : 'modify')
+  const [ifCreate, setIfCreate] = useState(hasCreateModifySelection ? 'create' : 'modify')
   const [collectionNameValid, setCollectionNameValid] = useState(0)
 
   const setCollectionProp = () => onSetCollectionProp(collectionName, ifCreate === 'create')
@@ -78,5 +81,7 @@ export default ({onSetCollectionProp, onCheckExist = () => {}, hasCreateModifySe
       }
     </Space>
   )
-}
+};
+
+export default CollectionCreateOrModify;
 
