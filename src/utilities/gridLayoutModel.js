@@ -129,22 +129,3 @@ export const updateModels = (cards, currentLayout) =>
     return new GridLayoutModel(cd, item[0].content)
   });
 
-
-const gridLayoutUrl = 'http://api.ei.infore.com/ei/utils/grid-layout';
-
-const genPostOptions = obj => ({
-  method: 'POST',
-  headers: {
-    'Content-type': 'application/json'
-  },
-  body: JSON.stringify(obj)
-});
-
-export function getGridLayout(panel) {
-  return fetch(`${gridLayoutUrl}?panel=${panel}`)
-}
-
-export function updateGridLayout(obj) {
-  return fetch(gridLayoutUrl, genPostOptions(obj))
-}
-

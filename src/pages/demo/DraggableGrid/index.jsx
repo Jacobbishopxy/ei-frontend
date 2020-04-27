@@ -11,10 +11,12 @@ import {
   updateModels,
   addModel,
   removeModel,
-  getGridLayout,
-  updateGridLayout,
   GridLayoutModel
 } from '@/utilities/gridLayoutModel';
+import {
+  getGridLayout,
+  updateGridLayout,
+} from '@/services/gridLayout';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -29,16 +31,15 @@ const CustomGrid = () => {
 
   useEffect(() => {
     getGridLayout(gridLayoutPanel)
-      .then(res => res.json())
       .then(data => {
         setCards(data.layouts.map(lo => new GridLayoutModel(lo.coordinate, lo.content)))
       })
-      .catch(err => console.log('getGridLayout', err))
+      .catch(err => message.warn(`获取失败 ${err}`))
   }, []);
 
   useDidMountEffect(() => {
     const saveMode = {
-      id: gridLayoutPanel,
+      panel: gridLayoutPanel,
       layouts: cards
     };
     updateGridLayout(saveMode)
@@ -46,7 +47,7 @@ const CustomGrid = () => {
         if (res.ok) message.success('保存成功');
         else message.warn('保存失败，请联系管理员');
       })
-      .catch(err => console.log('updateGridLayout', err))
+      .catch(err => message.warn(`保存失败 ${err}`))
   }, [saveLayout]);
 
   const onAddItem = selectedMode => {

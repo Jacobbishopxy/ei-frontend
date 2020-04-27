@@ -71,6 +71,31 @@ app.get('/api/currentUser', (req, res) => {
   })
 });
 
+// ---------------------------------------------------------------------------------------------------------------------
+
+/**
+ * get grid layout
+ */
+app.get('/api/ei-grid-layout', (req, res) => {
+    const {panel} = req.query;
+
+    fetchGet(`${eiBackendUrl}/utils/grid-layout?panel=${panel}`)
+      .then(json => res.send(json))
+      .catch(err => console.log(err))
+  }
+);
+
+/**
+ * update grid layout
+ */
+app.post('/api/ei-grid-layout', (req, res) =>
+  fetchPost(`${eiBackendUrl}/utils/grid-layout`, req.body)
+    .then(json => res.send(json))
+    .catch(err => console.log(err))
+);
+
+// ---------------------------------------------------------------------------------------------------------------------
+
 /**
  * show-collections
  */
