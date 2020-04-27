@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { message } from 'antd';
 import RGL, { WidthProvider } from 'react-grid-layout';
 
-import DataCard from '@/components/CustomPanel/DataCard';
-import ControlCard from '@/components/CustomPanel/ControlCard';
+import DataCard from '@/components/CustomPanelHelper/DataCard';
+import ControlCard from '@/components/CustomPanelHelper/ControlCard';
 import { useDidMountEffect } from '@/utilities/utils';
 
 import {
@@ -43,10 +43,7 @@ const CustomGrid = () => {
       layouts: cards
     };
     updateGridLayout(saveMode)
-      .then(res => {
-        if (res.ok) message.success('保存成功');
-        else message.warn('保存失败，请联系管理员');
-      })
+      .then(res => message.success(`保存成功 ${res}`))
       .catch(err => message.warn(`保存失败 ${err}`))
   }, [saveLayout]);
 
@@ -73,10 +70,10 @@ const CustomGrid = () => {
     const saveContentCfg = ({title, hyperLink}) => {
       const newCards = cards.map((item, idx) => {
         if (idx === index) {
-          if (title !== undefined)
-            item.title = title;
-          if (hyperLink !== undefined)
-            item.hyperLink = hyperLink;
+          let newItem;
+          if (title !== undefined) newItem = {...item, title};
+          if (hyperLink !== undefined) newItem = {...item, hyperLink};
+          return newItem;
         }
         return item;
       });

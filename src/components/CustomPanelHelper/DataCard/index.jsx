@@ -5,9 +5,10 @@
 import React, { useState } from 'react';
 import { Button, Input, message, Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import styles from './index.less'
 
-import EmbedLinkContent from '@/components/CustomPanel/EmbedLinkContent';
+import EmbedLinkContent from '@/components/CustomPanelHelper/EmbedLinkContent';
+
+import styles from './index.less'
 
 
 const selectModeToAdd = modeName => (cardContent, saveContentCfg) => {
