@@ -67,24 +67,25 @@ const CustomGrid = () => {
   const createElement = (el, index) => {
     const {coordinate, content} = el;
 
+    const removeItem = () => onRemoveItem(coordinate.i);
+
     const saveContentCfg = ({title, hyperLink}) => {
       const newCards = cards.map((item, idx) => {
         if (idx === index) {
           let newItem;
-          if (title !== undefined) newItem = {...item, title};
-          if (hyperLink !== undefined) newItem = {...item, hyperLink};
+          if (title !== undefined) newItem = {...item, content: {...item.content, title}};
+          if (hyperLink !== undefined) newItem = {...item, content: {...item.content, hyperLink}};
           return newItem;
         }
         return item;
       });
-
       setCards(newCards);
     };
 
     return (
       <div key={coordinate.i} data-grid={coordinate}>
         <DataCard
-          onRemoveItem={() => onRemoveItem(coordinate.i)}
+          onRemoveItem={removeItem}
           cardContent={content}
           saveContentCfg={saveContentCfg}
         />

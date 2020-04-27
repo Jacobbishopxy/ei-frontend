@@ -27,7 +27,8 @@ const CheckCollectionSuffix = ({nameValid}) => {
 }
 
 export const CollectionCreateOrModify = ({
-                                           onSetCollectionProp, onCheckExist = () => {},
+                                           onSetCollectionProp,
+                                           onCheckExist = () => {},
                                            hasCreateModifySelection = true
                                          }) => {
   const [collectionName, setCollectionName] = useState('')

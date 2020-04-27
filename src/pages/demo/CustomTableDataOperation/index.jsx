@@ -105,6 +105,8 @@ const generateFilterJSON = ({primaryKeys, record}) => ({
 export default () => {
 
   const [colProp, setColProp] = useState({collectionName: '', primaryKeys: []})
+  const [disableAction, setDisableAction] = useState(true);
+
   const [tableColumn, setTableColumn] = useState([]);
   const [cacheData, setCacheData] = useState([]);
   const [shouldRerenderRealDataTable, setShouldRerenderRealDataTable] = useState(false);
@@ -117,6 +119,10 @@ export default () => {
     setRealData([]);
   };
 
+  const onCheckExist = b => {
+    if (b) setDisableAction(false);
+    if (!b) setDisableAction(true);
+  }
 
   // todo: if large numbers, fetch & display optimization is required
   const realTableDataQuery = async collectionName => {
@@ -212,6 +218,7 @@ export default () => {
             <img src={png1} className={styles.orderImage} alt='1'/>
             <CollectionCreateOrModify
               onSetCollectionProp={setCollectionProp}
+              onCheckExist={onCheckExist}
               hasCreateModifySelection={false}
             />
           </Col>
@@ -247,6 +254,7 @@ export default () => {
             <img src={png3} className={styles.orderImage} alt='3'/>
             <Button
               onClick={cvtRawData}
+              disabled={disableAction}
             >
               转换数据
             </Button>
@@ -273,6 +281,7 @@ export default () => {
             <Button
               type='primary'
               onClick={() => confirmSubmit(onSubmitUpload)}
+              disabled={disableAction}
             >
               确认上传
             </Button>
