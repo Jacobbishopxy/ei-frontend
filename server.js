@@ -5,9 +5,10 @@
 const express = require('express');
 const path = require('path');
 const fetch = require('node-fetch');
+const config = require('./config.json');
 
+const {eiBackendUrl} = config;
 
-const eiBackendUrl = 'http://192.168.50.130:4012/ei';
 
 function commonPostParam(data) {
   return {
@@ -184,11 +185,13 @@ app.post('/api/ei-admin/delete-data', (req, res) => {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-app.use('/', express.static('dist'));
+if (process.env.NODE_ENV === 'production') {
+  app.use('/', express.static('dist'));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  });
+}
 
-const port = 8001;
+const port = 7999;
 app.listen(port, () => console.log(`App listening on port ${port}`));
