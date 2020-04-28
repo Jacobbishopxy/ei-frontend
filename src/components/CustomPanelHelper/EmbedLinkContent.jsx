@@ -3,7 +3,7 @@
  */
 
 
-import React, { useState } from 'react';
+import React, { forwardRef, useImperativeHandle, useState } from 'react';
 import { Button, Input, Modal } from 'antd';
 import styles from './Common.less';
 
@@ -46,18 +46,26 @@ const checkContentEmbedLink = embedLink => {
   return '';
 };
 
-export const EmbedLinkContent = ({cardContent, saveContentCfg}) => {
-  const [embedLink, setEmbedLink] = useState(checkContentEmbedLink(cardContent.hyperLink));
+
+export const EmbedLinkContent = forwardRef(({initContent, saveContent}, ref) => {
+  const [editable, setEditable] = useState(false);
+  const [embedLink, setEmbedLink] = useState(checkContentEmbedLink(initContent.hyperLink));
 
   const onSet = el => {
     setEmbedLink(el);
-    saveContentCfg({hyperLink: el});
+    saveContent({hyperLink: el});
   };
+
+  useImperativeHandle(ref, () => {
+    return {
+      se: () => setEditable(!editable)
+    }
+  })
 
   return (
     <>
       {
-        embedLink === '' ?
+        embedLink === '' || editable ?
           <div className={styles.cardContentAlter}>
             <EmbedModal onSet={onSet}/>
           </div> :
@@ -68,7 +76,7 @@ export const EmbedLinkContent = ({cardContent, saveContentCfg}) => {
       }
     </>
   );
-};
+});
 
 export default EmbedLinkContent;
 

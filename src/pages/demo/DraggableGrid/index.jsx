@@ -69,7 +69,7 @@ const CustomGrid = () => {
 
     const removeItem = () => onRemoveItem(coordinate.i);
 
-    const saveContentCfg = ({title, hyperLink}) => {
+    const saveContent = ({title, hyperLink}) => {
       const newCards = cards.map((item, idx) => {
         if (idx === index) {
           let newItem;
@@ -85,9 +85,9 @@ const CustomGrid = () => {
     return (
       <div key={coordinate.i} data-grid={coordinate}>
         <DataCard
-          onRemoveItem={removeItem}
-          cardContent={content}
-          saveContentCfg={saveContentCfg}
+          onRemove={removeItem}
+          initContent={content}
+          saveContent={saveContent}
         />
       </div>
     );
