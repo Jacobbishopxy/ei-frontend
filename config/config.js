@@ -2,8 +2,7 @@
 import { defineConfig } from 'umi';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
-
-const {REACT_APP_ENV} = process.env;
+const { REACT_APP_ENV } = process.env;
 export default defineConfig({
   hash: true,
   antd: {},
@@ -84,11 +83,16 @@ export default defineConfig({
                   path: '/research/tradingview',
                   component: './research/TradingView',
                 },
-                {
-                  name: 'grafana',
-                  path: '/research/grafanaview',
-                  component: './research/GrafanaView',
-                },
+                // {
+                //   name: 'grafana',
+                //   path: '/research/grafanaview',
+                //   component: './research/GrafanaView',
+                // },
+                // {
+                //   name: 'mongo',
+                //   path: '/research/mongoview',
+                //   component: './research/MongoView',
+                // },
               ],
             },
             {
@@ -102,11 +106,6 @@ export default defineConfig({
                   component: './demo/DraggableGrid',
                 },
                 {
-                  name: 'gql-data-fetch',
-                  path: '/demo/gqldatafetch',
-                  component: './demo/GqlDataFetch',
-                },
-                {
                   name: 'custom-table-operation',
                   path: '/demo/customtableoperation',
                   component: './demo/CustomTableOperation',
@@ -115,6 +114,11 @@ export default defineConfig({
                   name: 'custom-table-data-operation',
                   path: '/demo/customtabledataoperation',
                   component: './demo/CustomTableDataOperation',
+                },
+                {
+                  name: 'gql-data-fetch',
+                  path: '/demo/gqldatafetch',
+                  component: './demo/GqlDataFetch',
                 },
               ],
             },

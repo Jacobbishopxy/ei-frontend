@@ -55,6 +55,7 @@ export default {
   'menu.research': '投研',
   'menu.research.candlestick': 'K线',
   'menu.research.grafana': 'Grafana',
+  'menu.research.mongo': 'Mongo',
 
   'menu.demo': '案例',
   'menu.demo.custom-grids': '自定义骨架',

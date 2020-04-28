@@ -55,10 +55,11 @@ export default {
   'menu.research': 'Research',
   'menu.research.candlestick': 'Candlestick',
   'menu.research.grafana': 'Grafana',
+  'menu.research.mongo': 'Mongo',
 
   'menu.demo': 'Demo',
   'menu.demo.custom-grids': 'Custom Grids',
-  'menu.demo.gql-data-fetch': 'Gql Data Fetch',
   'menu.demo.custom-table-operation': 'Custom Table Operation',
   'menu.demo.custom-table-data-operation': 'Custom Table Data Operation',
+  'menu.demo.gql-data-fetch': 'Gql Data Fetch',
 };

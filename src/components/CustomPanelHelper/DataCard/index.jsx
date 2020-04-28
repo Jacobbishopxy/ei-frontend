@@ -45,7 +45,7 @@ const confirmDelete = onRemove =>
 
 const checkDataCardTitle = title => {
   if (title === '') return '请输入标题';
-  return title
+  return title;
 };
 
 
@@ -60,9 +60,9 @@ export const DataCard = ({onRemove, initContent, saveContent}) => {
   const changeTitle = ({target: {value}}) => {
     if (value !== '') {
       setTitle(value);
-      saveContent({title: value})
+      saveContent({title: value});
     } else {
-      message.warning('标题不可为空')
+      message.warning('标题不可为空');
     }
     setTitleVisible(true);
   };
