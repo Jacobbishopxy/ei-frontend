@@ -8,9 +8,9 @@ import { Button, Input, Modal } from 'antd';
 import styles from './Common.less';
 
 
-const EmbedModal = ({onSet}) => {
+const EmbedModal = ({onSet, initEmbedLink}) => {
   const [visible, setVisible] = useState(false);
-  const [embedLink, setEmbedLink] = useState('');
+  const [embedLink, setEmbedLink] = useState(initEmbedLink);
 
   const handleOk = () => {
     onSet(embedLink);
@@ -35,7 +35,7 @@ const EmbedModal = ({onSet}) => {
         onOk={handleOk}
         onCancel={() => setVisible(false)}
       >
-        <Input placeholder='链接' allowClear onChange={inputOnchange}/>
+        <Input placeholder='链接' allowClear onChange={inputOnchange} value={embedLink}/>
       </Modal>
     </>
   );
@@ -56,18 +56,16 @@ export const EmbedLinkContent = forwardRef(({initContent, saveContent}, ref) => 
     saveContent({hyperLink: el});
   };
 
-  useImperativeHandle(ref, () => {
-    return {
-      se: () => setEditable(!editable)
-    }
-  })
+  useImperativeHandle(ref, () => ({
+    edit: () => setEditable(!editable)
+  }))
 
   return (
     <>
       {
         embedLink === '' || editable ?
           <div className={styles.cardContentAlter}>
-            <EmbedModal onSet={onSet}/>
+            <EmbedModal onSet={onSet} initEmbedLink={embedLink}/>
           </div> :
           <embed
             className={styles.cardContent}

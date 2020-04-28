@@ -53,6 +53,7 @@ export const DataCard = ({onRemove, initContent, saveContent}) => {
 
   const [title, setTitle] = useState(checkDataCardTitle(initContent.title));
   const [titleVisible, setTitleVisible] = useState(true);
+  const [editOn, setEditOn] = useState(false);
 
   const contentRef = useRef(null);
 
@@ -67,6 +68,11 @@ export const DataCard = ({onRemove, initContent, saveContent}) => {
   };
 
   const selectMode = selectModeToAdd(initContent.contentType);
+
+  const editContent = () => {
+    setEditOn(!editOn);
+    contentRef.current.edit();
+  };
 
   return (
     <div className={styles.cardMain}>
@@ -93,16 +99,20 @@ export const DataCard = ({onRemove, initContent, saveContent}) => {
             ghost
             className='draggableZone'
           >
-            <Emoji label="drag" symbol="🧲"/>
+            <Emoji label="drag" symbol="🧲️️️️️"/>
           </Button>
           <Button
             shape='circle'
             size='small'
             type='link'
             ghost
-            onClick={() => contentRef.current.se()}
+            onClick={editContent}
           >
-            <Emoji label="edit" symbol="⚙️"/>
+            {
+              editOn ?
+                <Emoji label="edit" symbol="❌️"/> :
+                <Emoji label="edit" symbol="⚙️"/>
+            }
           </Button>
           <Button
             shape='circle'
@@ -111,7 +121,7 @@ export const DataCard = ({onRemove, initContent, saveContent}) => {
             ghost
             onClick={() => confirmDelete(onRemove)}
           >
-            <Emoji label="delete" symbol="🗑️"/>
+            <Emoji label="delete" symbol="🗑️️️"/>
           </Button>
         </Space>
       </div>
