@@ -7,16 +7,7 @@ const path = require('path');
 const fetch = require('node-fetch');
 
 
-function unless(reqPath, middleware) {
-  return (req, res, next) => {
-    if (reqPath === req.path) {
-      return next();
-    }
-    return middleware(req, res, next);
-  };
-}
-
-const eiBackendUrl = 'http://api.ei.infore.com/ei';
+const eiBackendUrl = 'http://192.168.50.130:4012/ei';
 
 function commonPostParam(data) {
   return {
@@ -37,16 +28,11 @@ function fetchPost(url, jsonData) {
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'dist')));  // front end
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-
-app.get(unless('/api', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-}));
-
 
 // ---------------------------------------------------------------------------------------------------------------------
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 // todo
 app.post('/api/login/account', (req, res) => {
@@ -196,6 +182,13 @@ app.post('/api/ei-admin/delete-data', (req, res) => {
 });
 
 
+// ---------------------------------------------------------------------------------------------------------------------
+
+app.use('/', express.static('dist'));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 const port = 8001;
 app.listen(port, () => console.log(`App listening on port ${port}`));

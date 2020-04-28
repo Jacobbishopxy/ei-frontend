@@ -6,8 +6,8 @@ ARG     NODE_IMAGE
 # base
 FROM    $NODE_IMAGE
 
-# make directory
-RUN     mkdir /app
+# make directory (already created in NODE_IMAGE)
+# RUN     mkdir /app
 
 # copy package requirements to workdir
 COPY    package.json /app

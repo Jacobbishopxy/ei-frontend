@@ -58,7 +58,7 @@ export default {
   'menu.research.mongo': 'Mongo',
 
   'menu.demo': '案例',
-  'menu.demo.custom-grids': '自定义骨架',
+  'menu.demo.custom-grids': '自定义仪表板',
   'menu.demo.gql-data-fetch': 'gql数据获取',
   'menu.demo.custom-table-operation': '自定义表操作',
   'menu.demo.custom-table-data-operation': '自定义数据操作',

@@ -58,7 +58,7 @@ export default {
   'menu.research.mongo': 'Mongo',
 
   'menu.demo': 'Demo',
-  'menu.demo.custom-grids': 'Custom Grids',
+  'menu.demo.custom-grids': 'Custom Dashboard',
   'menu.demo.custom-table-operation': 'Custom Table Operation',
   'menu.demo.custom-table-data-operation': 'Custom Table Data Operation',
   'menu.demo.gql-data-fetch': 'Gql Data Fetch',
