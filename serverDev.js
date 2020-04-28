@@ -30,6 +30,17 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+// todo
+app.post('/api/login/account', (req, res) => {
+  const {password, userName, type} = req.body;
+
+  res.send({
+    status: 'ok',
+    type,
+    currentAuthority: 'admin',
+  });
+});
+
 app.get('/api/currentUserAvatar', (req, res) => {
   res.sendFile(path.join(__dirname, 'src/assets', 'logo-simple.png'))
 });
