@@ -83,16 +83,21 @@ export default defineConfig({
                   path: '/research/tradingview',
                   component: './research/TradingView',
                 },
-                // {
-                //   name: 'grafana',
-                //   path: '/research/grafanaview',
-                //   component: './research/GrafanaView',
-                // },
-                // {
-                //   name: 'mongo',
-                //   path: '/research/mongoview',
-                //   component: './research/MongoView',
-                // },
+                {
+                  name: 'grafana',
+                  path: '/research/grafanaview',
+                  component: './research/GrafanaView',
+                },
+                {
+                  name: 'mongo',
+                  path: '/research/mongoview',
+                  component: './research/MongoView',
+                },
+                {
+                  name: 'postgres',
+                  path: '/research/postgresview',
+                  component: './research/PostgresView',
+                },
               ],
             },
             {

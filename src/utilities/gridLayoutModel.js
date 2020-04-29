@@ -16,8 +16,9 @@ import { currentTimeStamp } from '@/utilities/utils';
  *
  * content: {
  *   title: card title
- *   type: card type
+ *   contentType: card type
  *   hyperLink: link/mapping key
+ *   contentConfig: json value
  * }
  */
 export class GridLayoutModel {
@@ -89,6 +90,14 @@ export class GridLayoutModel {
   set hyperLink(v) {
     this.content.hyperLink = v;
   }
+
+  get contentConfig() {
+    return this.content.contentConfig;
+  }
+
+  set contentConfig(v) {
+    this.content.contentConfig = v;
+  }
 }
 
 
@@ -103,7 +112,8 @@ export const addModel = (i, currentLayout, contentType) => {
   const content = {
     title: '',
     contentType,
-    hyperLink: ''
+    hyperLink: '',
+    contentConfig: undefined
   };
   return new GridLayoutModel(coordinate, content);
 };
@@ -113,7 +123,7 @@ export const removeModel = (cards, i) =>
 
 
 /**
- * 增加/删除/修改模型布局 触发改函数
+ * add/delete/modify model layout triggers this function
  * @param cards
  * @param currentLayout
  */

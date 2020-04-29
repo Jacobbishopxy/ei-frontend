@@ -107,6 +107,7 @@ const CustomGrid = () => {
         className='layout'
         cols={12}
         rowHeight={100}
+        margin={[5, 5]}
       >
         {cards.map((ele, index) => createElement(ele, index))}
       </ReactGridLayout>

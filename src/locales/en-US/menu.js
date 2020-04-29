@@ -56,6 +56,7 @@ export default {
   'menu.research.candlestick': 'Candlestick',
   'menu.research.grafana': 'Grafana',
   'menu.research.mongo': 'Mongo',
+  'menu.research.postgres': 'Postgres',
 
   'menu.demo': 'Demo',
   'menu.demo.custom-grids': 'Custom Dashboard',

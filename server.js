@@ -147,7 +147,7 @@ app.get('/api/ei-admin/show-index', (req, res) => {
   fetchGet(`${eiBackendUrl}/admin/show-index?collection=${collection}`)
     .then(json => res.send(json))
     .catch(err => console.log(err));
-})
+});
 
 /**
  * insert-data

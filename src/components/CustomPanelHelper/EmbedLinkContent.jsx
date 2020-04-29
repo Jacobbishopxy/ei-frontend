@@ -30,12 +30,17 @@ const EmbedModal = ({onSet, initEmbedLink}) => {
         点此输入链接
       </Button>
       <Modal
-        title="请在下方输入链接："
+        title='请在下方输入链接：'
         visible={visible}
         onOk={handleOk}
         onCancel={() => setVisible(false)}
       >
-        <Input placeholder='链接' allowClear onChange={inputOnchange} value={embedLink}/>
+        <Input
+          placeholder='链接'
+          allowClear
+          onBlur={inputOnchange}
+          value={embedLink}
+        />
       </Modal>
     </>
   );

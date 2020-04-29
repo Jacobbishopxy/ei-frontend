@@ -56,8 +56,9 @@ export default {
   'menu.research.candlestick': 'K线',
   'menu.research.grafana': 'Grafana',
   'menu.research.mongo': 'Mongo',
+  'menu.research.postgres': 'Postgres',
 
-  'menu.demo': '案例',
+  'menu.demo': '测试',
   'menu.demo.custom-grids': '自定义仪表板',
   'menu.demo.gql-data-fetch': 'gql数据获取',
   'menu.demo.custom-table-operation': '自定义表操作',
