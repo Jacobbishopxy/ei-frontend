@@ -6,8 +6,9 @@ import React, { useRef, useState } from 'react';
 import { Button, Input, message, Modal, Space } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
-import { EmbedLinkContent } from '@/components/CustomDashboardHelper/ContentCollections/EmbedLinkContent';
 import { Emoji } from '@/components/Emoji';
+import { EmbedLinkContent } from '@/components/CustomDashboardHelper/ContentCollections/EmbedLinkContent';
+import { TextEditorContent } from '@/components/CustomDashboardHelper/ContentCollections/TextEditorContent';
 
 import styles from './index.less'
 
@@ -29,7 +30,7 @@ const selectModeToAdd = modeName => (initContent, saveContent, ref, headVisible)
     case 'table':
       return <h1>Table</h1>;
     case 'text':
-      return <h1>Text</h1>;
+      return <TextEditorContent/>;
     case 'image':
       return <h1>Img</h1>;
     default:

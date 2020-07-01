@@ -65,8 +65,7 @@ export default defineConfig({
               name: 'business-data',
               path: '/bizData',
               icon: 'dashboard',
-              routes: [
-              ],
+              routes: [],
             },
             {
               name: 'research',
@@ -139,6 +138,11 @@ export default defineConfig({
                   name: 'gql-data-fetch',
                   path: '/demo/gqldatafetch',
                   component: './demo/GqlDataFetch',
+                },
+                {
+                  name: 'text-edit',
+                  path: '/demo/textedit',
+                  component: './demo/TextEdit',
                 },
               ],
             },

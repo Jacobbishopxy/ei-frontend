@@ -66,4 +66,5 @@ export default {
   'menu.demo.custom-table-operation': 'Custom Table Operation',
   'menu.demo.custom-table-data-operation': 'Custom Table Data Operation',
   'menu.demo.gql-data-fetch': 'Gql Data Fetch',
+  'menu.demo.text-edit': 'Text Edit',
 };
