@@ -54,11 +54,11 @@ const checkContentEmbedLink = embedLink => {
 
 export const EmbedLinkContent = forwardRef(({initContent, saveContent, contentStyles}, ref) => {
   const [editable, setEditable] = useState(false);
-  const [embedLink, setEmbedLink] = useState(checkContentEmbedLink(initContent.hyperLink));
+  const [embedLink, setEmbedLink] = useState(checkContentEmbedLink(initContent.contentData));
 
   const onSet = el => {
     setEmbedLink(el);
-    saveContent({hyperLink: el});
+    saveContent({contentData: el});
   };
 
   useImperativeHandle(ref, () => ({

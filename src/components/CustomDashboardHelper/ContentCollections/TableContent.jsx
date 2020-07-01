@@ -75,13 +75,13 @@ const checkContentQueryParam = queryParam => {
 
 export const TableContent = forwardRef(({initContent, saveContent}, ref) => {
   const [editable, setEditable] = useState(false);
-  const [queryLink, setQueryLink] = useState(checkContentQueryLink(initContent.hyperLink))
+  const [queryLink, setQueryLink] = useState(checkContentQueryLink(initContent.contentData))
   const [queryParam, setQueryParam] = useState(checkContentQueryParam(initContent.contentConfig));
 
   const onSet = (ql, qp) => {
     setQueryLink(ql);
     setQueryParam(qp);
-    saveContent({hyperLink: ql, contentConfig: qp});
+    saveContent({contentData: ql, contentConfig: qp});
   };
 
   useImperativeHandle(ref, () => ({

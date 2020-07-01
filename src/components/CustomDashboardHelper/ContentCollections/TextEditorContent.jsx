@@ -40,10 +40,10 @@ const formats = [
 export const TextEditorContent = forwardRef(({initContent, saveContent, contentStyles}, ref) => {
 
   const [editable, setEditable] = useState(false);
-  const [content, setContent] = useState(initContent.hyperLink);
+  const [content, setContent] = useState(initContent.contentData);
 
   const onSave = () => {
-    saveContent({hyperLink: content});
+    saveContent({contentData: content});
     setEditable(false);
   };
 
@@ -54,7 +54,7 @@ export const TextEditorContent = forwardRef(({initContent, saveContent, contentS
   return (
     <>
       {
-        editable || initContent.hyperLink === '' ?
+        editable || initContent.contentData === '' ?
           <div className="text-editor">
             <ReactQuill
               theme="snow"

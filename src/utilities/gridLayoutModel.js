@@ -17,7 +17,7 @@ import { currentTimeStamp } from '@/utilities/utils';
  * content: {
  *   title: card title
  *   contentType: card type
- *   hyperLink: link/mapping key
+ *   contentData: link/mapping key
  *   contentConfig: json value
  * }
  */
@@ -83,12 +83,12 @@ export class GridLayoutModel {
     this.content.contentType = v;
   }
 
-  get hyperLink() {
-    return this.content.hyperLink;
+  get contentData() {
+    return this.content.contentData;
   }
 
-  set hyperLink(v) {
-    this.content.hyperLink = v;
+  set contentData(v) {
+    this.content.contentData = v;
   }
 
   get contentConfig() {
@@ -112,7 +112,7 @@ export const addModel = (i, currentLayout, contentType) => {
   const content = {
     title: '',
     contentType,
-    hyperLink: '',
+    contentData: '',
     contentConfig: undefined
   };
   return new GridLayoutModel(coordinate, content);

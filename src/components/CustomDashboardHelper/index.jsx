@@ -72,12 +72,12 @@ export const CustomDashboard = ({panelName}) => {
 
     const removeItem = () => onRemoveItem(coordinate.i);
 
-    const saveContent = ({title, hyperLink}) => {
+    const saveContent = ({title, contentData}) => {
       const newCards = cards.map((item, idx) => {
         if (idx === index) {
           let newItem;
           if (title !== undefined) newItem = {...item, content: {...item.content, title}};
-          if (hyperLink !== undefined) newItem = {...item, content: {...item.content, hyperLink}};
+          if (contentData !== undefined) newItem = {...item, content: {...item.content, contentData}};
           return newItem;
         }
         return item;
