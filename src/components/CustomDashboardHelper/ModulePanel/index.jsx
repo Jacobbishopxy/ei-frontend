@@ -3,7 +3,7 @@
  */
 
 import React, { useRef, useState } from 'react';
-import { Button, Input, message, Modal, Space } from 'antd';
+import { Button, Input, Menu, message, Modal, Space, Tooltip } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import { Emoji } from '@/components/Emoji';
@@ -11,6 +11,16 @@ import { EmbedLinkContent } from '@/components/CustomDashboardHelper/ContentColl
 import { TextEditorContent } from '@/components/CustomDashboardHelper/ContentCollections/TextEditorContent';
 
 import styles from './index.less'
+
+export const AddModuleMenu = ({onAddModule}) => (
+  <Menu onClick={onAddModule}>
+    <Menu.Item key="embedLink">链接</Menu.Item>
+    <Menu.Item key="table">表格</Menu.Item>
+    <Menu.Item key="editableTable">可编辑表格</Menu.Item>
+    <Menu.Item key="text">文字</Menu.Item>
+    <Menu.Item key="image">图片</Menu.Item>
+  </Menu>
+);
 
 
 const selectModeToAdd = modeName => (initContent, saveContent, ref, headVisible) => {
@@ -37,6 +47,8 @@ const selectModeToAdd = modeName => (initContent, saveContent, ref, headVisible)
       return defaultType;
     case 'table':
       return <h1>Table</h1>;
+    case 'editableTable':
+      return <h1>EditableTable</h1>;
     case 'text':
       return textType;
     case 'image':
@@ -106,37 +118,40 @@ export const DataCard = ({onRemove, initContent, saveContent, headVisible}) => {
               }
             </div>
             <Space>
-              <Button
-                shape='circle'
-                size='small'
-                type='link'
-                ghost
-                className='draggableZone'
-              >
-                <Emoji label="drag" symbol="🧲️️️️️"/>
-              </Button>
-              <Button
-                shape='circle'
-                size='small'
-                type='link'
-                ghost
-                onClick={editContent}
-              >
-                {
-                  editOn ?
-                    <Emoji label="edit" symbol="❌️"/> :
-                    <Emoji label="edit" symbol="⚙️"/>
-                }
-              </Button>
-              <Button
-                shape='circle'
-                size='small'
-                type='link'
-                ghost
-                onClick={() => confirmDelete(onRemove)}
-              >
-                <Emoji label="delete" symbol="🗑️️️"/>
-              </Button>
+              <Tooltip title="拖拽">
+                <Button
+                  shape='circle'
+                  size='small'
+                  type='link'
+                  className='draggableZone'
+                >
+                  <Emoji label="drag" symbol="🧲️️️️️"/>
+                </Button>
+              </Tooltip>
+              <Tooltip title="编辑">
+                <Button
+                  shape='circle'
+                  size='small'
+                  type='link'
+                  onClick={editContent}
+                >
+                  {
+                    editOn ?
+                      <Emoji label="edit" symbol="❌️"/> :
+                      <Emoji label="edit" symbol="⚙️"/>
+                  }
+                </Button>
+              </Tooltip>
+              <Tooltip title="删除">
+                <Button
+                  shape='circle'
+                  size='small'
+                  type='link'
+                  onClick={() => confirmDelete(onRemove)}
+                >
+                  <Emoji label="delete" symbol="🗑️️️"/>
+                </Button>
+              </Tooltip>
             </Space>
           </div> :
           <></>

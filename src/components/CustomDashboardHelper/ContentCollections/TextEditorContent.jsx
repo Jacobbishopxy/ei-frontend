@@ -66,6 +66,7 @@ export const TextEditorContent = forwardRef(({initContent, saveContent, contentS
             <Button
               onClick={onSave}
               size='small'
+              type='primary'
             >
               保存
             </Button>

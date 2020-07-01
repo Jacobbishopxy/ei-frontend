@@ -3,20 +3,12 @@
  */
 
 import React from 'react';
-import { Button, Input, Tooltip, Menu, Dropdown } from 'antd';
+import { Button, Tooltip, Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 
+import { AddModuleMenu } from '@/components/CustomDashboardHelper/ModulePanel';
+
 import styles from './index.less'
-
-
-const AddModuleMenu = ({onAddModule}) => (
-  <Menu onClick={onAddModule}>
-    <Menu.Item key="embedLink">链接</Menu.Item>
-    <Menu.Item key="table">表格</Menu.Item>
-    <Menu.Item key="text">文字</Menu.Item>
-    <Menu.Item key="image">图片</Menu.Item>
-  </Menu>
-);
 
 export const ControlCard = ({onAddModule, onSaveModule, onEditModule}) => {
   const addModuleMenu = <AddModuleMenu onAddModule={onAddModule}/>;
