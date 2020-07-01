@@ -18,27 +18,11 @@ const AddModuleMenu = ({onAddModule}) => (
   </Menu>
 );
 
-export const ControlCard = ({
-                       onSelectSymbol,
-                       onAddModule,
-                       onSaveModule
-                     }) => {
+export const ControlCard = ({onAddModule, onSaveModule, onEditModule}) => {
   const addModuleMenu = <AddModuleMenu onAddModule={onAddModule}/>;
   return (
     <div className={styles.controlMain}>
-      <div className={styles.controlContent}>
-        {
-          onSelectSymbol === undefined ?  // todo: later use other component to control grid's global variables
-            <></> :
-            <Input
-              onPressEnter={onSelectSymbol}
-              onBlur={onSelectSymbol}
-              placeholder='选择股票'
-              size='small'
-              style={{width: 120, marginRight: 10}}
-            />
-        }
-      </div>
+      <div className={styles.controlContent}/>
       <div className={styles.controlContent}>
         <div>
           <Dropdown overlay={addModuleMenu}>
@@ -50,6 +34,14 @@ export const ControlCard = ({
               添加模板 <DownOutlined/>
             </Button>
           </Dropdown>
+          <Button
+            onClick={onEditModule}
+            type='primary'
+            size='small'
+            style={{marginRight: 10}}
+          >
+            编辑模板
+          </Button>
           <Tooltip title='布局将保存于服务器'>
             <Button
               onClick={onSaveModule}

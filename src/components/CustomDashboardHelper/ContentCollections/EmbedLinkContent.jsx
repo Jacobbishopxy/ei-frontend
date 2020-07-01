@@ -52,7 +52,7 @@ const checkContentEmbedLink = embedLink => {
 };
 
 
-export const EmbedLinkContent = forwardRef(({initContent, saveContent}, ref) => {
+export const EmbedLinkContent = forwardRef(({initContent, saveContent, contentStyles}, ref) => {
   const [editable, setEditable] = useState(false);
   const [embedLink, setEmbedLink] = useState(checkContentEmbedLink(initContent.hyperLink));
 
@@ -73,7 +73,7 @@ export const EmbedLinkContent = forwardRef(({initContent, saveContent}, ref) => 
             <EmbedModal onSet={onSet} initEmbedLink={embedLink}/>
           </div> :
           <embed
-            className={styles.cardContent}
+            className={contentStyles}
             src={embedLink}
           />
       }
