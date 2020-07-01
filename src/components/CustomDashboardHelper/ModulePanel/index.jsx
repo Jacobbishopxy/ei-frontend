@@ -24,13 +24,21 @@ const selectModeToAdd = modeName => (initContent, saveContent, ref, headVisible)
     contentStyles={contentStyles}
   />;
 
+  const textType = <TextEditorContent
+    initContent={initContent}
+    saveContent={saveContent}
+    ref={ref}
+    contentStyles={contentStyles}
+  />;
+
+
   switch (modeName) {
     case 'embedLink':
       return defaultType;
     case 'table':
       return <h1>Table</h1>;
     case 'text':
-      return <TextEditorContent/>;
+      return textType;
     case 'image':
       return <h1>Img</h1>;
     default:

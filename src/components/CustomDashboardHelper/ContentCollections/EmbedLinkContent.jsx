@@ -63,7 +63,7 @@ export const EmbedLinkContent = forwardRef(({initContent, saveContent, contentSt
 
   useImperativeHandle(ref, () => ({
     edit: () => setEditable(!editable)
-  }))
+  }));
 
   return (
     <>
