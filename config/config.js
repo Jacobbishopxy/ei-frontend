@@ -66,11 +66,6 @@ export default defineConfig({
               path: '/bizData',
               icon: 'dashboard',
               routes: [
-                {
-                  name: 'cement',
-                  path: '/bizData/industryCement',
-                  component: './bizData/IndustryCement',
-                },
               ],
             },
             {
@@ -78,25 +73,45 @@ export default defineConfig({
               path: '/research',
               icon: 'experiment',
               routes: [
+                // {
+                //   name: 'candlestick',
+                //   path: '/research/tradingview',
+                //   component: './research/TradingView',
+                // },
+                // {
+                //   name: 'grafana',
+                //   path: '/research/grafanaview',
+                //   component: './research/GrafanaView',
+                // },
+                // {
+                //   name: 'mongo',
+                //   path: '/research/mongoview',
+                //   component: './research/MongoView',
+                // },
+                // {
+                //   name: 'postgres',
+                //   path: '/research/postgresview',
+                //   component: './research/PostgresView',
+                // },
                 {
-                  name: 'candlestick',
-                  path: '/research/tradingview',
-                  component: './research/TradingView',
+                  name: 'intro',
+                  path: '/research/intro',
+                  component: './research/Intro',
                 },
                 {
-                  name: 'grafana',
-                  path: '/research/grafanaview',
-                  component: './research/GrafanaView',
+                  name: 'report',
+                  path: '/research/report',
+                  component: './research/Report',
                 },
                 {
-                  name: 'mongo',
-                  path: '/research/mongoview',
-                  component: './research/MongoView',
+                  name: 'finance',
+                  path: '/research/finance',
+                  component: './research/Finance',
                 },
                 {
-                  name: 'postgres',
-                  path: '/research/postgresview',
-                  component: './research/PostgresView',
+                  name: 'core',
+                  path: '/research/core',
+                  component: './research/Core',
                 },
               ],
             },

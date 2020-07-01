@@ -50,13 +50,16 @@ export default {
   'menu.editor.koni': '拓扑编辑器',
 
   'menu.business-data': '数据',
-  'menu.business-data.cement': '水泥',
 
   'menu.research': '投研',
   'menu.research.candlestick': 'K线',
   'menu.research.grafana': 'Grafana',
   'menu.research.mongo': 'Mongo',
   'menu.research.postgres': 'Postgres',
+  'menu.research.intro': '简介',
+  'menu.research.report': '报告',
+  'menu.research.finance': '财务',
+  'menu.research.core': '核心',
 
   'menu.demo': '测试',
   'menu.demo.custom-grids': '自定义仪表板',

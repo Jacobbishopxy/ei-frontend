@@ -50,13 +50,16 @@ export default {
   'menu.editor.koni': 'Koni Editor',
 
   'menu.business-data': 'Business Data',
-  'menu.business-data.cement': 'Cement',
 
   'menu.research': 'Research',
   'menu.research.candlestick': 'Candlestick',
   'menu.research.grafana': 'Grafana',
   'menu.research.mongo': 'Mongo',
   'menu.research.postgres': 'Postgres',
+  'menu.research.intro': 'Intro',
+  'menu.research.report': 'Report',
+  'menu.research.finance': 'Finance',
+  'menu.research.core': 'Core',
 
   'menu.demo': 'Demo',
   'menu.demo.custom-grids': 'Custom Dashboard',
