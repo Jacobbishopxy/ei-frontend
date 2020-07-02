@@ -61,12 +61,12 @@ export default defineConfig({
               component: './Admin',
               authority: ['admin'],
             },
-            {
-              name: 'business-data',
-              path: '/bizData',
-              icon: 'dashboard',
-              routes: [],
-            },
+            // {
+            //   name: 'business-data',
+            //   path: '/bizData',
+            //   icon: 'dashboard',
+            //   routes: [],
+            // },
             {
               name: 'research',
               path: '/research',
@@ -114,38 +114,38 @@ export default defineConfig({
                 },
               ],
             },
-            {
-              name: 'demo',
-              path: '/demo',
-              icon: 'rocket',
-              routes: [
-                {
-                  name: 'custom-grids',
-                  path: '/demo/draggableGrid',
-                  component: './demo/DraggableGrid',
-                },
-                {
-                  name: 'custom-table-operation',
-                  path: '/demo/customtableoperation',
-                  component: './demo/CustomTableOperation',
-                },
-                {
-                  name: 'custom-table-data-operation',
-                  path: '/demo/customtabledataoperation',
-                  component: './demo/CustomTableDataOperation',
-                },
-                {
-                  name: 'gql-data-fetch',
-                  path: '/demo/gqldatafetch',
-                  component: './demo/GqlDataFetch',
-                },
-                {
-                  name: 'text-edit',
-                  path: '/demo/textedit',
-                  component: './demo/TextEdit',
-                },
-              ],
-            },
+            // {
+            //   name: 'demo',
+            //   path: '/demo',
+            //   icon: 'rocket',
+            //   routes: [
+            //     {
+            //       name: 'custom-grids',
+            //       path: '/demo/draggableGrid',
+            //       component: './demo/DraggableGrid',
+            //     },
+            //     {
+            //       name: 'custom-table-operation',
+            //       path: '/demo/customtableoperation',
+            //       component: './demo/CustomTableOperation',
+            //     },
+            //     {
+            //       name: 'custom-table-data-operation',
+            //       path: '/demo/customtabledataoperation',
+            //       component: './demo/CustomTableDataOperation',
+            //     },
+            //     {
+            //       name: 'gql-data-fetch',
+            //       path: '/demo/gqldatafetch',
+            //       component: './demo/GqlDataFetch',
+            //     },
+            //     {
+            //       name: 'text-edit',
+            //       path: '/demo/textedit',
+            //       component: './demo/TextEdit',
+            //     },
+            //   ],
+            // },
             {
               component: './404',
             },
