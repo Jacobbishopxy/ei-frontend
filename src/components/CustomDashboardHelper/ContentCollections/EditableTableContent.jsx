@@ -15,24 +15,29 @@ const papaConfig = {
   dynamicTyping: true
 };
 
-const EmbedModal = ({onSet, initContentData, initContentConfig}) => {
+
+const defaultInitContentConfig = content => {
+  if (content !== undefined) return JSON.parse(content);
+  return {showHeader: true, pagination: false};
+}
+
+const EmbedModal = ({onSet, initContentConfig}) => {
   const [visible, setVisible] = useState(false);
-  const [content, setContent] = useState(initContentData);
-  const [contentCfg, setContentCfg] = useState(initContentConfig);
+  const [content, setContent] = useState([]);
+  const [contentCfg, setContentCfg] = useState(defaultInitContentConfig(initContentConfig));
 
   const handleOk = () => {
-    onSet(content, contentCfg);
+    onSet(JSON.stringify(content), JSON.stringify(contentCfg));
     setVisible(false);
   };
 
   const contentOnChange = ({target: {value}}) => {
     const parsedValue = Papa.parse(value, papaConfig).data
-    setContent(JSON.stringify(parsedValue))
+    setContent(parsedValue)
   };
 
-  const contentCfgOnChange = (value) => {
-    setContentCfg(JSON.stringify({showHeader: value}))
-  };
+  const showHeader = value => setContentCfg({...contentCfg, showHeader: value});
+  const pagination = value => setContentCfg({...contentCfg, pagination: value});
 
   return (
     <>
@@ -56,13 +61,15 @@ const EmbedModal = ({onSet, initContentData, initContentConfig}) => {
           allowClear
           onBlur={contentOnChange}
         />
-        <Switch defaultChecked onChange={contentCfgOnChange}/> 是否显示表头
+        <Switch checked={contentCfg.showHeader} onChange={showHeader}/> 是否显示表头
+        <br/>
+        <Switch checked={contentCfg.pagination} onChange={pagination}/> 是否显示页数
       </Modal>
     </>
   )
 };
 
-
+// todo: render column to enable custom data presence
 const generateTableColumn = data =>
   _.map(data[0], (v, k) => ({title: k, dataIndex: k}))
 
@@ -74,28 +81,35 @@ const ViewingTable = ({contentData, contentConfig}) => {
   const tc = generateTableColumn(cd);
   const td = generateTableData(cd);
 
-  const cc = contentConfig !== undefined ? JSON.parse(contentConfig) : {showHeader: true};
+  const cc = contentConfig === undefined ?
+    {showHeader: true, pagination: false} :
+    JSON.parse(contentConfig)
 
   return <Table
     columns={tc}
     dataSource={td}
     size='small'
-    pagination={false}
+    pagination={cc.pagination}
     showHeader={cc.showHeader}
   />
 };
 
 
-const checkContentQueryLink = content => {
+const checkContent = content => {
   if (content !== '') return content;
   return '';
 };
 
+const checkContentCfg = content => {
+  if (content !== undefined) return content;
+  return undefined;
+}
+
 
 export const EditableTableContent = forwardRef(({initContent, saveContent, contentStyles}, ref) => {
   const [editable, setEditable] = useState(false);
-  const [content, setContent] = useState(checkContentQueryLink(initContent.contentData))
-  const [contentCfg, setContentCfg] = useState(initContent.contentConfig)
+  const [content, setContent] = useState(checkContent(initContent.contentData));
+  const [contentCfg, setContentCfg] = useState(checkContentCfg(initContent.contentConfig));
 
   const onSet = (ct, cc) => {
     setContent(ct);
@@ -112,7 +126,10 @@ export const EditableTableContent = forwardRef(({initContent, saveContent, conte
       {
         content === '' || editable ?
           <div className={styles.cardContentAlter}>
-            <EmbedModal onSet={onSet} initContentData={content} initContentConfig={contentCfg}/>
+            <EmbedModal
+              onSet={onSet}
+              initContentConfig={contentCfg}
+            />
           </div> :
           <ViewingTable
             className={contentStyles}

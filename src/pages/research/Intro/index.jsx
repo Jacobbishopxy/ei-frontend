@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+/**
+ * Created by Jacob Xie on 7/1/2020.
+ */
+
+import React from 'react';
 
 import { CustomDashboard } from '@/components/CustomDashboardHelper';
-
-import styles from './index.less';
 
 const layoutPanelName = 'stockIntro';
 
 export default () => {
-
   return (
     <CustomDashboard
       panelName={layoutPanelName}
