@@ -3,7 +3,7 @@
  */
 
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
-import { Button, Input, Modal, Table } from 'antd';
+import { Button, Input, Modal, Table, Switch } from 'antd';
 import Papa from 'papaparse';
 import _ from 'lodash';
 
@@ -15,18 +15,23 @@ const papaConfig = {
   dynamicTyping: true
 };
 
-const EmbedModal = ({onSet, initContentData}) => {
+const EmbedModal = ({onSet, initContentData, initContentConfig}) => {
   const [visible, setVisible] = useState(false);
   const [content, setContent] = useState(initContentData);
+  const [contentCfg, setContentCfg] = useState(initContentConfig);
 
   const handleOk = () => {
-    onSet(content);
+    onSet(content, contentCfg);
     setVisible(false);
   };
 
   const contentOnChange = ({target: {value}}) => {
     const parsedValue = Papa.parse(value, papaConfig).data
     setContent(JSON.stringify(parsedValue))
+  };
+
+  const contentCfgOnChange = (value) => {
+    setContentCfg(JSON.stringify({showHeader: value}))
   };
 
   return (
@@ -46,11 +51,12 @@ const EmbedModal = ({onSet, initContentData}) => {
         onCancel={() => setVisible(false)}
       >
         <Input.TextArea
-          placeholder='在此黏贴'
+          placeholder='在此黏贴数据'
           rows={5}
           allowClear
           onBlur={contentOnChange}
         />
+        <Switch defaultChecked onChange={contentCfgOnChange}/> 是否显示表头
       </Modal>
     </>
   )
@@ -63,16 +69,19 @@ const generateTableColumn = data =>
 const generateTableData = data =>
   data.map((i, idx) => ({...i, key: idx}))
 
-const ViewingTable = ({contentData}) => {
+const ViewingTable = ({contentData, contentConfig}) => {
   const cd = JSON.parse(contentData);
   const tc = generateTableColumn(cd);
   const td = generateTableData(cd);
+
+  const cc = contentConfig !== undefined ? JSON.parse(contentConfig) : {showHeader: true};
 
   return <Table
     columns={tc}
     dataSource={td}
     size='small'
     pagination={false}
+    showHeader={cc.showHeader}
   />
 };
 
@@ -86,10 +95,12 @@ const checkContentQueryLink = content => {
 export const EditableTableContent = forwardRef(({initContent, saveContent, contentStyles}, ref) => {
   const [editable, setEditable] = useState(false);
   const [content, setContent] = useState(checkContentQueryLink(initContent.contentData))
+  const [contentCfg, setContentCfg] = useState(initContent.contentConfig)
 
-  const onSet = (ct) => {
+  const onSet = (ct, cc) => {
     setContent(ct);
-    saveContent({contentData: ct});
+    setContentCfg(cc);
+    saveContent({contentData: ct, contentConfig: cc});
   };
 
   useImperativeHandle(ref, () => ({
@@ -101,11 +112,12 @@ export const EditableTableContent = forwardRef(({initContent, saveContent, conte
       {
         content === '' || editable ?
           <div className={styles.cardContentAlter}>
-            <EmbedModal onSet={onSet} initContentData={content}/>
+            <EmbedModal onSet={onSet} initContentData={content} initContentConfig={contentCfg}/>
           </div> :
           <ViewingTable
             className={contentStyles}
             contentData={content}
+            contentConfig={contentCfg}
           />
       }
     </>
