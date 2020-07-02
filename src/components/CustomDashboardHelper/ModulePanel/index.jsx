@@ -9,6 +9,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Emoji } from '@/components/Emoji';
 import { EmbedLinkContent } from '@/components/CustomDashboardHelper/ContentCollections/EmbedLinkContent';
 import { TextEditorContent } from '@/components/CustomDashboardHelper/ContentCollections/TextEditorContent';
+import { EditableTableContent } from '@/components/CustomDashboardHelper/ContentCollections/EditableTableContent';
 
 import styles from './index.less'
 
@@ -33,13 +34,18 @@ const selectModeToAdd = modeName => (initContent, saveContent, ref, headVisible)
     ref={ref}
     contentStyles={contentStyles}
   />;
-
   const textType = <TextEditorContent
     initContent={initContent}
     saveContent={saveContent}
     ref={ref}
     contentStyles={contentStyles}
   />;
+  const editableTableContent = <EditableTableContent
+    initContent={initContent}
+    saveContent={saveContent}
+    ref={ref}
+    contentStyles={contentStyles}
+  />
 
 
   switch (modeName) {
@@ -48,7 +54,7 @@ const selectModeToAdd = modeName => (initContent, saveContent, ref, headVisible)
     case 'table':
       return <h1>Table</h1>;
     case 'editableTable':
-      return <h1>EditableTable</h1>;
+      return editableTableContent;
     case 'text':
       return textType;
     case 'image':
@@ -157,7 +163,6 @@ export const DataCard = ({onRemove, initContent, saveContent, headVisible}) => {
           <></>
       }
 
-      {/*<hr style={{margin: 0, borderColor: 'white'}}/>*/}
       {selectMode(initContent, saveContent, contentRef, headVisible)}
     </div>
   );

@@ -46,8 +46,14 @@ export const CustomDashboard = ({panelName}) => {
       layouts: cards
     };
     updateGridLayout(saveMode)
-      .then(res => message.success(`保存成功 ${res}`))
-      .catch(err => message.warn(`保存失败 ${err}`))
+      .then(res => {
+        // console.log(res);
+        message.success(`保存成功`)
+      })
+      .catch(err => {
+        // console.log(err);
+        message.warn(`保存失败`)
+      });
   }, [saveLayout]);
 
   const onAddItem = selectedMode => {
@@ -112,7 +118,7 @@ export const CustomDashboard = ({panelName}) => {
         className='layout'
         isDraggable={dashboardOnEdit}
         isResizable={dashboardOnEdit}
-        cols={12}
+        cols={24}
         rowHeight={100}
         margin={[5, 5]}
       >
