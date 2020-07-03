@@ -45,6 +45,7 @@ export const CustomDashboard = ({panelName}) => {
       panel: panelName,
       layouts: cards
     };
+    console.log('saveMode: ', saveMode);
 
     updateGridLayout(saveMode)
       .then(res => {
@@ -83,9 +84,10 @@ export const CustomDashboard = ({panelName}) => {
       const newCards = cards.map((item, idx) => {
         if (idx === index) {
           let newItem;
-          if (title !== undefined) newItem = {...item, content: {...item.content, title}};
-          if (contentData !== undefined) newItem = {...item, content: {...item.content, contentData}};
-          if (contentConfig !== undefined) newItem = {...item, content: {...item.content, contentConfig}};
+          if (title !== undefined)
+            newItem = {...item, content: {...item.content, title}};
+          if (contentData !== undefined)
+            newItem = {...item, content: {...item.content, contentData, contentConfig}};
           return newItem;
         }
         return item;
