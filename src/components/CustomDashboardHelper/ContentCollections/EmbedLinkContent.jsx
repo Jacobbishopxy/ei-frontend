@@ -39,7 +39,7 @@ const EmbedModal = ({onSet, initEmbedLink}) => {
           placeholder='链接'
           allowClear
           onBlur={inputOnchange}
-          value={embedLink}
+          defaultValue={embedLink}
         />
       </Modal>
     </>
