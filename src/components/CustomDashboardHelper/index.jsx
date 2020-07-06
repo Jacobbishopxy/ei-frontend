@@ -7,8 +7,8 @@ import React, { useState, useEffect } from 'react';
 import { message } from 'antd';
 import RGL, { WidthProvider } from 'react-grid-layout';
 
-import { DataCard } from '@/components/CustomDashboardHelper/ModulePanel';
-import { ControlCard } from '@/components/CustomDashboardHelper/DashboardController';
+import { DataCard } from '@/components/CustomDashboardHelper/DashboardModulePanel';
+import { DashboardEditor } from '@/components/CustomDashboardHelper/DashboardController/DashboardEditor';
 import { useDidMountEffect } from '@/utilities/utils';
 
 import {
@@ -21,6 +21,9 @@ import {
   getGridLayout,
   updateGridLayout,
 } from '@/services/gridLayout';
+
+import styles from './index.less';
+
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -111,11 +114,16 @@ export const CustomDashboard = ({panelName}) => {
 
   return (
     <PageHeaderWrapper>
-      <ControlCard
-        onAddModule={onAddItem}
-        onEditModule={() => setDashboardOnEdit(!dashboardOnEdit)}
-        onSaveModule={onSaveModule}
-      />
+      <div className={styles.controlMain}>
+        <div className={styles.content}/>
+        <DashboardEditor
+          className={styles.content}
+          onAddModule={onAddItem}
+          onEditModule={() => setDashboardOnEdit(!dashboardOnEdit)}
+          onSaveModule={onSaveModule}
+        />
+      </div>
+
       <ReactGridLayout
         onLayoutChange={onLayoutChange}
         draggableHandle='.draggableZone'

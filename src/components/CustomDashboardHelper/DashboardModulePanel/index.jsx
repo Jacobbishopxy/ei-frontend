@@ -7,11 +7,12 @@ import { Button, Input, Menu, message, Modal, Space, Tooltip } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import { Emoji } from '@/components/Emoji';
-import { EmbedLinkContent } from '@/components/CustomDashboardHelper/ContentCollections/EmbedLinkContent';
-import { TextEditorContent } from '@/components/CustomDashboardHelper/ContentCollections/TextEditorContent';
-import { EditableTableContent } from '@/components/CustomDashboardHelper/ContentCollections/EditableTableContent';
+import { EmbedLinkContent } from '@/components/CustomDashboardHelper/ModuleCollections/EmbedLinkContent';
+import { TextEditorContent } from '@/components/CustomDashboardHelper/ModuleCollections/TextEditorContent';
+import { EditableTableContent } from '@/components/CustomDashboardHelper/ModuleCollections/EditableTableContent';
 
-import styles from './index.less'
+import styles from './index.less';
+
 
 export const AddModuleMenu = ({onAddModule}) => (
   <Menu onClick={onAddModule}>
