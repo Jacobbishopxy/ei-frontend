@@ -81,6 +81,7 @@ const checkDataCardTitle = title => {
 };
 
 
+// todo: 外部参数，如symbol/date ...
 export const DataCard = ({onRemove, initContent, saveContent, headVisible}) => {
 
   const [title, setTitle] = useState(checkDataCardTitle(initContent.title));

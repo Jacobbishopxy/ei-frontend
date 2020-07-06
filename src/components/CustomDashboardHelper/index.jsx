@@ -8,6 +8,7 @@ import { message } from 'antd';
 import RGL, { WidthProvider } from 'react-grid-layout';
 
 import { DataCard } from '@/components/CustomDashboardHelper/DashboardModulePanel';
+import { SymbolSelector } from '@/components/CustomDashboardHelper/DashboardController/SymbolSelector';
 import { DashboardEditor } from '@/components/CustomDashboardHelper/DashboardController/DashboardEditor';
 import { useDidMountEffect } from '@/utilities/utils';
 
@@ -115,7 +116,11 @@ export const CustomDashboard = ({panelName}) => {
   return (
     <PageHeaderWrapper>
       <div className={styles.controlMain}>
-        <div className={styles.content}/>
+        <SymbolSelector
+          className={styles.content}
+          onSelectSymbol={e => console.log('s1', e)}
+          onSearchSymbol={e => console.log('s2', e)}
+        />
         <DashboardEditor
           className={styles.content}
           onAddModule={onAddItem}
