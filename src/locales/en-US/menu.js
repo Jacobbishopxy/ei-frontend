@@ -56,10 +56,7 @@ export default {
   'menu.research.grafana': 'Grafana',
   'menu.research.mongo': 'Mongo',
   'menu.research.postgres': 'Postgres',
-  'menu.research.intro': 'Intro',
-  'menu.research.report': 'Report',
-  'menu.research.finance': 'Finance',
-  'menu.research.core': 'Core',
+  'menu.research.bank': 'Bank',
 
   'menu.demo': 'Demo',
   'menu.demo.custom-grids': 'Custom Dashboard',

@@ -56,10 +56,7 @@ export default {
   'menu.research.grafana': 'Grafana',
   'menu.research.mongo': 'Mongo',
   'menu.research.postgres': 'Postgres',
-  'menu.research.intro': '简介',
-  'menu.research.report': '报告',
-  'menu.research.finance': '财务',
-  'menu.research.core': '核心',
+  'menu.research.bank': '银行',
 
   'menu.demo': '测试',
   'menu.demo.custom-grids': '自定义仪表板',

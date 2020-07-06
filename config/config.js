@@ -60,8 +60,7 @@ export default defineConfig({
               icon: 'crown',
               component: './Admin',
               authority: ['admin'],
-            },
-            // {
+            }, // {
             //   name: 'business-data',
             //   path: '/bizData',
             //   icon: 'dashboard',
@@ -93,28 +92,12 @@ export default defineConfig({
                 //   component: './research/PostgresView',
                 // },
                 {
-                  name: 'intro',
-                  path: '/research/intro',
-                  component: './research/Intro',
-                },
-                {
-                  name: 'report',
-                  path: '/research/report',
-                  component: './research/Report',
-                },
-                {
-                  name: 'finance',
-                  path: '/research/finance',
-                  component: './research/Finance',
-                },
-                {
-                  name: 'core',
-                  path: '/research/core',
-                  component: './research/Core',
+                  name: 'bank',
+                  path: '/research/bank',
+                  component: './research/Bank',
                 },
               ],
-            },
-            // {
+            }, // {
             //   name: 'demo',
             //   path: '/demo',
             //   icon: 'rocket',

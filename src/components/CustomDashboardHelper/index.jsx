@@ -2,7 +2,6 @@
  * Created by Jacob Xie on 4/27/2020.
  */
 
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import React, { useState, useEffect } from 'react';
 import { message } from 'antd';
 import RGL, { WidthProvider } from 'react-grid-layout';
@@ -114,7 +113,7 @@ export const CustomDashboard = ({panelName}) => {
   const onSaveModule = () => setSaveLayout(saveLayout + 1);
 
   return (
-    <PageHeaderWrapper>
+    <>
       <div className={styles.controlMain}>
         <SymbolSelector
           className={styles.content}
@@ -141,7 +140,7 @@ export const CustomDashboard = ({panelName}) => {
       >
         {cards.map((ele, index) => createElement(ele, index, dashboardOnEdit))}
       </ReactGridLayout>
-    </PageHeaderWrapper>
+    </>
   )
 
 };
