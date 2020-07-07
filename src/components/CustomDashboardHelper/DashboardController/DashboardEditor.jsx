@@ -44,7 +44,7 @@ export const DashboardEditor = ({onAddModule, onSaveModule, onEditModule}) => {
               <Button
                 type='primary'
                 size='small'
-                style={{marginRight: 10}}
+                style={{marginRight: 5}}
               >
                 添加模板 <DownOutlined/>
               </Button>
@@ -53,7 +53,7 @@ export const DashboardEditor = ({onAddModule, onSaveModule, onEditModule}) => {
               onClick={quitEdit}
               type='danger'
               size='small'
-              style={{marginRight: 10}}
+              style={{marginRight: 5}}
             >
               退出编辑
             </Button>
@@ -62,7 +62,7 @@ export const DashboardEditor = ({onAddModule, onSaveModule, onEditModule}) => {
             onClick={startEdit}
             type='primary'
             size='small'
-            style={{marginRight: 10}}
+            style={{marginRight: 5}}
           >
             编辑
           </Button>

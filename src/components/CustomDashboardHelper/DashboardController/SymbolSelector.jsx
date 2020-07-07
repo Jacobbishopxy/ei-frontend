@@ -22,7 +22,7 @@ export const SymbolSelector = ({onSelectSymbol, onSearchSymbol, defaultSymbol}) 
             defaultValue={defaultSymbol}
             placeholder="股票代码"
             size="small"
-            style={{width: 120, marginRight: 10}}
+            style={{width: 120, marginRight: 5}}
           /> :
           <Input.Search
             onPressEnter={selectSymbol}
@@ -31,7 +31,7 @@ export const SymbolSelector = ({onSelectSymbol, onSearchSymbol, defaultSymbol}) 
             defaultValue={defaultSymbol}
             placeholder="股票代码"
             size="small"
-            style={{width: 120, marginRight: 10}}
+            style={{width: 120, marginRight: 5}}
           />
       }
     </>

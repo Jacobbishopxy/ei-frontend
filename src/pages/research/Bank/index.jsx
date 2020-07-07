@@ -3,9 +3,10 @@
  */
 
 import React from 'react';
-import {Tabs} from 'antd';
+import { Tabs } from 'antd';
 
 import { CustomDashboard } from '@/components/CustomDashboardHelper';
+import { BulbOutlined, FileOutlined, PayCircleOutlined, StarOutlined } from '@ant-design/icons';
 
 
 export default () => {
@@ -14,16 +15,16 @@ export default () => {
       defaultActiveKey="1"
       onChange={k => console.log(k)}
     >
-      <Tabs.TabPane tab="简介" key="1">
+      <Tabs.TabPane tab={<span><BulbOutlined/>简介</span>} key="1">
         <CustomDashboard panelName='stockIntro'/>
       </Tabs.TabPane>
-      <Tabs.TabPane tab="报告" key="2">
+      <Tabs.TabPane tab={<span><FileOutlined/>报告</span>} key="2">
         <CustomDashboard panelName='stockReport'/>
       </Tabs.TabPane>
-      <Tabs.TabPane tab="财务" key="3">
+      <Tabs.TabPane tab={<span><PayCircleOutlined/>财务</span>} key="3">
         <CustomDashboard panelName='stockFinance'/>
       </Tabs.TabPane>
-      <Tabs.TabPane tab="核心" key="4">
+      <Tabs.TabPane tab={<span><StarOutlined/>核心</span>} key="4">
         <CustomDashboard panelName='stockCore'/>
       </Tabs.TabPane>
 

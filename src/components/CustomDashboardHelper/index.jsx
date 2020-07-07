@@ -113,7 +113,7 @@ export const CustomDashboard = ({panelName}) => {
   const onSaveModule = () => setSaveLayout(saveLayout + 1);
 
   return (
-    <>
+    <div className={styles.main}>
       <div className={styles.controlMain}>
         <SymbolSelector
           className={styles.content}
@@ -137,10 +137,11 @@ export const CustomDashboard = ({panelName}) => {
         cols={24}
         rowHeight={100}
         margin={[5, 5]}
+        containerPadding={[10, 10]}
       >
         {cards.map((ele, index) => createElement(ele, index, dashboardOnEdit))}
       </ReactGridLayout>
-    </>
+    </div>
   )
 
 };
