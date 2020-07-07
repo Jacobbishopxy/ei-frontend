@@ -9,23 +9,26 @@ import { CustomDashboard } from '@/components/CustomDashboardHelper';
 import { BulbOutlined, FileOutlined, PayCircleOutlined, StarOutlined } from '@ant-design/icons';
 
 
+const db = 'bank';
+const collection = 'layout';
+
 export default () => {
   return (
     <Tabs
-      defaultActiveKey="1"
+      defaultActiveKey='1'
       onChange={k => console.log(k)}
     >
       <Tabs.TabPane tab={<span><BulbOutlined/>简介</span>} key="1">
-        <CustomDashboard panelName='stockIntro'/>
+        <CustomDashboard db={db} collection={collection} panel='intro'/>
       </Tabs.TabPane>
       <Tabs.TabPane tab={<span><FileOutlined/>报告</span>} key="2">
-        <CustomDashboard panelName='stockReport'/>
+        <CustomDashboard db={db} collection={collection} panel='report'/>
       </Tabs.TabPane>
       <Tabs.TabPane tab={<span><PayCircleOutlined/>财务</span>} key="3">
-        <CustomDashboard panelName='stockFinance'/>
+        <CustomDashboard db={db} collection={collection} panel='finance'/>
       </Tabs.TabPane>
       <Tabs.TabPane tab={<span><StarOutlined/>核心</span>} key="4">
-        <CustomDashboard panelName='stockCore'/>
+        <CustomDashboard db={db} collection={collection} panel='core'/>
       </Tabs.TabPane>
 
     </Tabs>

@@ -69,9 +69,9 @@ app.get('/api/currentUser', (req, res) => {
  * get grid layout
  */
 app.get('/api/ei-grid-layout', (req, res) => {
-    const {panel} = req.query;
+    const {db, collection, symbol, panel} = req.query;
 
-    fetchGet(`${eiBackendUrl}/utils/grid-layout?panel=${panel}`)
+    fetchGet(`${eiBackendUrl}/dashboard/grid-layout?db=${db}&collection=${collection}&symbol=${symbol}&panel=${panel}`)
       .then(json => res.send(json))
       .catch(err => console.log(err))
   }
@@ -80,10 +80,12 @@ app.get('/api/ei-grid-layout', (req, res) => {
 /**
  * update grid layout
  */
-app.post('/api/ei-grid-layout', (req, res) =>
-  fetchPost(`${eiBackendUrl}/utils/grid-layout`, req.body)
-    .then(json => res.send(json))
-    .catch(err => console.log(err))
+app.post('/api/ei-grid-layout', (req, res) => {
+    const {db, collection} = req.query;
+    fetchPost(`${eiBackendUrl}/dashboard/grid-layout?db=${db}&collection=${collection}`, req.body)
+      .then(json => res.send(json))
+      .catch(err => console.log(err))
+  }
 );
 
 // ---------------------------------------------------------------------------------------------------------------------

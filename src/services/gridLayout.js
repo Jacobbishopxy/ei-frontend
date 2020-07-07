@@ -5,10 +5,10 @@
 import request from '@/utils/request';
 
 
-export const getGridLayout = async panel =>
-  request(`/api/ei-grid-layout?panel=${panel}`)
+export const getGridLayout = async (db, collection, symbol, panel) =>
+  request(`/api/ei-grid-layout?db=${db}&collection=${collection}&symbol=${symbol}&panel=${panel}`)
 
-export const updateGridLayout = async json =>
-  request('/api/ei-grid-layout', {method: 'POST', data: json});
+export const updateGridLayout = async (db, collection, json) =>
+  request(`/api/ei-grid-layout?db=${db}&collection=${collection}`, {method: 'POST', data: json});
 
 

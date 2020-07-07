@@ -28,37 +28,31 @@ import styles from './index.less';
 const ReactGridLayout = WidthProvider(RGL);
 
 
-export const CustomDashboard = ({panelName}) => {
+export const CustomDashboard = ({db, collection, panel}) => {
 
   const [cards, setCards] = useState([]);
   const [counter, setCounter] = useState(0);
   const [saveLayout, setSaveLayout] = useState(0);
   const [dashboardOnEdit, setDashboardOnEdit] = useState(false);
+  const [symbol, setSymbol] = useState('600036');
 
   useEffect(() => {
-    getGridLayout(panelName)
+    getGridLayout(db, collection, symbol, panel)
       .then(data => {
         setCards(data.layouts.map(lo => new GridLayoutModel(lo.coordinate, lo.content)))
       })
       .catch(err => message.warn(`获取失败 ${err}`))
-  }, []);
+  }, [symbol]);
 
   useDidMountEffect(() => {
     const saveMode = {
-      panel: panelName,
+      panel,
       layouts: cards
     };
-    console.log('saveMode: ', saveMode);
 
-    updateGridLayout(saveMode)
-      .then(res => {
-        // console.log(res);
-        message.success(`保存成功`)
-      })
-      .catch(err => {
-        // console.log(err);
-        message.warn(`保存失败`)
-      });
+    updateGridLayout(db, collection, saveMode)
+      .then(() => {message.success(`保存成功`)})
+      .catch(() => {message.warn(`保存失败`)});
   }, [saveLayout]);
 
   const onAddItem = selectedMode => {
@@ -78,7 +72,8 @@ export const CustomDashboard = ({panelName}) => {
     setCards(newCards)
   };
 
-  const createElement = (el, index, onEdit) => {
+  // todo: element with common param
+  const createElement = (el, index) => {
     const {coordinate, content} = el;
 
     const removeItem = () => onRemoveItem(coordinate.i);
@@ -104,7 +99,7 @@ export const CustomDashboard = ({panelName}) => {
           onRemove={removeItem}
           initContent={content}
           saveContent={saveContent}
-          headVisible={onEdit}
+          headVisible={dashboardOnEdit}
         />
       </div>
     );
@@ -117,8 +112,9 @@ export const CustomDashboard = ({panelName}) => {
       <div className={styles.controlMain}>
         <SymbolSelector
           className={styles.content}
-          onSelectSymbol={e => console.log('s1', e)}
-          onSearchSymbol={e => console.log('s2', e)}
+          onSelectSymbol={setSymbol}
+          // onSearchSymbol={e => console.log('s2', e)}
+          defaultSymbol={symbol}
         />
         <DashboardEditor
           className={styles.content}
@@ -139,7 +135,7 @@ export const CustomDashboard = ({panelName}) => {
         margin={[5, 5]}
         containerPadding={[10, 10]}
       >
-        {cards.map((ele, index) => createElement(ele, index, dashboardOnEdit))}
+        {cards.map((ele, index) => createElement(ele, index))}
       </ReactGridLayout>
     </div>
   )
