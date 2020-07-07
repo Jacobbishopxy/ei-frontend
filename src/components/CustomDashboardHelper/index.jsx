@@ -123,7 +123,7 @@ export const CustomDashboard = ({panelName}) => {
         <DashboardEditor
           className={styles.content}
           onAddModule={onAddItem}
-          onEditModule={() => setDashboardOnEdit(!dashboardOnEdit)}
+          onEditModule={setDashboardOnEdit}
           onSaveModule={onSaveModule}
         />
       </div>

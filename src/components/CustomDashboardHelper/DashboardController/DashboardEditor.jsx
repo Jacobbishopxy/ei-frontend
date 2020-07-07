@@ -2,7 +2,7 @@
  * Created by Jacob Xie on 3/4/2020.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Dropdown, Modal } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 
@@ -12,10 +12,11 @@ export const DashboardEditor = ({onAddModule, onSaveModule, onEditModule}) => {
 
   const [edit, setEdit] = useState(false);
 
-  const startEdit = () => {
-    onEditModule();
-    setEdit(true);
-  };
+  useEffect(() => {
+    onEditModule(edit);
+  }, [edit]);
+
+  const startEdit = () => setEdit(true);
 
   const quitEdit = () =>
     Modal.confirm({
@@ -38,7 +39,7 @@ export const DashboardEditor = ({onAddModule, onSaveModule, onEditModule}) => {
     <>
       {
         edit ?
-          <>
+          <div>
             <Dropdown overlay={addModuleMenu}>
               <Button
                 type='primary'
@@ -56,7 +57,7 @@ export const DashboardEditor = ({onAddModule, onSaveModule, onEditModule}) => {
             >
               退出编辑
             </Button>
-          </> :
+          </div> :
           <Button
             onClick={startEdit}
             type='primary'
