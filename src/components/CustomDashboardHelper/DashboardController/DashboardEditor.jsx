@@ -46,7 +46,7 @@ export const DashboardEditor = ({onAddModule, onSaveModule, onEditModule}) => {
                 size='small'
                 style={{marginRight: 5}}
               >
-                添加模板 <DownOutlined/>
+                添加模块 <DownOutlined/>
               </Button>
             </Dropdown>
             <Button

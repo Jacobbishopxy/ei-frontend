@@ -34,15 +34,16 @@ export const CustomDashboard = ({db, collection, panel}) => {
   const [counter, setCounter] = useState(0);
   const [saveLayout, setSaveLayout] = useState(0);
   const [dashboardOnEdit, setDashboardOnEdit] = useState(false);
-  const [symbol, setSymbol] = useState('600036');
+  const [template, setTemplate] = useState('600036');
+  const [symbol, setSymbol] = useState('600036');  // todo: common param
 
   useEffect(() => {
-    getGridLayout(db, collection, symbol, panel)
+    getGridLayout(db, collection, template, panel)
       .then(data => {
         setCards(data.layouts.map(lo => new GridLayoutModel(lo.coordinate, lo.content)))
       })
       .catch(err => message.warn(`获取失败 ${err}`))
-  }, [symbol]);
+  }, [template]);
 
   useDidMountEffect(() => {
     const saveMode = {

@@ -69,9 +69,9 @@ app.get('/api/currentUser', (req, res) => {
  * get grid layout
  */
 app.get('/api/ei-grid-layout', (req, res) => {
-    const {db, collection, symbol, panel} = req.query;
+    const {db, collection, template, panel} = req.query;
 
-    fetchGet(`${eiBackendUrl}/dashboard/grid-layout?db=${db}&collection=${collection}&symbol=${symbol}&panel=${panel}`)
+    fetchGet(`${eiBackendUrl}/dashboard/grid-layout?db=${db}&collection=${collection}&template=${template}&panel=${panel}`)
       .then(json => res.send(json))
       .catch(err => console.log(err))
   }
