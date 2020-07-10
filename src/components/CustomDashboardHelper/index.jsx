@@ -47,6 +47,7 @@ export const CustomDashboard = ({db, collection, panel}) => {
 
   useDidMountEffect(() => {
     const saveMode = {
+      template,
       panel,
       layouts: cards
     };

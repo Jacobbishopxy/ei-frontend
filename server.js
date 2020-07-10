@@ -93,7 +93,8 @@ app.post('/api/ei-grid-layout', (req, res) => {
  */
 app.get('/api/ei-file-structure', (req, res) => {
   const {type, subFolderPath} = req.query;
-  fetchGet(`${eiBackendUrl}/file/listFileStructure?type=${type}&subFolderPath=${subFolderPath}&removeFolderDir=true`)
+  const p = `${eiBackendUrl}/file/listFileStructure?type=${type}&subFolderPath=${subFolderPath}&removeFolderDir=true`
+  fetchGet(encodeURI(p))
     .then(json => res.send(json))
     .catch(err => console.log(err));
 });

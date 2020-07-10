@@ -22,7 +22,6 @@ const checkContentCfg = c => {
  */
 export const ContentGenerator = (InputModal, ViewDisplay) => {
 
-
   const ConvertRef = ({initContent, saveContent, contentStyles, forwardedRef}) => {
     const [editable, setEditable] = useState(false);
     const [contentData, setContentData] = useState(checkContentData(initContent.contentData));
