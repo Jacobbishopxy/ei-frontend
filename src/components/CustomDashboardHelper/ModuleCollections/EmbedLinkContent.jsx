@@ -3,14 +3,14 @@
  */
 
 
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Input, Modal } from 'antd';
-import styles from './Common.less';
+import ContentGenerator from '@/components/CustomDashboardHelper/ModuleCollections/ContentGenerator';
 
 
-const EmbedModal = ({onSet, initEmbedLink}) => {
+const InputModal = ({onSet, contentData, contentStyles}) => {
   const [visible, setVisible] = useState(false);
-  const [embedLink, setEmbedLink] = useState(initEmbedLink);
+  const [embedLink, setEmbedLink] = useState(contentData);
 
   const handleOk = () => {
     onSet(embedLink);
@@ -20,7 +20,7 @@ const EmbedModal = ({onSet, initEmbedLink}) => {
   const inputOnchange = ({target: {value}}) => setEmbedLink(value);
 
   return (
-    <>
+    <div className={contentStyles}>
       <Button
         type='primary'
         shape='round'
@@ -42,44 +42,16 @@ const EmbedModal = ({onSet, initEmbedLink}) => {
           defaultValue={embedLink}
         />
       </Modal>
-    </>
+    </div>
   );
 };
 
-const checkContentEmbedLink = embedLink => {
-  if (embedLink !== '') return embedLink;
-  return '';
-};
+const ViewingEmbed = ({contentData, contentStyles}) => <embed
+  className={contentStyles}
+  src={contentData}
+/>
 
-
-export const EmbedLinkContent = forwardRef(({initContent, saveContent, contentStyles}, ref) => {
-  const [editable, setEditable] = useState(false);
-  const [embedLink, setEmbedLink] = useState(checkContentEmbedLink(initContent.contentData));
-
-  const onSet = el => {
-    setEmbedLink(el);
-    saveContent({contentData: el});
-  };
-
-  useImperativeHandle(ref, () => ({
-    edit: () => setEditable(!editable)
-  }));
-
-  return (
-    <>
-      {
-        embedLink === '' || editable ?
-          <div className={styles.cardContentAlter}>
-            <EmbedModal onSet={onSet} initEmbedLink={embedLink}/>
-          </div> :
-          <embed
-            className={contentStyles}
-            src={embedLink}
-          />
-      }
-    </>
-  );
-});
+export const EmbedLinkContent = ContentGenerator(InputModal, ViewingEmbed)
 
 export default EmbedLinkContent;
 

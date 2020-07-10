@@ -20,8 +20,10 @@ const checkContentCfg = c => {
 /**
  * A generator of constructing content module
  */
-export const ContentGenerator = ({inputModal, viewDisplay}) => {
-  return forwardRef(({initContent, saveContent, contentStyles}, ref) => {
+export const ContentGenerator = (InputModal, ViewDisplay) => {
+
+
+  const ConvertRef = ({initContent, saveContent, contentStyles, forwardedRef}) => {
     const [editable, setEditable] = useState(false);
     const [contentData, setContentData] = useState(checkContentData(initContent.contentData));
     const [contentConfig, setContentConfig] = useState(checkContentCfg(initContent.contentConfig));
@@ -32,24 +34,36 @@ export const ContentGenerator = ({inputModal, viewDisplay}) => {
       saveContent({contentData: ct, contentConfig: cc});
     };
 
-    useImperativeHandle(ref, () => ({
+    useImperativeHandle(forwardedRef, () => ({
       edit: () => setEditable(!editable)
     }));
 
-    return (
-      <>
-        {
-          contentData === '' || editable ?
-            <div className={styles.cardContentAlter}>
-              {inputModal({onSet, contentData, contentConfig})}
-            </div> :
-            <div className={contentStyles}>
-              {viewDisplay({contentData, contentConfig})}
-            </div>
-        }
-      </>
-    )
-  });
+    return <>
+      {
+        contentData === '' || editable ?
+          <InputModal
+            onSet={onSet}
+            contentData={contentData}
+            contentConfig={contentConfig}
+            contentStyles={styles.cardContentAlter}
+          /> :
+          <ViewDisplay
+            contentData={contentData}
+            contentConfig={contentConfig}
+            contentStyles={contentStyles}
+          />
+      }
+    </>
+  };
+
+  return forwardRef(({initContent, saveContent, contentStyles}, ref) =>
+    <ConvertRef
+      initContent={initContent}
+      saveContent={saveContent}
+      contentStyles={contentStyles}
+      forwardedRef={ref}
+    />
+  );
 }
 
 

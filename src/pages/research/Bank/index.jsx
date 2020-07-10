@@ -15,7 +15,7 @@ const collection = 'layout';
 export default () => {
   return (
     <Tabs
-      defaultActiveKey='2'
+      defaultActiveKey='1'
       onChange={k => console.log(k)}
       type="editable-card"
     >

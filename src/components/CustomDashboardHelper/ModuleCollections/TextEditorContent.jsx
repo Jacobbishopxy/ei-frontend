@@ -2,9 +2,10 @@
  * Created by Jacob Xie on 4/27/2020.
  */
 
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import { Button } from 'antd';
+import ContentGenerator from '@/components/CustomDashboardHelper/ModuleCollections/ContentGenerator';
 
 import 'react-quill/dist/quill.snow.css'
 
@@ -37,44 +38,33 @@ const formats = [
 ];
 
 
-export const TextEditorContent = forwardRef(({initContent, saveContent, contentStyles}, ref) => {
-
-  const [editable, setEditable] = useState(false);
-  const [content, setContent] = useState(initContent.contentData);
-
-  const onSave = () => {
-    saveContent({contentData: content});
-    setEditable(false);
-  };
-
-  useImperativeHandle(ref, () => ({
-    edit: () => setEditable(!editable)
-  }));
+const InputField = ({onSet, contentData}) => {
+  const [contentD, setContentD] = useState(contentData);
 
   return (
-    <>
-      {
-        editable || initContent.contentData === '' ?
-          <div className="text-editor">
-            <ReactQuill
-              theme="snow"
-              modules={modules}
-              formats={formats}
-              value={content}
-              onChange={setContent}
-            />
-            <Button
-              onClick={onSave}
-              size='small'
-              type='primary'
-            >
-              保存
-            </Button>
-          </div> :
-          <div className={contentStyles} dangerouslySetInnerHTML={{__html: content}}/>
-      }
-    </>
+    <div className="text-editor">
+      <ReactQuill
+        theme="snow"
+        modules={modules}
+        formats={formats}
+        value={contentD}
+        onChange={setContentD}
+      />
+      <Button
+        onClick={onSet}
+        size='small'
+        type='primary'
+      >
+        保存
+      </Button>
+    </div>
   )
-});
+};
+
+const ViewFiled = ({contentData, contentStyles}) =>
+  <div className={contentStyles} dangerouslySetInnerHTML={{__html: contentData}}/>
+
+
+export const TextEditorContent = ContentGenerator(InputField, ViewFiled);
 
 export default TextEditorContent;

@@ -6,8 +6,7 @@ import React, { useState } from 'react';
 import { Button, Input, Modal, Table, Switch } from 'antd';
 import Papa from 'papaparse';
 import _ from 'lodash';
-
-import { ContentGenerator } from '@/components/CustomDashboardHelper/ModuleCollections/ContentGenerator';
+import ContentGenerator from '@/components/CustomDashboardHelper/ModuleCollections/ContentGenerator';
 
 
 const papaConfig = {
@@ -22,26 +21,26 @@ const defaultInitContentConfig = content => {
 }
 
 // todo: use initContent and render as Table?
-const InputModal = ({onSet, initContentConfig}) => {
+const InputModal = ({onSet, contentConfig, contentStyles}) => {
   const [visible, setVisible] = useState(false);
-  const [contentData, setContentData] = useState([]);
-  const [contentCfg, setContentCfg] = useState(defaultInitContentConfig(initContentConfig));
+  const [contentD, setContentD] = useState([]);
+  const [contentC, setContentC] = useState(defaultInitContentConfig(contentConfig));
 
   const handleOk = () => {
-    onSet(JSON.stringify(contentData), JSON.stringify(contentCfg));
+    onSet(JSON.stringify(contentD), JSON.stringify(contentC));
     setVisible(false);
   };
 
   const contentOnChange = ({target: {value}}) => {
     const parsedValue = Papa.parse(value, papaConfig).data
-    setContentData(parsedValue)
+    setContentD(parsedValue)
   };
 
-  const showHeader = value => setContentCfg({...contentCfg, showHeader: value});
-  const pagination = value => setContentCfg({...contentCfg, pagination: value});
+  const showHeader = value => setContentC({...contentC, showHeader: value});
+  const pagination = value => setContentC({...contentC, pagination: value});
 
   return (
-    <>
+    <div className={contentStyles}>
       <Button
         type='primary'
         shape='round'
@@ -62,11 +61,11 @@ const InputModal = ({onSet, initContentConfig}) => {
           allowClear
           onBlur={contentOnChange}
         />
-        <Switch checked={contentCfg.showHeader} onChange={showHeader}/> 是否显示表头
+        <Switch checked={contentC.showHeader} onChange={showHeader}/> 是否显示表头
         <br/>
-        <Switch checked={contentCfg.pagination} onChange={pagination}/> 是否显示页数
+        <Switch checked={contentC.pagination} onChange={pagination}/> 是否显示页数
       </Modal>
-    </>
+    </div>
   )
 };
 
@@ -77,7 +76,7 @@ const generateTableColumn = data =>
 const generateTableData = data =>
   data.map((i, idx) => ({...i, key: idx}))
 
-const ViewingTable = ({contentData, contentConfig}) => {
+const ViewingTable = ({contentData, contentConfig, contentStyles}) => {
   const cd = JSON.parse(contentData);
   const tc = generateTableColumn(cd);
   const td = generateTableData(cd);
@@ -86,17 +85,19 @@ const ViewingTable = ({contentData, contentConfig}) => {
     {showHeader: true, pagination: false} :
     JSON.parse(contentConfig)
 
-  return <Table
-    columns={tc}
-    dataSource={td}
-    size='small'
-    pagination={cc.pagination}
-    showHeader={cc.showHeader}
-  />
+  return <div className={contentStyles}>
+    <Table
+      columns={tc}
+      dataSource={td}
+      size='small'
+      pagination={cc.pagination}
+      showHeader={cc.showHeader}
+    />
+  </div>
 };
 
 
-export const EditableTableContent = ContentGenerator({inputModal: InputModal, viewDisplay: ViewingTable})
+export const EditableTableContent = ContentGenerator(InputModal, ViewingTable)
 
 export default EditableTableContent;
 
