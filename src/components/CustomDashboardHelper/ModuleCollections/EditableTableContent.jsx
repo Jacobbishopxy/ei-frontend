@@ -3,11 +3,13 @@
  */
 
 import React, { useState } from 'react';
-import { Button, Input, Modal, Table, Switch } from 'antd';
+import { Button, Input, Modal, Table, Switch, Upload, message } from 'antd';
 import Papa from 'papaparse';
 import _ from 'lodash';
 import ContentGenerator from '@/components/CustomDashboardHelper/ModuleCollections/ContentGenerator';
+import { InboxOutlined } from '@ant-design/icons';
 
+import styles from './Common.less';
 
 const papaConfig = {
   skipEmptyLines: true,
@@ -18,7 +20,25 @@ const papaConfig = {
 const defaultInitContentConfig = content => {
   if (content !== undefined) return JSON.parse(content);
   return {showHeader: true, pagination: false};
-}
+};
+
+const uploadProps = {
+  name: 'file',
+  multiple: true,
+  action: '...',
+  onChange(info) {
+    const {status} = info.file;
+    if (status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully.`);
+    } else if (status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  },
+  disabled: true
+};
 
 // todo: use initContent and render as Table?
 const InputModal = ({onSet, contentConfig, contentStyles}) => {
@@ -61,6 +81,10 @@ const InputModal = ({onSet, contentConfig, contentStyles}) => {
           allowClear
           onBlur={contentOnChange}
         />
+        <Upload.Dragger {...uploadProps} className={styles.uploadDraggerZone}>
+          <p className="ant-upload-drag-icon"><InboxOutlined/></p>
+          <p className="ant-upload-text">点击或拖拽文件</p>
+        </Upload.Dragger>
         <Switch checked={contentC.showHeader} onChange={showHeader}/> 是否显示表头
         <br/>
         <Switch checked={contentC.pagination} onChange={pagination}/> 是否显示页数

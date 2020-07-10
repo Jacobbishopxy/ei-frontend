@@ -3,7 +3,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Button, Input, Modal, Select } from 'antd';
+import { Button, Input, Modal, Select, Space } from 'antd';
 import { getFolderStructure } from '@/services/eiFile';
 import ContentGenerator from '@/components/CustomDashboardHelper/ModuleCollections/ContentGenerator';
 
@@ -43,14 +43,21 @@ const InputModal = ({onSet, contentData, contentConfig, contentStyles}) => {
         onOk={commitChange}
         onCancel={() => setVisible(false)}
       >
+        <Space style={{marginBottom: 5}}>
+          <span>选择行业：</span>
+          <Select
+            onChange={contentConfigOnChange}
+            size='small'
+            style={{ width: 120 }}
+          >
+            <Select.Option value="bank">银行</Select.Option>
+          </Select>
+        </Space>
         <Input
           placeholder='文件名称'
           onBlur={contentDataOnChange}
           defaultValue={contentD}
         />
-        <Select onChange={contentConfigOnChange}>
-          <Select.Option value="bank">银行</Select.Option>
-        </Select>
       </Modal>
     </div>
   );
