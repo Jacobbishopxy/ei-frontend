@@ -2,12 +2,13 @@
  * Created by Jacob Xie on 7/1/2020.
  */
 
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Input, Modal, Table, Switch } from 'antd';
 import Papa from 'papaparse';
 import _ from 'lodash';
 
-import styles from './Common.less';
+import { ContentGenerator } from '@/components/CustomDashboardHelper/ModuleCollections/ContentGenerator';
+
 
 const papaConfig = {
   skipEmptyLines: true,
@@ -15,25 +16,25 @@ const papaConfig = {
   dynamicTyping: true
 };
 
-
 const defaultInitContentConfig = content => {
   if (content !== undefined) return JSON.parse(content);
   return {showHeader: true, pagination: false};
 }
 
-const EmbedModal = ({onSet, initContentConfig}) => {
+// todo: use initContent and render as Table?
+const InputModal = ({onSet, initContentConfig}) => {
   const [visible, setVisible] = useState(false);
-  const [content, setContent] = useState([]);
+  const [contentData, setContentData] = useState([]);
   const [contentCfg, setContentCfg] = useState(defaultInitContentConfig(initContentConfig));
 
   const handleOk = () => {
-    onSet(JSON.stringify(content), JSON.stringify(contentCfg));
+    onSet(JSON.stringify(contentData), JSON.stringify(contentCfg));
     setVisible(false);
   };
 
   const contentOnChange = ({target: {value}}) => {
     const parsedValue = Papa.parse(value, papaConfig).data
-    setContent(parsedValue)
+    setContentData(parsedValue)
   };
 
   const showHeader = value => setContentCfg({...contentCfg, showHeader: value});
@@ -95,51 +96,7 @@ const ViewingTable = ({contentData, contentConfig}) => {
 };
 
 
-const checkContent = content => {
-  if (content !== '') return content;
-  return '';
-};
-
-const checkContentCfg = content => {
-  if (content !== undefined) return content;
-  return undefined;
-}
-
-
-export const EditableTableContent = forwardRef(({initContent, saveContent, contentStyles}, ref) => {
-  const [editable, setEditable] = useState(false);
-  const [content, setContent] = useState(checkContent(initContent.contentData));
-  const [contentCfg, setContentCfg] = useState(checkContentCfg(initContent.contentConfig));
-
-  const onSet = (ct, cc) => {
-    setContent(ct);
-    setContentCfg(cc);
-    saveContent({contentData: ct, contentConfig: cc});
-  };
-
-  useImperativeHandle(ref, () => ({
-    edit: () => setEditable(!editable)
-  }))
-
-  return (
-    <>
-      {
-        content === '' || editable ?
-          <div className={styles.cardContentAlter}>
-            <EmbedModal
-              onSet={onSet}
-              initContentConfig={contentCfg}
-            />
-          </div> :
-          <ViewingTable
-            className={contentStyles}
-            contentData={content}
-            contentConfig={contentCfg}
-          />
-      }
-    </>
-  )
-});
+export const EditableTableContent = ContentGenerator({inputModal: InputModal, viewDisplay: ViewingTable})
 
 export default EditableTableContent;
 

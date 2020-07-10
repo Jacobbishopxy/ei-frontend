@@ -8,6 +8,7 @@ import { DownOutlined } from '@ant-design/icons';
 
 import { AddModuleMenu } from '@/components/CustomDashboardHelper/DashboardModulePanel';
 
+// todo: add save dashboard as template
 export const DashboardEditor = ({onAddModule, onSaveModule, onEditModule}) => {
 
   const [edit, setEdit] = useState(false);
@@ -49,6 +50,14 @@ export const DashboardEditor = ({onAddModule, onSaveModule, onEditModule}) => {
                 添加模块 <DownOutlined/>
               </Button>
             </Dropdown>
+            <Button
+              type='primary'
+              size='small'
+              style={{marginRight: 5}}
+              disabled
+            >
+              保存模板
+            </Button>
             <Button
               onClick={quitEdit}
               type='danger'

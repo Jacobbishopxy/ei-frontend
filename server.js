@@ -69,24 +69,35 @@ app.get('/api/currentUser', (req, res) => {
  * get grid layout
  */
 app.get('/api/ei-grid-layout', (req, res) => {
-    const {db, collection, template, panel} = req.query;
+  const {db, collection, template, panel} = req.query;
 
-    fetchGet(`${eiBackendUrl}/dashboard/grid-layout?db=${db}&collection=${collection}&template=${template}&panel=${panel}`)
-      .then(json => res.send(json))
-      .catch(err => console.log(err))
-  }
-);
+  fetchGet(`${eiBackendUrl}/dashboard/grid-layout?db=${db}&collection=${collection}&template=${template}&panel=${panel}`)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
 
 /**
  * update grid layout
  */
 app.post('/api/ei-grid-layout', (req, res) => {
-    const {db, collection} = req.query;
-    fetchPost(`${eiBackendUrl}/dashboard/grid-layout?db=${db}&collection=${collection}`, req.body)
-      .then(json => res.send(json))
-      .catch(err => console.log(err))
-  }
-);
+  const {db, collection} = req.query;
+  fetchPost(`${eiBackendUrl}/dashboard/grid-layout?db=${db}&collection=${collection}`, req.body)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+/**
+ * list file structure
+ */
+app.get('/api/ei-file-structure', (req, res) => {
+  const {type, subFolderPath} = req.query;
+  fetchGet(`${eiBackendUrl}/file/listFileStructure?type=${type}&subFolderPath=${subFolderPath}&removeFolderDir=true`)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
+
 
 // ---------------------------------------------------------------------------------------------------------------------
 
