@@ -13,7 +13,7 @@ const defaultInitContentConfig = content => {
   return {type: 'bank'};
 }
 
-const InputModal = ({onSet, contentData, contentConfig, contentStyles}) => {
+const InputField = ({onSet, contentData, contentConfig, contentStyles}) => {
   const [visible, setVisible] = useState(false);
   const [contentD, setContentD] = useState(contentData);
   const [contentC, setContentC] = useState(defaultInitContentConfig(contentConfig));
@@ -63,7 +63,7 @@ const InputModal = ({onSet, contentData, contentConfig, contentStyles}) => {
   );
 };
 
-const ViewDisplay = ({contentData, contentConfig, contentStyles}) => {
+const DisplayField = ({contentData, contentConfig, contentStyles}) => {
 
   const [data, setData] = useState('');
 
@@ -80,7 +80,7 @@ const ViewDisplay = ({contentData, contentConfig, contentStyles}) => {
 };
 
 
-export const ListFileContent = ContentGenerator(InputModal, ViewDisplay);
+export const ListFileContent = ContentGenerator(InputField, DisplayField);
 
 export default ListFileContent;
 

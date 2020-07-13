@@ -20,7 +20,7 @@ export default () => {
       type="editable-card"
     >
       <Tabs.TabPane
-        tab={<span><BulbOutlined/>简介</span>}
+        tab={<span><BulbOutlined/>要点</span>}
         closable={false} key="1"
       >
         <CustomDashboard db={db} collection={collection} panel='intro'/>

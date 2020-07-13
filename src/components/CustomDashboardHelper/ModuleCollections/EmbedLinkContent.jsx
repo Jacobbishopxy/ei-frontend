@@ -8,7 +8,7 @@ import { Button, Input, Modal } from 'antd';
 import ContentGenerator from '@/components/CustomDashboardHelper/ModuleCollections/ContentGenerator';
 
 
-const InputModal = ({onSet, contentData, contentStyles}) => {
+const InputField = ({onSet, contentData, contentStyles}) => {
   const [visible, setVisible] = useState(false);
   const [embedLink, setEmbedLink] = useState(contentData);
 
@@ -46,12 +46,12 @@ const InputModal = ({onSet, contentData, contentStyles}) => {
   );
 };
 
-const ViewingEmbed = ({contentData, contentStyles}) => <embed
+const DisplayField = ({contentData, contentStyles}) => <embed
   className={contentStyles}
   src={contentData}
 />
 
-export const EmbedLinkContent = ContentGenerator(InputModal, ViewingEmbed)
+export const EmbedLinkContent = ContentGenerator(InputField, DisplayField)
 
 export default EmbedLinkContent;
 

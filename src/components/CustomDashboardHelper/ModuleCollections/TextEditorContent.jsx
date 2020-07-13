@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
 import { Button } from 'antd';
 import ContentGenerator from '@/components/CustomDashboardHelper/ModuleCollections/ContentGenerator';
-import TextEditorContentViewDisplay from './TextEditorContentViewDisplay';
+import TextEditorContentDisplayField from './TextEditorContentDisplayField';
 
 import 'react-quill/dist/quill.snow.css'
 
@@ -64,6 +64,6 @@ const InputField = ({onSet, contentData}) => {
   )
 };
 
-export const TextEditorContent = ContentGenerator(InputField, TextEditorContentViewDisplay);
+export const TextEditorContent = ContentGenerator(InputField, TextEditorContentDisplayField);
 
 export default TextEditorContent;

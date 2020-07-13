@@ -41,7 +41,7 @@ const uploadProps = {
 };
 
 // todo: use initContent and render as Table?
-const InputModal = ({onSet, contentConfig, contentStyles}) => {
+const InputField = ({onSet, contentConfig, contentStyles}) => {
   const [visible, setVisible] = useState(false);
   const [contentD, setContentD] = useState([]);
   const [contentC, setContentC] = useState(defaultInitContentConfig(contentConfig));
@@ -100,7 +100,7 @@ const generateTableColumn = data =>
 const generateTableData = data =>
   data.map((i, idx) => ({...i, key: idx}))
 
-const ViewingTable = ({contentData, contentConfig, contentStyles}) => {
+const DisplayField = ({contentData, contentConfig, contentStyles}) => {
   const cd = JSON.parse(contentData);
   const tc = generateTableColumn(cd);
   const td = generateTableData(cd);
@@ -121,7 +121,7 @@ const ViewingTable = ({contentData, contentConfig, contentStyles}) => {
 };
 
 
-export const EditableTableContent = ContentGenerator(InputModal, ViewingTable)
+export const EditableTableContent = ContentGenerator(InputField, DisplayField)
 
 export default EditableTableContent;
 
