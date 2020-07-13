@@ -19,8 +19,20 @@ const checkContentCfg = c => {
 
 /**
  * A generator of constructing content module
+ *
+ * InputField:
+ *    onSet
+ *    contentData
+ *    contentConfig
+ *    contentStyles
+ *
+ * DisplayField:
+ *    contentData
+ *    contentConfig
+ *    contentStyles
+ *
  */
-export const ContentGenerator = (InputModal, ViewDisplay) => {
+export const ContentGenerator = (InputField, DisplayField) => {
 
   const ConvertRef = ({initContent, saveContent, contentStyles, forwardedRef}) => {
     const [editable, setEditable] = useState(false);
@@ -40,13 +52,13 @@ export const ContentGenerator = (InputModal, ViewDisplay) => {
     return <>
       {
         contentData === '' || editable ?
-          <InputModal
+          <InputField
             onSet={onSet}
             contentData={contentData}
             contentConfig={contentConfig}
             contentStyles={styles.cardContentAlter}
           /> :
-          <ViewDisplay
+          <DisplayField
             contentData={contentData}
             contentConfig={contentConfig}
             contentStyles={contentStyles}
