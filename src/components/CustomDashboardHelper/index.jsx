@@ -115,7 +115,7 @@ export const CustomDashboard = ({db, collection, panel}) => {
         <SymbolSelector
           className={styles.content}
           onSelectSymbol={setSymbol}
-          // onSearchSymbol={e => console.log('s2', e)}
+          onSearchSymbol={e => {}}
           defaultSymbol={symbol}
         />
         <DashboardEditor
