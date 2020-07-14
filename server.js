@@ -5,7 +5,7 @@
 const express = require('express');
 const path = require('path');
 const fetch = require('node-fetch');
-const config = require('./config.json');
+const config = require('./resources/config.json');
 
 const {eiBackendUrl} = config;
 
@@ -29,11 +29,11 @@ function fetchPost(url, jsonData) {
 
 const app = express();
 
-
-// ---------------------------------------------------------------------------------------------------------------------
-
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+
+// ---------------------------------------------------------------------------------------------------------------------
 
 // todo
 app.post('/api/login/account', (req, res) => {
