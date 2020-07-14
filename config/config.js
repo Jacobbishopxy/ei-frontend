@@ -2,7 +2,9 @@
 import { defineConfig } from 'umi';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
-const { REACT_APP_ENV } = process.env;
+
+const {REACT_APP_ENV} = process.env;
+
 export default defineConfig({
   hash: true,
   antd: {},
@@ -97,7 +99,8 @@ export default defineConfig({
                   component: './research/Bank',
                 },
               ],
-            }, // {
+            },
+            // {
             //   name: 'demo',
             //   path: '/demo',
             //   icon: 'rocket',
@@ -126,6 +129,11 @@ export default defineConfig({
             //       name: 'text-edit',
             //       path: '/demo/textedit',
             //       component: './demo/TextEdit',
+            //     },
+            //     {
+            //       name: 'file-manager',
+            //       path: '/demo/filemanager',
+            //       component: './demo/FileManager',
             //     },
             //   ],
             // },
