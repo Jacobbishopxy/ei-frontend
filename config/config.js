@@ -60,8 +60,7 @@ export default defineConfig({
               icon: 'crown',
               component: './Admin',
               authority: ['admin'],
-            },
-            // {
+            }, // {
             //   name: 'business-data',
             //   path: '/bizData',
             //   icon: 'dashboard',
@@ -104,43 +103,44 @@ export default defineConfig({
                 },
               ],
             },
-            // {
-            //   name: 'demo',
-            //   path: '/demo',
-            //   icon: 'rocket',
-            //   routes: [
-            //     {
-            //       name: 'custom-grids',
-            //       path: '/demo/draggableGrid',
-            //       component: './demo/DraggableGrid',
-            //     },
-            //     {
-            //       name: 'custom-table-operation',
-            //       path: '/demo/customtableoperation',
-            //       component: './demo/CustomTableOperation',
-            //     },
-            //     {
-            //       name: 'custom-table-data-operation',
-            //       path: '/demo/customtabledataoperation',
-            //       component: './demo/CustomTableDataOperation',
-            //     },
-            //     {
-            //       name: 'gql-data-fetch',
-            //       path: '/demo/gqldatafetch',
-            //       component: './demo/GqlDataFetch',
-            //     },
-            //     {
-            //       name: 'text-edit',
-            //       path: '/demo/textedit',
-            //       component: './demo/TextEdit',
-            //     },
-            //     {
-            //       name: 'file-manager',
-            //       path: '/demo/filemanager',
-            //       component: './demo/FileManager',
-            //     },
-            //   ],
-            // },
+            {
+              name: 'demo',
+              path: '/demo',
+              icon: 'rocket',
+              authority: ['admin'],
+              routes: [
+                {
+                  name: 'custom-grids',
+                  path: '/demo/draggableGrid',
+                  component: './demo/DraggableGrid',
+                },
+                {
+                  name: 'custom-table-operation',
+                  path: '/demo/customtableoperation',
+                  component: './demo/CustomTableOperation',
+                },
+                {
+                  name: 'custom-table-data-operation',
+                  path: '/demo/customtabledataoperation',
+                  component: './demo/CustomTableDataOperation',
+                },
+                {
+                  name: 'gql-data-fetch',
+                  path: '/demo/gqldatafetch',
+                  component: './demo/GqlDataFetch',
+                },
+                {
+                  name: 'text-edit',
+                  path: '/demo/textedit',
+                  component: './demo/TextEdit',
+                },
+                {
+                  name: 'file-manager',
+                  path: '/demo/filemanager',
+                  component: './demo/FileManager',
+                },
+              ],
+            },
             {
               component: './404',
             },
