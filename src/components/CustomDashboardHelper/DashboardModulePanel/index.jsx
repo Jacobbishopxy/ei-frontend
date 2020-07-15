@@ -11,6 +11,7 @@ import { EmbedLinkContent } from '@/components/CustomDashboardHelper/ModuleColle
 import { TextEditorContent } from '@/components/CustomDashboardHelper/ModuleCollections/TextEditorContent';
 import { EditableTableContent } from '@/components/CustomDashboardHelper/ModuleCollections/EditableTableContent';
 import { ListFileContent } from '@/components/CustomDashboardHelper/ModuleCollections/ListFileContent';
+import { ProFileContent } from '@/components/CustomDashboardHelper/ModuleCollections/ProFileContent';
 
 import styles from './index.less';
 
@@ -21,7 +22,8 @@ export const AddModuleMenu = ({onAddModule}) => (
     <Menu.Item key="table">表格</Menu.Item>
     <Menu.Item key="editableTable">可编辑表格</Menu.Item>
     <Menu.Item key="text">文字</Menu.Item>
-    <Menu.Item key="listFile">文件夹</Menu.Item>
+    <Menu.Item key="listFile">文件概览</Menu.Item>
+    <Menu.Item key="proFile">文件管理</Menu.Item>
     <Menu.Item key="image">图片</Menu.Item>
   </Menu>
 );
@@ -55,6 +57,12 @@ const selectModeToAdd = modeName => (initContent, saveContent, ref, headVisible)
     ref={ref}
     contentStyles={contentStyles}
   />
+  const proFileContent = <ProFileContent
+    initContent={initContent}
+    saveContent={saveContent}
+    ref={ref}
+    contentStyles={contentStyles}
+  />
 
 
   switch (modeName) {
@@ -70,6 +78,8 @@ const selectModeToAdd = modeName => (initContent, saveContent, ref, headVisible)
       return <h1>Img</h1>;
     case 'listFile':
       return listFileContent;
+    case 'proFile':
+      return proFileContent;
     default:
       return defaultType;
   }

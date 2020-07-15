@@ -56,6 +56,7 @@ export default {
   'menu.research.grafana': 'Grafana',
   'menu.research.mongo': 'Mongo',
   'menu.research.postgres': 'Postgres',
+  'menu.research.market': '市场',
   'menu.research.bank': '银行',
 
   'menu.demo': '测试',

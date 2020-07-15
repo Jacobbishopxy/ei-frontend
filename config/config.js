@@ -2,9 +2,7 @@
 import { defineConfig } from 'umi';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
-
-const {REACT_APP_ENV} = process.env;
-
+const { REACT_APP_ENV } = process.env;
 export default defineConfig({
   hash: true,
   antd: {},
@@ -62,7 +60,8 @@ export default defineConfig({
               icon: 'crown',
               component: './Admin',
               authority: ['admin'],
-            }, // {
+            },
+            // {
             //   name: 'business-data',
             //   path: '/bizData',
             //   icon: 'dashboard',
@@ -93,6 +92,11 @@ export default defineConfig({
                 //   path: '/research/postgresview',
                 //   component: './research/PostgresView',
                 // },
+                {
+                  name: 'market',
+                  path: '/research/market',
+                  component: './research/Market',
+                },
                 {
                   name: 'bank',
                   path: '/research/bank',
