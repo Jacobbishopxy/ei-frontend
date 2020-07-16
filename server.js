@@ -99,6 +99,14 @@ app.get('/api/ei-file-structure', (req, res) => {
     .catch(err => console.log(err));
 });
 
+app.get('/api/ei-pro-file-structure', (req, res) => {
+  const {type, subFolderPath} = req.query;
+  const p = `${eiBackendUrl}/file/listProFileStructure?type=${type}&subFolderPath=${subFolderPath}&removeFolderDir=true`
+  fetchGet(encodeURI(p))
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
+
 
 // ---------------------------------------------------------------------------------------------------------------------
 

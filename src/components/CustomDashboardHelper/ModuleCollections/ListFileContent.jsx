@@ -4,7 +4,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button, Input, Modal, Select, Space } from 'antd';
-import { getFolderStructure } from '@/services/eiFile';
+import ReactEcharts from 'echarts-for-react';
+
+import { getProFileStructure } from '@/services/eiFile';
 import ContentGenerator from '@/components/CustomDashboardHelper/ModuleCollections/ContentGenerator';
 
 
@@ -63,19 +65,70 @@ const InputField = ({onSet, contentData, contentConfig, contentStyles}) => {
   );
 };
 
+const genGraphOp = d =>  ({
+  tooltip: {
+    trigger: 'item',
+    triggerOn: 'mousemove'
+  },
+  series: [
+    {
+      type: 'tree',
+      name: 'file-tree',
+      data: [d],
+
+      top: '10%',
+      left: '5%',
+      bottom: '10%',
+      right: '50%',
+
+      symbolSize: 7,
+
+      edgeShape: 'polyline',
+      initialTreeDepth: -1,
+
+      lineStyle: {
+        width: 2
+      },
+
+      label: {
+        position: 'left',
+        verticalAlign: 'middle',
+        align: 'right'
+      },
+
+      leaves: {
+        label: {
+          position: 'right',
+          verticalAlign: 'middle',
+          align: 'left'
+        }
+      },
+
+      expandAndCollapse: true,
+      animationDuration: 550,
+      animationDurationUpdate: 750
+    }
+  ]
+});
+
+
 const DisplayField = ({contentData, contentConfig, contentStyles}) => {
 
-  const [data, setData] = useState('');
+  const [graphOp, setGraphOp] = useState({});
 
   useEffect(() => {
     if (contentData !== '') {
-      getFolderStructure(JSON.parse(contentConfig).type, contentData)
-        .then(res => setData(res))
+      getProFileStructure(JSON.parse(contentConfig).type, contentData)
+        .then(res => setGraphOp(genGraphOp(res)))
     }
   }, [contentData])
 
   return <div className={contentStyles}>
-    <pre>{JSON.stringify(data, null, 2)}</pre>
+    {/*<pre>{JSON.stringify(data, null, 2)}</pre>*/}
+    <ReactEcharts
+      style={{height: '900px', width: '100%'}}
+      option={graphOp}
+    />
   </div>;
 };
 
