@@ -124,9 +124,8 @@ const DisplayField = ({contentData, contentConfig, contentStyles}) => {
   }, [contentData])
 
   return <div className={contentStyles}>
-    {/*<pre>{JSON.stringify(data, null, 2)}</pre>*/}
     <ReactEcharts
-      style={{height: '900px', width: '100%'}}
+      style={{height: '100%', width: '100%'}}
       option={graphOp}
     />
   </div>;

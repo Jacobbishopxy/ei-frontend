@@ -28,7 +28,7 @@ import styles from './index.less';
 const ReactGridLayout = WidthProvider(RGL);
 
 
-export const CustomDashboard = ({db, collection, panel}) => {
+export const CustomDashboard = ({db, collection, panel, hasSymbolSelector = false}) => {
 
   const [cards, setCards] = useState([]);
   const [counter, setCounter] = useState(0);
@@ -112,12 +112,16 @@ export const CustomDashboard = ({db, collection, panel}) => {
   return (
     <div className={styles.main}>
       <div className={styles.controlMain}>
-        <SymbolSelector
-          className={styles.content}
-          onSelectSymbol={setSymbol}
-          onSearchSymbol={e => {}}
-          defaultSymbol={symbol}
-        />
+        {
+          hasSymbolSelector ?
+            <SymbolSelector
+              className={styles.content}
+              onSelectSymbol={setSymbol}
+              onSearchSymbol={e => {}}
+              defaultSymbol={symbol}
+            /> :
+            <div/>
+        }
         <DashboardEditor
           className={styles.content}
           onAddModule={onAddItem}
