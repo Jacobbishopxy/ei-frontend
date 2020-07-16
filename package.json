@@ -1,6 +1,6 @@
 {
   "name": "ei-frontend",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "private": true,
   "description": "EI Frontend",
   "scripts": {
@@ -54,6 +54,8 @@
     "@opuscapita/react-filemanager-connector-node-v1": "^1.1.1",
     "antd": "^4.4.0",
     "classnames": "^2.2.6",
+    "echarts": "^4.8.0",
+    "echarts-for-react": "^2.0.16",
     "express": "^4.17.1",
     "graphql-request": "^1.8.2",
     "lodash": "^4.17.15",

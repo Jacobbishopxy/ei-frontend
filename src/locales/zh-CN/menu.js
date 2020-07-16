@@ -66,4 +66,5 @@ export default {
   'menu.demo.custom-table-data-operation': '自定义数据操作',
   'menu.demo.text-edit': '富文本编辑',
   'menu.demo.file-manager': '文件管理',
+  'menu.demo.tree-view': '文件树',
 };

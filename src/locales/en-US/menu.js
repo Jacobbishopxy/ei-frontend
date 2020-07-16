@@ -66,4 +66,5 @@ export default {
   'menu.demo.gql-data-fetch': 'Gql Data Fetch',
   'menu.demo.text-edit': 'Text Edit',
   'menu.demo.file-manager': 'File Manager',
+  'menu.demo.tree-view': 'Tree View',
 };

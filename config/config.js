@@ -139,6 +139,11 @@ export default defineConfig({
                   path: '/demo/filemanager',
                   component: './demo/FileManager',
                 },
+                {
+                  name: 'tree-view',
+                  path: '/demo/treeview',
+                  component: './demo/TreeView',
+                },
               ],
             },
             {
