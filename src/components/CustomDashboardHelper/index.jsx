@@ -58,7 +58,7 @@ export const CustomDashboard = ({db, collection, panel, hasSymbolSelector = fals
   }, [saveLayout]);
 
   const onAddItem = selectedMode => {
-    const newModel = addModel(counter, cards, selectedMode.key);
+    const newModel = addModel(counter, cards, selectedMode);
     const newCards = cards.concat(newModel);
     setCards(newCards);
     setCounter(counter + 1);

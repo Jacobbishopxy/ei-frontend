@@ -3,7 +3,7 @@
  */
 
 import React, { useRef, useState } from 'react';
-import { Button, Input, Menu, message, Modal, Space, Tooltip } from 'antd';
+import { Button, Input, message, Modal, Space, Tooltip } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import { Emoji } from '@/components/Emoji';
@@ -16,18 +16,43 @@ import { ProFileContent } from '@/components/CustomDashboardHelper/ModuleCollect
 import styles from './index.less';
 
 
-export const AddModuleMenu = ({onAddModule}) => (
-  <Menu onClick={onAddModule}>
-    <Menu.Item key="embedLink">链接</Menu.Item>
-    <Menu.Item key="table">表格</Menu.Item>
-    <Menu.Item key="editableTable">可编辑表格</Menu.Item>
-    <Menu.Item key="text">文字</Menu.Item>
-    <Menu.Item key="listFile">文件概览</Menu.Item>
-    <Menu.Item key="proFile">文件管理</Menu.Item>
-    <Menu.Item key="image">图片</Menu.Item>
-  </Menu>
-);
-
+export const moduleSelection = [
+  {
+    key: 'embedLink',
+    name: '链接',
+    disabled: false,
+  },
+  {
+    key: 'table',
+    name: '表格',
+    disabled: true,
+  },
+  {
+    key: 'editableTable',
+    name: '可编辑表',
+    disabled: false,
+  },
+  {
+    key: 'text',
+    name: '文字',
+    disabled: false,
+  },
+  {
+    key: 'listFile',
+    name: '文件概览',
+    disabled: false,
+  },
+  {
+    key: 'proFile',
+    name: '文件管理',
+    disabled: false,
+  },
+  {
+    key: 'image',
+    name: '图片',
+    disabled: true,
+  },
+];
 
 const selectModeToAdd = modeName => (initContent, saveContent, ref, headVisible) => {
 
