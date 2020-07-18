@@ -3,9 +3,10 @@
  */
 
 import React, {useState} from 'react';
+import {Button, Col, Input, InputNumber, Radio, Row, Space} from "antd";
 
 import ContentGenerator from '@/components/CustomDashboardHelper/ModuleCollections/ContentGenerator';
-import {Button, Col, Input, InputNumber, Modal, Radio, Row, Space} from "antd";
+import styles from './Common.less';
 
 
 const checkContentConfig = cc => {
@@ -24,35 +25,36 @@ const InputField = ({onSet, contentData, contentConfig, contentStyles}) => {
   const contentConfigOnChange2 = (value) => setContentC({...contentC, price: value});
 
   return (
-    <div className={contentStyles}>
-
-      <Input
-        placeholder='股票代码'
-        onBlur={contentDataOnChange}
-        defaultValue={contentD}
-      />
-      <Radio.Group
-        onChange={contentConfigOnChange1}
-        defaultValue={+contentC.direction}
-      >
-        <Radio value="B"><span style={{color: 'red'}}>买入</span></Radio>
-        <Radio value="M"><span style={{color: 'gray'}}>中性</span></Radio>
-        <Radio value="S"><span style={{color: 'green'}}>卖出</span></Radio>
-      </Radio.Group>
-      <InputNumber
-        min={0}
-        step={0.01}
-        onChange={contentConfigOnChange2}
-        defaultValue={contentC.price}
-      />
-
-      <Button
-        type='primary'
-        size='small'
-        onClick={commitChange}
-      >
-        保存
-      </Button>
+    <div className={contentStyles} style={{top: '20%'}}>
+      <Space align='center' direction='vertical'>
+        <Radio.Group
+          onChange={contentConfigOnChange1}
+          defaultValue={contentC.direction}
+        >
+          <Radio value="B"><span style={{color: 'red'}}>买入</span></Radio>
+          <Radio value="M"><span style={{color: 'gray'}}>中性</span></Radio>
+          <Radio value="S"><span style={{color: 'green'}}>卖出</span></Radio>
+        </Radio.Group>
+        <InputNumber
+          min={0}
+          step={0.01}
+          onChange={contentConfigOnChange2}
+          defaultValue={contentC.price}
+        />
+        <Input
+          placeholder='备注'
+          onBlur={contentDataOnChange}
+          defaultValue={contentD}
+          style={{width: 200}}
+        />
+        <Button
+          type='primary'
+          size='small'
+          onClick={commitChange}
+        >
+          保存
+        </Button>
+      </Space>
     </div>
   )
 };
@@ -62,35 +64,35 @@ const showDirection = (dir, pr) => {
   switch (dir) {
     case "B":
       return (
-        <Row>
-          <Col span={6} offset={2}>
-            <span style={{background: 'red', color: 'white', fontSize: 150}}>买入</span>
+        <Row className={styles.targetPriceTagB}>
+          <Col span={6} offset={4}>
+            <span className={styles.dir}>买入</span>
           </Col>
-          <Col span={6} offset={10}>
-            <span style={{color: 'red', fontSize: 150}}>{pr}</span>
+          <Col span={6} offset={6}>
+            <span className={styles.pr}>{pr}</span>
           </Col>
         </Row>
       );
     case "S":
       return (
-        <Row>
-          <Col span={6} offset={2}>
-            <span style={{background: 'green', color: 'white', fontSize: 150}}>卖出</span>
+        <Row className={styles.targetPriceTagS}>
+          <Col span={6} offset={4}>
+            <span className={styles.dir}>卖出</span>
           </Col>
-          <Col span={6} offset={10}>
-            <span style={{color: 'green', fontSize: 150}}>{pr}</span>
+          <Col span={6} offset={6}>
+            <span className={styles.pr}>{pr}</span>
           </Col>
         </Row>
       );
     default:
       return (
         (
-          <Row>
-            <Col span={6} offset={2}>
-              <span style={{background: 'gray', color: 'white', fontSize: 150}}>中性</span>
+          <Row className={styles.targetPriceTagM}>
+            <Col span={6} offset={4}>
+              <span className={styles.dir}>中性</span>
             </Col>
-            <Col span={6} offset={8}>
-              <span style={{color: 'gray', fontSize: 150}}>{pr}</span>
+            <Col span={6} offset={6}>
+              <span className={styles.pr}>{pr}</span>
             </Col>
           </Row>
         )
@@ -98,19 +100,29 @@ const showDirection = (dir, pr) => {
   }
 };
 
-const DisplayField = ({contentData, contentConfig, contentStyles}) => {
+const DisplayField = ({contentData, contentConfig}) => {
 
   const {direction, price} = checkContentConfig(contentConfig);
 
   return (
-    <div className={contentStyles}>
+    <>
+      <div style={{height: 5}}/>
+      <Row>
+        <Col span={6} offset={4}>
+          <span className={styles.targetPriceText}>投资建议</span>
+        </Col>
+        <Col span={6} offset={6}>
+          <span className={styles.targetPriceText}>目标价</span>
+        </Col>
+      </Row>
+
+      {showDirection(direction, price)}
       <Row>
         <Col offset={2}>
           <span>{contentData}</span>
         </Col>
       </Row>
-      {showDirection(direction, price)}
-    </div>
+    </>
   );
 };
 
