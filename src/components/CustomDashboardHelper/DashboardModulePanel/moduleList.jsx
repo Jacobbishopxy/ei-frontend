@@ -1,7 +1,7 @@
 /**
  * Created by Jacob Xie on 7/20/2020.
  */
-import React, { useRef, useState } from 'react';
+import React from 'react';
 
 import { EmbedLinkContent } from '@/components/CustomDashboardHelper/ModuleCollections/EmbedLinkContent';
 import { TextEditorContent } from '@/components/CustomDashboardHelper/ModuleCollections/TextEditorContent';

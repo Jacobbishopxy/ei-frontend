@@ -3,20 +3,21 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Button, Card, Divider, List, Modal } from 'antd';
+import { Button, Card, Divider, Input, List, Modal, Space, Tabs } from 'antd';
 
 import { moduleList } from '@/components/CustomDashboardHelper/DashboardModulePanel/moduleList';
 
 import styles from './Common.less';
 
 
-const AddModuleSelection = ({onSelectModule}) => (
+const ModuleSelectionView = ({onSelectModule}) => (
   <>
     {moduleList.map(chunk => (
-      <>
+      <div key={chunk.key}>
         <Divider orientation="left">{chunk.name}</Divider>
         <List
-          grid={{gutter: 24, column: 6}}
+          grid={{gutter: 24, column: 4}}
+          size='large'
           dataSource={chunk.children}
           renderItem={item => (
             <List.Item>
@@ -34,11 +35,10 @@ const AddModuleSelection = ({onSelectModule}) => (
             </List.Item>
           )}
         />
-      </>
+      </div>
     ))}
   </>
-)
-
+);
 
 const AddModuleModal = ({onAddModule, visible, onOk, onCancel}) => {
 
@@ -60,17 +60,70 @@ const AddModuleModal = ({onAddModule, visible, onOk, onCancel}) => {
       cancelText="取消"
       width="60%"
     >
-      <AddModuleSelection onSelectModule={onSelectModule}/>
+      <Tabs defaultActiveKey="1">
+        <Tabs.TabPane tab="模块方案" key="1">
+          <ModuleSelectionView onSelectModule={onSelectModule}/>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="空模板" key="2">
+          Template selection
+        </Tabs.TabPane>
+      </Tabs>
     </Modal>
-  )
+  );
 };
+
+const ConfirmSaveModal = ({onSaveModule, template, onSaveTemplate, visible, onOk, onCancel}) => {
+
+  const [templateName, setTemplateName] = useState(template);
+
+  const inputBlur = ({target: {value}}) => setTemplateName(value);
+  const buttonClick = () => onSaveTemplate(templateName);
+
+  return (
+    <Modal
+      title='保存编辑结果'
+      visible={visible}
+      onCancel={onCancel}
+      footer={<Button onClick={onOk}>确认退出编辑</Button>}
+    >
+      <Space direction="vertical">
+        <Space>
+          保存模板：
+          <Input
+            defaultValue={templateName}
+            onBlur={inputBlur}
+            style={{width: 200}}
+            disabled
+          />
+          <Button
+            onClick={buttonClick}
+            disabled
+          >
+            确认
+          </Button>
+        </Space>
+        <br/>
+        <Space>
+          保存布局：
+          <Button
+            type='primary'
+            onClick={onSaveModule}
+          >
+            确认
+          </Button>
+        </Space>
+      </Space>
+    </Modal>
+  );
+}
 
 
 // todo: add save dashboard as template
 export const DashboardEditor = ({onAddModule, onSaveModule, onEditModule}) => {
 
   const [edit, setEdit] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const [addModuleModalVisible, setAddModuleModalVisible] = useState(false);
+  const [confirmSaveModalVisible, setConfirmSaveModalVisible] = useState(false);
 
   useEffect(() => {
     onEditModule(edit);
@@ -78,20 +131,11 @@ export const DashboardEditor = ({onAddModule, onSaveModule, onEditModule}) => {
 
   const startEdit = () => setEdit(true);
 
-  const quitEdit = () =>
-    Modal.confirm({
-      title: '是否保存编辑结果？',
-      content: '所有改动将保存于服务器',
-      onOk() {
-        onSaveModule();
-        setEdit(false);
-      },
-      onCancel() {
-        setEdit(false);
-      },
-      okText: '是',
-      cancelText: '否'
-    });
+  const quitEdit = () => {
+    setConfirmSaveModalVisible(false);
+    setEdit(false);
+  };
+
 
   return (
     <>
@@ -102,20 +146,12 @@ export const DashboardEditor = ({onAddModule, onSaveModule, onEditModule}) => {
               type='primary'
               size='small'
               style={{marginRight: 5}}
-              onClick={() => setVisible(true)}
+              onClick={() => setAddModuleModalVisible(true)}
             >
               添加模块
             </Button>
             <Button
-              type='primary'
-              size='small'
-              style={{marginRight: 5}}
-              disabled
-            >
-              保存模板
-            </Button>
-            <Button
-              onClick={quitEdit}
+              onClick={() => setConfirmSaveModalVisible(true)}
               type='danger'
               size='small'
               style={{marginRight: 5}}
@@ -125,10 +161,20 @@ export const DashboardEditor = ({onAddModule, onSaveModule, onEditModule}) => {
 
             <AddModuleModal
               onAddModule={onAddModule}
-              onOk={() => setVisible(false)}
-              onCancel={() => setVisible(false)}
-              visible={visible}
+              onOk={() => setAddModuleModalVisible(false)}
+              onCancel={() => setAddModuleModalVisible(false)}
+              visible={addModuleModalVisible}
             />
+
+            <ConfirmSaveModal
+              onSaveModule={onSaveModule}
+              template="dev"
+              onSaveTemplate={t => console.log(`on save template: ${t}`)}
+              visible={confirmSaveModalVisible}
+              onOk={quitEdit}
+              onCancel={() => setConfirmSaveModalVisible(false)}
+            />
+
           </div> :
           <Button
             onClick={startEdit}
@@ -140,7 +186,7 @@ export const DashboardEditor = ({onAddModule, onSaveModule, onEditModule}) => {
           </Button>
       }
     </>
-  )
+  );
 };
 
 export default DashboardEditor;
