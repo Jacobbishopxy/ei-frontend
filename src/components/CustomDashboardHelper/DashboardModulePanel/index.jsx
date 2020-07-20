@@ -14,7 +14,51 @@ import { ListFileContent } from '@/components/CustomDashboardHelper/ModuleCollec
 import { ProFileContent } from '@/components/CustomDashboardHelper/ModuleCollections/ProFileContent';
 
 import styles from './index.less';
+import TargetPriceContent from "@/components/CustomDashboardHelper/ModuleCollections/TargetPriceContent";
 
+
+export const moduleSelection = [
+  {
+    key: 'embedLink',
+    name: '链接',
+    disabled: false,
+  },
+  {
+    key: 'table',
+    name: '表格',
+    disabled: true,
+  },
+  {
+    key: 'editableTable',
+    name: '可编辑表',
+    disabled: false,
+  },
+  {
+    key: 'text',
+    name: '文字',
+    disabled: false,
+  },
+  {
+    key: 'listFile',
+    name: '文件概览',
+    disabled: false,
+  },
+  {
+    key: 'proFile',
+    name: '文件管理',
+    disabled: false,
+  },
+  {
+    key: 'image',
+    name: '图片',
+    disabled: true,
+  },
+  {
+    key: 'targetPrice',
+    name: '目标价',
+    disabled: false,
+  },
+];
 
 const selectModeToAdd = modeName => (initContent, saveContent, ref, headVisible) => {
 
@@ -37,20 +81,25 @@ const selectModeToAdd = modeName => (initContent, saveContent, ref, headVisible)
     saveContent={saveContent}
     ref={ref}
     contentStyles={contentStyles}
-  />
+  />;
   const listFileContent = <ListFileContent
     initContent={initContent}
     saveContent={saveContent}
     ref={ref}
     contentStyles={contentStyles}
-  />
+  />;
   const proFileContent = <ProFileContent
     initContent={initContent}
     saveContent={saveContent}
     ref={ref}
     contentStyles={contentStyles}
-  />
-
+  />;
+  const targetPriceContent = <TargetPriceContent
+    initContent={initContent}
+    saveContent={saveContent}
+    ref={ref}
+    contentStyles={contentStyles}
+  />;
 
   switch (modeName) {
     case 'embedLink':
@@ -67,6 +116,8 @@ const selectModeToAdd = modeName => (initContent, saveContent, ref, headVisible)
       return listFileContent;
     case 'proFile':
       return proFileContent;
+    case 'targetPrice':
+      return targetPriceContent;
     default:
       return defaultType;
   }
