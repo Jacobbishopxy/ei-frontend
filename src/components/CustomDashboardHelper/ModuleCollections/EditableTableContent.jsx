@@ -116,6 +116,7 @@ const DisplayField = ({contentData, contentConfig, contentStyles}) => {
       size='small'
       pagination={cc.pagination}
       showHeader={cc.showHeader}
+      scroll={{ x: 1300 }}
     />
   </div>
 };

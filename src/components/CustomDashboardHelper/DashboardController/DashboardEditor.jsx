@@ -5,14 +5,14 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card, List, Modal } from 'antd';
 
-import { moduleSelection } from '@/components/CustomDashboardHelper/DashboardModulePanel';
+import { moduleList } from '@/components/CustomDashboardHelper/DashboardModulePanel/moduleList';
 
 import styles from './Common.less';
 
 const AddModuleSelection = ({onSelectModule}) => (
   <List
     grid={{gutter: 24, column: 6}}
-    dataSource={moduleSelection}
+    dataSource={moduleList}
     renderItem={item => (
       <List.Item>
         <label className={styles.moduleSelectionLabel}>
