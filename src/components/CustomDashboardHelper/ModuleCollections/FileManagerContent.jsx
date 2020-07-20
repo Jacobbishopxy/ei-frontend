@@ -117,6 +117,6 @@ const DisplayField = ({contentData, contentConfig}) => {
   );
 };
 
-export const ProFileContent = ContentGenerator(InputField, DisplayField);
+export const FileManagerContent = ContentGenerator(InputField, DisplayField);
 
-export default ProFileContent;
+export default FileManagerContent;

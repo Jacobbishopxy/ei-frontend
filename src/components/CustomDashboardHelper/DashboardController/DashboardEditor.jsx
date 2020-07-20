@@ -3,33 +3,41 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Button, Card, List, Modal } from 'antd';
+import { Button, Card, Divider, List, Modal } from 'antd';
 
 import { moduleList } from '@/components/CustomDashboardHelper/DashboardModulePanel/moduleList';
 
 import styles from './Common.less';
 
+
 const AddModuleSelection = ({onSelectModule}) => (
-  <List
-    grid={{gutter: 24, column: 6}}
-    dataSource={moduleList}
-    renderItem={item => (
-      <List.Item>
-        <label className={styles.moduleSelectionLabel}>
-          <input type="radio" name="radio-name" disabled={item.disabled}/>
-          <div>
-            <Card
-              onClick={() => onSelectModule(item.key)}
-              className={item.disabled ? styles.selectionCardDisabled : styles.selectionCard}
-            >
-              {item.name}
-            </Card>
-          </div>
-        </label>
-      </List.Item>
-    )}
-  />
-);
+  <>
+    {moduleList.map(chunk => (
+      <>
+        <Divider orientation="left">{chunk.name}</Divider>
+        <List
+          grid={{gutter: 24, column: 6}}
+          dataSource={chunk.children}
+          renderItem={item => (
+            <List.Item>
+              <label className={styles.moduleSelectionLabel}>
+                <input type="radio" name="radio-name" disabled={item.disabled}/>
+                <div>
+                  <Card
+                    onClick={() => onSelectModule(item.key)}
+                    className={item.disabled ? styles.selectionCardDisabled : styles.selectionCard}
+                  >
+                    {item.name}
+                  </Card>
+                </div>
+              </label>
+            </List.Item>
+          )}
+        />
+      </>
+    ))}
+  </>
+)
 
 
 const AddModuleModal = ({onAddModule, visible, onOk, onCancel}) => {

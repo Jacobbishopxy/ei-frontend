@@ -132,7 +132,7 @@ const DisplayField = ({contentData, contentConfig, contentStyles}) => {
 };
 
 
-export const ListFileContent = ContentGenerator(InputField, DisplayField);
+export const FileListContent = ContentGenerator(InputField, DisplayField);
 
-export default ListFileContent;
+export default FileListContent;
 
