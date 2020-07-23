@@ -112,11 +112,6 @@ export const moduleList = [
         disabled: true,
       },
       {
-        key: 'tree',
-        name: '树图',
-        disabled: true,
-      },
-      {
         key: 'treeMap',
         name: '矩形树图',
         disabled: true,

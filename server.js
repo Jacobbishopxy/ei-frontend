@@ -86,6 +86,53 @@ app.post('/api/ei-grid-layout', (req, res) => {
     .catch(err => console.log(err));
 });
 
+// new APIs
+
+/**
+ * get industry-store
+ */
+app.get('/api/dashboard-store', (req, res) => {
+  const {collection, identity, category} = req.query;
+
+  fetchGet(`${eiBackendUrl}/dashboard/industry-store?collection=${collection}&identity=${identity}&category=${category}`)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
+
+/**
+ * update industry-store
+ */
+app.post('/api/dashboard-store', (req, res) => {
+  const {collection} = req.query;
+
+  fetchPost(`${eiBackendUrl}/dashboard/industry-store?collection=${collection}`, req.body)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
+
+/**
+ * get template-layout
+ */
+app.get('/api/dashboard-layout', (req, res) => {
+  const {collection, template, panel} = req.query;
+
+  fetchGet(`${eiBackendUrl}/dashboard/template-layout?collection=${collection}&template=${template}&panel=${panel}`)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
+
+/**
+ * update template-layout
+ */
+app.post('/api/dashboard-layout', (req, res) => {
+  const {collection} = req.query;
+
+  fetchPost(`${eiBackendUrl}/dashboard/template-layout?collection=${collection}`, req.body)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
+
+
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
