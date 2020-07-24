@@ -3,6 +3,7 @@
  */
 import React from 'react';
 
+import { categoryType } from '@/utilities/dashboardModel';
 import { EmbedLinkContent } from '@/components/CustomDashboardHelper/ModuleCollections/EmbedLinkContent';
 import { TextEditorContent } from '@/components/CustomDashboardHelper/ModuleCollections/TextEditorContent';
 import { EditableTableContent } from '@/components/CustomDashboardHelper/ModuleCollections/EditableTableContent';
@@ -19,22 +20,22 @@ export const moduleList = [
     name: '功能',
     children: [
       {
-        key: 'embedLink',
+        key: categoryType.embedLink,
         name: '链接',
         disabled: false,
       },
       {
-        key: 'text',
+        key: categoryType.text,
         name: '文字',
         disabled: false,
       },
       {
-        key: 'targetPrice',
+        key: categoryType.targetPrice,
         name: '目标价',
         disabled: false,
       },
       {
-        key: 'image',
+        key: categoryType.image,
         name: '图片',
         disabled: true,
       },
@@ -45,12 +46,12 @@ export const moduleList = [
     name: '文件',
     children: [
       {
-        key: 'fileList',
+        key: categoryType.fileList,
         name: '文件概览',
         disabled: false,
       },
       {
-        key: 'fileManager',
+        key: categoryType.fileManager,
         name: '文件管理',
         disabled: false,
       },
@@ -61,12 +62,12 @@ export const moduleList = [
     name: '表格',
     children: [
       {
-        key: 'editableTable',
+        key: categoryType.editableTable,
         name: '可编辑表',
         disabled: false,
       },
       {
-        key: 'table',
+        key: categoryType.table,
         name: '表格',
         disabled: true,
       },
@@ -77,42 +78,42 @@ export const moduleList = [
     name: '图形',
     children: [
       {
-        key: 'lines',
+        key: categoryType.lines,
         name: '折线图',
         disabled: true,
       },
       {
-        key: 'histogram',
+        key: categoryType.histogram,
         name: '柱状图',
         disabled: true,
       },
       {
-        key: 'pie',
+        key: categoryType.pie,
         name: '饼图',
         disabled: true,
       },
       {
-        key: 'scatter',
+        key: categoryType.scatter,
         name: '散点图',
         disabled: true,
       },
       {
-        key: 'heatmap',
+        key: categoryType.heatmap,
         name: '热力图',
         disabled: true,
       },
       {
-        key: 'box',
+        key: categoryType.box,
         name: '箱图',
         disabled: true,
       },
       {
-        key: 'tree',
+        key: categoryType.tree,
         name: '树图',
         disabled: true,
       },
       {
-        key: 'treeMap',
+        key: categoryType.treeMap,
         name: '矩形树图',
         disabled: true,
       },
