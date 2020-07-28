@@ -12,16 +12,48 @@ export const updateGridLayout = async (db, collection, json) =>
   request(`/api/ei-grid-layout?db=${db}&collection=${collection}`, {method: 'POST', data: json});
 
 
-export const getStore = async (collection, identity, category) =>
-  request(`/api/dashboard-store?collection=${collection}&identity=${identity}&category=${category}`)
+/**
+ * store & stores
+ */
 
-export const updateStore = async (collection, json) =>
-  request(`/api/dashboard-store?collection=${collection}`, {method: 'POST', data: json})
+export const fetchStore = async (collection, json) =>
+  request(`/api/dashboard-store-fetch?collection=${collection}`, {method: 'POST', data: json});
 
-export const getLayout = async (collection, identity, category) =>
-  request(`/api/dashboard-store?collection=${collection}&identity=${identity}&category=${category}`)
-
-export const updateLayout = async (collection, json) =>
-  request(`/api/dashboard-store?collection=${collection}`, {method: 'POST', data: json})
+export const fetchStores = async (collection, json) =>
+  request(`/api/dashboard-stores-fetch?collection=${collection}`, {method: 'POST', data: json});
 
 
+export const modifyStore = async (collection, json) =>
+  request(`/api/dashboard-store-modify?collection=${collection}`, {method: 'POST', data: json});
+
+export const modifyStores = async (collection, json) =>
+  request(`/api/dashboard-stores-modify?collection=${collection}`, {method: 'POST', data: json});
+
+
+export const removeStore = async (collection, json) =>
+  request(`/api/dashboard-store-remove?collection=${collection}`, {method: 'POST', data: json});
+
+export const removeStores = async (collection, json) =>
+  request(`/api/dashboard-stores-remove?collection=${collection}`, {method: 'POST', data: json});
+
+
+/**
+ * layout
+ */
+
+export const fetchLayout = async (collection, json) =>
+  request(`/api/dashboard-layout-fetch?collection=${collection}`, {method: 'POST', data: json});
+
+export const modifyLayout = async (collection, json) =>
+  request(`/api/dashboard-layout-modify?collection=${collection}`, {method: 'POST', data: json});
+
+export const removeLayout = async (collection, json) =>
+  request(`/api/dashboard-layout-remove?collection=${collection}`, {method: 'POST', data: json});
+
+
+/**
+ * layout
+ */
+
+export const modifyLayoutStore = async (collection, json) =>
+  request(`/api/dashboard-layout-store-modify?collection=${collection}`, {method: 'POST', data: json});
