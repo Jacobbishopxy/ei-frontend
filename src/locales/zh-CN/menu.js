@@ -67,4 +67,5 @@ export default {
   'menu.demo.text-edit': '富文本编辑',
   'menu.demo.file-manager': '文件管理',
   'menu.demo.tree-view': '文件树',
+  'menu.demo.ts-test': 'Typescript测试',
 };
