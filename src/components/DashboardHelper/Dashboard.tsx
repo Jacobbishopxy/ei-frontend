@@ -11,7 +11,6 @@ import { useDidMountEffect } from '@/utilities/utils';
 import * as dashboardModel from '@/utilities/dashboardModel';
 import * as dashboardService from '@/services/eiDashboard';
 
-import styles from './index.less';
 
 const ReactGridLayout = WidthProvider(RGL);
 

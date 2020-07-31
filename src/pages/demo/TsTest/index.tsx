@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Spin } from 'antd';
-import { Dashboard } from '@/components/CustomDashboardHelper/Dashboard';
+import { Dashboard } from '@/components/DashboardHelper/Dashboard';
 
 import styles from './index.less';
 
