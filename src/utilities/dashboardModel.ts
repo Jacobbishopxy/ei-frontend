@@ -5,7 +5,11 @@
 import _ from 'lodash';
 import { currentTimeStamp } from '@/utilities/utils';
 
-// todo: change model to Typescript
+export enum DbType {
+  template = 'template',
+  industry = 'industry',
+  market = 'market',
+}
 
 export enum CategoryType {
   embedLink = 'embedLink',
@@ -122,6 +126,8 @@ export const addElementToLayout = (layout: Layout, category: CategoryType): Layo
   return new Layout(layout.templatePanel, newLayouts);
 };
 
+export const addStoreToStore = (stores: Store[], store: Store): Store[] =>
+  _.concat(stores, store)
 
 export const removeElementFromLayout = (layout: Layout, identity: string): Layout => {
   const newLayouts: Element[] = _.reject(layout.layouts, ele => (ele.anchorKey.identity === identity))
@@ -129,20 +135,25 @@ export const removeElementFromLayout = (layout: Layout, identity: string): Layou
   return new Layout(layout.templatePanel, newLayouts);
 };
 
-
 export const updateElementInLayout = (layout: Layout, rawLayout: RawLayout[]): Layout => {
   const newLayouts: Element[] =
-    _.zip(layout.layouts, rawLayout).map(item => ({
-      anchorKey: {
-        ...item[0].anchorKey,
-      },
-      coordinate: {
-        x: item[1].x,
-        y: item[1].y,
-        h: item[1].h,
-        w: item[1].w,
+    _.zip(layout.layouts, rawLayout).map(item => {
+
+      const ele: Element = item[0]!
+      const rlo: RawLayout = item[1]!
+
+      return {
+        anchorKey: {
+          ...ele.anchorKey,
+        },
+        coordinate: {
+          x: rlo[1].x,
+          y: rlo[1].y,
+          h: rlo[1].h,
+          w: rlo[1].w,
+        }
       }
-    }));
+    });
 
   return new Layout(layout.templatePanel, newLayouts);
 };

@@ -6,27 +6,79 @@ import React, { useState, useEffect } from 'react';
 import { message } from 'antd';
 import RGL, { WidthProvider } from 'react-grid-layout';
 
-import { DataCard } from '@/components/CustomDashboardHelper/DashboardModulePanel';
-import { SymbolSelector } from '@/components/CustomDashboardHelper/DashboardController/SymbolSelector';
-import { DashboardEditor } from '@/components/CustomDashboardHelper/DashboardController/DashboardEditor';
 import { useDidMountEffect } from '@/utilities/utils';
 
-import * as dashboardModel from '@/utilties/dashboardModel';
+import * as dashboardModel from '@/utilities/dashboardModel';
 import * as dashboardService from '@/services/eiDashboard';
 
 import styles from './index.less';
 
-// const ReactGridLayout = WidthProvider(RGL);
+const ReactGridLayout = WidthProvider(RGL);
 
-export interface DevDashboardProps {
-  value: string
+export interface DashboardProps {
+  layoutDb: dashboardModel.DbType;
+  storeDb: dashboardModel.DbType;
+  collection: string;
+  templatePanel: dashboardModel.TemplatePanel;
+  hasSymbolSelector: boolean;
 }
 
-export const DevDashboard: React.FC<DevDashboardProps> = (props) => {
+export const Dashboard: React.FC<DashboardProps> = (props) => {
 
-  const [v, setV] = useState<string>("")
+  const [layouts, setLayouts] = useState<dashboardModel.Layout>();
+  const [stores, setStores] = useState<dashboardModel.Store[]>();
+  const [layoutSaveTrigger, setLayoutSaveTrigger] = useState<number>(0);
+  const [dashboardOnEdit, setDashboardOnEdit] = useState<boolean>(false);
+  // const [globalConfig, setGlobalConfig] = useState();
+
+  useEffect(() => {
+    dashboardService
+      .fetchLayout(props.collection, props.templatePanel)
+      .then(data => setLayouts(data));
+  }, [props.templatePanel])
+
+  useDidMountEffect(() => {
+
+    const layoutWithStore = new dashboardModel.LayoutWithStore(props.templatePanel, layouts!.layouts, stores!);
+
+    dashboardService
+      .modifyLayoutStore(props.collection, layoutWithStore)
+      .then(() => message.success('保存成功'))
+      .catch(() => message.warn('保存失败'));
+
+  }, [layoutSaveTrigger])
+
+
+  const onAddElementToLayout = (selectedCategory: dashboardModel.CategoryType) =>
+    dashboardModel.addElementToLayout(layouts!, selectedCategory)
+
+  const onChangeLayout = (rawLayout: dashboardModel.RawLayout[]) =>
+    dashboardModel.updateElementInLayout(layouts!, rawLayout)
+
+  const onRemoveElementFromLayout = (identity: string) =>
+    dashboardModel.removeElementFromLayout(layouts!, identity)
+
+
+  const generateElement = (element: dashboardModel.Element, index: number) => {
+
+    const {anchorKey, coordinate} = element;
+
+    const removeItem = () =>
+      onRemoveElementFromLayout(anchorKey.identity);
+
+    const saveElement = (store: dashboardModel.Store) =>
+      dashboardModel.addStoreToStore(stores!, store)
+
+    return (
+      <div key={anchorKey.identity} data-grid={coordinate}>
+        pass
+      </div>
+    )
+
+  }
+
 
   return (
-    <div>{props.value}</div>
+    <div>{233}</div>
   )
 }
