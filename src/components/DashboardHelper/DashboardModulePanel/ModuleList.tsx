@@ -4,9 +4,11 @@
 
 import React from 'react';
 
-import { CategoryType } from '@/utilities/dashboardModel';
+import * as dashboardModel from '@/utilities/dashboardModel';
+import { EmbedLink } from '@/components/DashboardHelper/ModuleCollections/EmbedLink';
 
-import styles from './ModulePanel.less';
+// import styles from './ModulePanel.less';
+
 
 export const moduleList = [
   {
@@ -14,22 +16,22 @@ export const moduleList = [
     name: '功能',
     children: [
       {
-        key: CategoryType.embedLink,
+        key: dashboardModel.CategoryType.embedLink,
         name: '链接',
         disabled: false,
       },
       {
-        key: CategoryType.text,
+        key: dashboardModel.CategoryType.text,
         name: '文字',
         disabled: false,
       },
       {
-        key: CategoryType.targetPrice,
+        key: dashboardModel.CategoryType.targetPrice,
         name: '目标价',
         disabled: false,
       },
       {
-        key: CategoryType.image,
+        key: dashboardModel.CategoryType.image,
         name: '图片',
         disabled: true,
       },
@@ -40,12 +42,12 @@ export const moduleList = [
     name: '文件',
     children: [
       {
-        key: CategoryType.fileList,
+        key: dashboardModel.CategoryType.fileList,
         name: '文件概览',
         disabled: false,
       },
       {
-        key: CategoryType.fileManager,
+        key: dashboardModel.CategoryType.fileManager,
         name: '文件管理',
         disabled: false,
       },
@@ -56,12 +58,12 @@ export const moduleList = [
     name: '表格',
     children: [
       {
-        key: CategoryType.editableTable,
+        key: dashboardModel.CategoryType.editableTable,
         name: '可编辑表',
         disabled: false,
       },
       {
-        key: CategoryType.table,
+        key: dashboardModel.CategoryType.table,
         name: '表格',
         disabled: true,
       },
@@ -72,42 +74,42 @@ export const moduleList = [
     name: '图形',
     children: [
       {
-        key: CategoryType.lines,
+        key: dashboardModel.CategoryType.lines,
         name: '折线图',
         disabled: true,
       },
       {
-        key: CategoryType.histogram,
+        key: dashboardModel.CategoryType.histogram,
         name: '柱状图',
         disabled: true,
       },
       {
-        key: CategoryType.pie,
+        key: dashboardModel.CategoryType.pie,
         name: '饼图',
         disabled: true,
       },
       {
-        key: CategoryType.scatter,
+        key: dashboardModel.CategoryType.scatter,
         name: '散点图',
         disabled: true,
       },
       {
-        key: CategoryType.heatmap,
+        key: dashboardModel.CategoryType.heatmap,
         name: '热力图',
         disabled: true,
       },
       {
-        key: CategoryType.box,
+        key: dashboardModel.CategoryType.box,
         name: '箱图',
         disabled: true,
       },
       {
-        key: CategoryType.tree,
+        key: dashboardModel.CategoryType.tree,
         name: '树图',
         disabled: true,
       },
       {
-        key: CategoryType.treeMap,
+        key: dashboardModel.CategoryType.treeMap,
         name: '矩形树图',
         disabled: true,
       },
@@ -115,7 +117,26 @@ export const moduleList = [
   },
 ]
 
-export function selectModuleToAdd(moduleName: CategoryType) {
+export const selectModuleToAdd = (moduleName: dashboardModel.CategoryType) =>
+  (content: dashboardModel.Content,
+   saveContent: (a: dashboardModel.Content) => void,
+   headVisible: boolean,
+   ref: React.Ref<any>) => {
 
-}
+    // const contentStyles = headVisible ? styles.cardContent : styles.cardContentWithOutHead;
+
+    const defaultType = <EmbedLink
+      content={content}
+      saveContent={saveContent}
+      forwardedRef={ref}
+    />
+
+    switch (moduleName) {
+      case dashboardModel.CategoryType.embedLink:
+        return defaultType;
+      default:
+        return defaultType;
+    }
+
+  }
 

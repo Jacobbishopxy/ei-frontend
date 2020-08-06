@@ -11,16 +11,14 @@ import { useDidMountEffect } from '@/utilities/utils';
 import * as dashboardModel from '@/utilities/dashboardModel';
 import * as dashboardService from '@/services/eiDashboard';
 
+import { DashboardEditor } from '@/components/DashboardHelper/DashboardController/DashboardEditor';
+import { ElementsGenerator } from '@/components/DashboardHelper/ElementsGenerator';
+import { DashboardProps } from './data';
+
+import styles from './Dashboard.less';
 
 const ReactGridLayout = WidthProvider(RGL);
 
-export interface DashboardProps {
-  layoutDb: dashboardModel.DbType;
-  storeDb: dashboardModel.DbType;
-  collection: string;
-  templatePanel: dashboardModel.TemplatePanel;
-  hasSymbolSelector: boolean;
-}
 
 export const Dashboard: React.FC<DashboardProps> = (props) => {
 
@@ -28,7 +26,7 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
   const [stores, setStores] = useState<dashboardModel.Store[]>();
   const [layoutSaveTrigger, setLayoutSaveTrigger] = useState<number>(0);
   const [dashboardOnEdit, setDashboardOnEdit] = useState<boolean>(false);
-  // const [globalConfig, setGlobalConfig] = useState();
+  const [globalConfig, setGlobalConfig] = useState<Record<string, any> | null>(null);
 
   useEffect(() => {
     dashboardService
@@ -47,6 +45,9 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
 
   }, [layoutSaveTrigger])
 
+  // todo: add symbol selector
+  const onChangeSymbol = (value: string) =>
+    setGlobalConfig({...globalConfig, symbol: value})
 
   const onAddElementToLayout = (selectedCategory: dashboardModel.CategoryType) =>
     dashboardModel.addElementToLayout(layouts!, selectedCategory)
@@ -54,30 +55,46 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
   const onChangeLayout = (rawLayout: dashboardModel.RawLayout[]) =>
     dashboardModel.updateElementInLayout(layouts!, rawLayout)
 
-  const onRemoveElementFromLayout = (identity: string) =>
-    dashboardModel.removeElementFromLayout(layouts!, identity)
+  const onRemoveElementFromLayout = (value: string) =>
+    setLayouts(dashboardModel.removeElementFromLayout(layouts!, value));
 
+  const onSaveModule = () =>
+    setLayoutSaveTrigger(layoutSaveTrigger + 1);
 
-  const generateElement = (element: dashboardModel.Element, index: number) => {
-
-    const {anchorKey, coordinate} = element;
-
-    const removeItem = () =>
-      onRemoveElementFromLayout(anchorKey.identity);
-
-    const saveElement = (store: dashboardModel.Store) =>
-      dashboardModel.addStoreToStore(stores!, store)
-
-    return (
-      <div key={anchorKey.identity} data-grid={coordinate}>
-        pass
-      </div>
-    )
-
-  }
+  const elementSaveStore = (value: dashboardModel.Store) =>
+    setStores(dashboardModel.addStoreToStore(stores!, value))
 
 
   return (
-    <div>{233}</div>
+    <div className={styles.main}>
+      <div className={styles.controlMain}>
+        <DashboardEditor
+          onAddModule={onAddElementToLayout}
+          onSaveModule={onSaveModule}
+          onEditModule={setDashboardOnEdit}
+        />
+      </div>
+
+      <ReactGridLayout
+        onLayoutChange={onChangeLayout}
+        draggableHandle=".draggableZone"
+        className="layout"
+        isDraggable={dashboardOnEdit}
+        isResizable={dashboardOnEdit}
+        cols={24}
+        rowHeight={100}
+        margin={[5, 5]}
+        containerPadding={[10, 10]}
+      >
+        <ElementsGenerator
+          collection={props.collection}
+          globalConfig={globalConfig}
+          elements={layouts?.layouts!}
+          removeElement={onRemoveElementFromLayout}
+          saveStore={elementSaveStore}
+        />
+      </ReactGridLayout>
+
+    </div>
   )
 }

@@ -62,8 +62,9 @@ export interface Anchor {
 }
 
 export interface Content {
+  title?: string;
   data: string;
-  config?: string;
+  config?: Record<string, any>;
 }
 
 export interface Store {
