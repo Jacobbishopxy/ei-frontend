@@ -1,11 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { Spin } from 'antd';
+/**
+ * Created by Jacob Xie on 8/6/2020.
+ */
+
+import React from 'react';
+
+import * as dashboardModel from '@/utilities/dashboardModel';
 import { Dashboard } from '@/components/DashboardHelper/Dashboard';
 
-import styles from './index.less';
+const layoutDb = dashboardModel.DbType.template;
+const storeDb = dashboardModel.DbType.industry
+const collection = 'dev'
+const templatePanel = {
+  template: 'dev',
+  panel: 'dev'
+}
 
 export default () => {
   return (
-    <Dashboard value={"halo"}/>
+    <Dashboard
+      layoutDb={layoutDb}
+      storeDb={storeDb}
+      collection={collection}
+      templatePanel={templatePanel}
+      hasSymbolSelector={false}
+    />
   );
 };

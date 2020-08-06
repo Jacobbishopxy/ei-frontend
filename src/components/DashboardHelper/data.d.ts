@@ -20,11 +20,3 @@ export interface ElementGeneratorProps {
   removeElement: (value: string) => void
   saveStore: (value: dashboardModel.Store) => void
 }
-
-export interface ElementsGeneratorProps {
-  collection: string
-  globalConfig: Record<string, any> | null
-  elements: dashboardModel.Element[]
-  removeElement: (value: string) => void
-  saveStore: (value: dashboardModel.Store) => void
-}

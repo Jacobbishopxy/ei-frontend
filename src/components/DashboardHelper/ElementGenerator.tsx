@@ -8,10 +8,10 @@ import React, { useEffect, useState } from 'react';
 import * as dashboardModel from '@/utilities/dashboardModel';
 import { ModulePanel } from '@/components/DashboardHelper/DashboardModulePanel/ModulePanel';
 import { fetchStore } from '@/services/eiDashboard';
-import { ElementGeneratorProps, ElementsGeneratorProps } from './data';
+import { ElementGeneratorProps } from './data';
 
 
-const ElementGenerator = (props: ElementGeneratorProps) => {
+export const ElementGenerator = (props: ElementGeneratorProps) => {
 
   const [content, setContent] = useState<dashboardModel.Content | null>(null);
 
@@ -23,7 +23,7 @@ const ElementGenerator = (props: ElementGeneratorProps) => {
 
   useEffect(() => {
     fetchStore(props.collection, anchor)
-      .then(res => setContent(res.content))
+      .then(res => setContent(res.content)) // todo: here is null! should have empty content here!!!
       .catch(err => console.log(err));
   });
 
@@ -42,24 +42,6 @@ const ElementGenerator = (props: ElementGeneratorProps) => {
         headVisible
       />
     </div>
-  );
-};
-
-export const ElementsGenerator = (props: ElementsGeneratorProps) => {
-  return (
-    <>
-      {
-        props.elements.map(ele => (
-          <ElementGenerator
-            collection={props.collection}
-            globalConfig={props.globalConfig}
-            element={ele}
-            removeElement={props.removeElement}
-            saveStore={props.saveStore}
-          />
-        ))
-      }
-    </>
   );
 };
 

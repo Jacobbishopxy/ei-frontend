@@ -12,18 +12,21 @@ import * as dashboardModel from '@/utilities/dashboardModel';
 import * as dashboardService from '@/services/eiDashboard';
 
 import { DashboardEditor } from '@/components/DashboardHelper/DashboardController/DashboardEditor';
-import { ElementsGenerator } from '@/components/DashboardHelper/ElementsGenerator';
+import { ElementGenerator } from '@/components/DashboardHelper/ElementGenerator';
 import { DashboardProps } from './data';
 
 import styles from './Dashboard.less';
 
 const ReactGridLayout = WidthProvider(RGL);
 
+const genEmptyLayout = (tp: dashboardModel.TemplatePanel): dashboardModel.Layout =>
+  new dashboardModel.Layout(tp, [])
+
 
 export const Dashboard: React.FC<DashboardProps> = (props) => {
 
-  const [layouts, setLayouts] = useState<dashboardModel.Layout>();
-  const [stores, setStores] = useState<dashboardModel.Store[]>();
+  const [layout, setLayout] = useState<dashboardModel.Layout>(genEmptyLayout(props.templatePanel));
+  const [stores, setStores] = useState<dashboardModel.Store[]>([]);
   const [layoutSaveTrigger, setLayoutSaveTrigger] = useState<number>(0);
   const [dashboardOnEdit, setDashboardOnEdit] = useState<boolean>(false);
   const [globalConfig, setGlobalConfig] = useState<Record<string, any> | null>(null);
@@ -31,32 +34,32 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
   useEffect(() => {
     dashboardService
       .fetchLayout(props.collection, props.templatePanel)
-      .then(data => setLayouts(data));
-  }, [props.templatePanel])
+      .then(data => {if (data !== null) setLayout(data) });
+  }, [props.templatePanel]);
 
   useDidMountEffect(() => {
 
-    const layoutWithStore = new dashboardModel.LayoutWithStore(props.templatePanel, layouts!.layouts, stores!);
+    const layoutWithStore = new dashboardModel.LayoutWithStore(props.templatePanel, layout.layouts, stores!);
 
     dashboardService
       .modifyLayoutStore(props.collection, layoutWithStore)
       .then(() => message.success('保存成功'))
       .catch(() => message.warn('保存失败'));
 
-  }, [layoutSaveTrigger])
+  }, [layoutSaveTrigger]);
 
   // todo: add symbol selector
   const onChangeSymbol = (value: string) =>
     setGlobalConfig({...globalConfig, symbol: value})
 
   const onAddElementToLayout = (selectedCategory: dashboardModel.CategoryType) =>
-    dashboardModel.addElementToLayout(layouts!, selectedCategory)
+    setLayout(dashboardModel.addElementToLayout(layout, selectedCategory))
 
   const onChangeLayout = (rawLayout: dashboardModel.RawLayout[]) =>
-    dashboardModel.updateElementInLayout(layouts!, rawLayout)
+    setLayout(dashboardModel.updateElementInLayout(layout, rawLayout))
 
   const onRemoveElementFromLayout = (value: string) =>
-    setLayouts(dashboardModel.removeElementFromLayout(layouts!, value));
+    setLayout(dashboardModel.removeElementFromLayout(layout, value));
 
   const onSaveModule = () =>
     setLayoutSaveTrigger(layoutSaveTrigger + 1);
@@ -86,13 +89,18 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
         margin={[5, 5]}
         containerPadding={[10, 10]}
       >
-        <ElementsGenerator
-          collection={props.collection}
-          globalConfig={globalConfig}
-          elements={layouts?.layouts!}
-          removeElement={onRemoveElementFromLayout}
-          saveStore={elementSaveStore}
-        />
+        {
+          layout.layouts.map(ele => (
+            <ElementGenerator
+              key={ele.anchorKey.identity}
+              collection={props.collection}
+              globalConfig={globalConfig}
+              element={ele}
+              removeElement={onRemoveElementFromLayout}
+              saveStore={elementSaveStore}
+            />
+          ))
+        }
       </ReactGridLayout>
 
     </div>

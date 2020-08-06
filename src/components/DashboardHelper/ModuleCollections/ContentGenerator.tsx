@@ -11,11 +11,13 @@ import { ContentGeneratorProps, ConvertRefProps } from './data.d';
 import styles from './Common.less';
 
 
+const emptyContent: dashboardModel.Content = {data: ""}
+
 export const ContentGenerator = (cgProps: ContentGeneratorProps) => {
 
   const ConvertRef: React.FC<ConvertRefProps> = (crProps: ConvertRefProps) => {
     const [editable, setEditable] = useState<boolean>(false);
-    const [content, setContent] = useState<dashboardModel.Content>(crProps.content);
+    const [content, setContent] = useState<dashboardModel.Content | null>(crProps.content);
 
     const saveContent = (a: dashboardModel.Content) => {
       setContent(a);
@@ -28,9 +30,9 @@ export const ContentGenerator = (cgProps: ContentGeneratorProps) => {
 
     return <>
       {
-        content.data === '' || editable ?
+        content === null || editable ?
           <cgProps.InputField
-            content={content}
+            content={emptyContent}
             saveContent={saveContent}
             styling={styles.cardContentAlter}
           /> :
