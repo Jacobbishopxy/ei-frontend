@@ -20,7 +20,7 @@ import {
 import {
   getGridLayout,
   updateGridLayout,
-} from '@/services/gridLayout';
+} from '@/services/eiDashboard';
 
 import styles from './index.less';
 

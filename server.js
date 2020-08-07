@@ -86,6 +86,120 @@ app.post('/api/ei-grid-layout', (req, res) => {
     .catch(err => console.log(err));
 });
 
+// new APIs
+
+/**
+ * fetch industry-store
+ */
+app.post('/api/dashboard-store-fetch', (req, res) => {
+  const {collection} = req.query;
+
+  fetchPost(`${eiBackendUrl}/dashboard/industry-store-fetch?collection=${collection}`, req.body)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
+
+/**
+ * fetch industry-stores
+ */
+app.post('/api/dashboard-stores-fetch', (req, res) => {
+  const {collection} = req.query;
+
+  fetchPost(`${eiBackendUrl}/dashboard/industry-stores-fetch?collection=${collection}`, req.body)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
+
+/**
+ * modify industry-store
+ */
+app.post('/api/dashboard-store-modify', (req, res) => {
+  const {collection} = req.query;
+
+  fetchPost(`${eiBackendUrl}/dashboard/industry-store-modify?collection=${collection}`, req.body)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
+
+/**
+ * modify industry-stores
+ */
+app.post('/api/dashboard-stores-modify', (req, res) => {
+  const {collection} = req.query;
+
+  fetchPost(`${eiBackendUrl}/dashboard/industry-stores-modify?collection=${collection}`, req.body)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
+
+
+/**
+ * remove industry-store
+ */
+app.post('/api/dashboard-store-remove', (req, res) => {
+  const {collection} = req.query;
+
+  fetchPost(`${eiBackendUrl}/dashboard/industry-store-remove?collection=${collection}`, req.body)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
+
+/**
+ * remove industry-stores
+ */
+app.post('/api/dashboard-stores-remove', (req, res) => {
+  const {collection} = req.query;
+
+  fetchPost(`${eiBackendUrl}/dashboard/industry-stores-remove?collection=${collection}`, req.body)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
+
+/**
+ * fetch template-layout
+ */
+app.post('/api/dashboard-layout-fetch', (req, res) => {
+  const {collection} = req.query;
+
+  fetchPost(`${eiBackendUrl}/dashboard/template-layout-fetch?collection=${collection}`, req.body)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
+
+/**
+ * modify template-layout
+ */
+app.post('/api/dashboard-layout-modify', (req, res) => {
+  const {collection} = req.query;
+
+  fetchPost(`${eiBackendUrl}/dashboard/template-layout-modify?collection=${collection}`, req.body)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
+
+/**
+ * remove template-layout
+ */
+app.post('/api/dashboard-layout-remove', (req, res) => {
+  const {collection} = req.query;
+
+  fetchPost(`${eiBackendUrl}/dashboard/template-layout-remove?collection=${collection}`, req.body)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
+
+/**
+ * modify template-layout-industry-store
+ */
+app.post('/api/dashboard-layout-store-modify', (req, res) => {
+  const {collection} = req.query;
+
+  fetchPost(`${eiBackendUrl}/dashboard/template-layout-industry-store-modify?collection=${collection}`, req.body)
+    .then(json => res.send(json))
+    .catch(err => console.log(err));
+});
+
+
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**

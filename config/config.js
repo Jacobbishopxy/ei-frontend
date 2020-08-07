@@ -144,6 +144,16 @@ export default defineConfig({
                   path: '/demo/treeview',
                   component: './demo/TreeView',
                 },
+                {
+                  name: 'ts-test',
+                  path: '/demo/tstest',
+                  component: './demo/TsTest',
+                },
+                {
+                  name: 'callchildfuncfromparent',
+                  path: '/demo/callchildfuncfromparent',
+                  component: './demo/CallChildFuncFromParent',
+                },
               ],
             },
             {
