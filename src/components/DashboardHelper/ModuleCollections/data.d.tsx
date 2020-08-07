@@ -14,10 +14,20 @@ export interface ContentGeneratorProps {
   DisplayField: React.FC<ModuleDisplayField>
 }
 
+export interface ConvertRefFR {
+  edit: () => void
+}
+
 export interface ConvertRefProps {
-  content: ContentType | null
+  content: ContentType
   saveContent: (a: ContentType) => void
-  forwardedRef: React.Ref<any>
+  displayStyles?: React.CSSProperties
+  forwardedRef: React.Ref<ConvertRefFR>
+}
+
+export interface ConvertProps {
+  content: ContentType
+  saveContent: (a: ContentType) => void
   displayStyles?: React.CSSProperties
 }
 

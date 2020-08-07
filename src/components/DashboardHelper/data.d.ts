@@ -12,11 +12,3 @@ export interface DashboardProps {
   templatePanel: dashboardModel.TemplatePanel;
   hasSymbolSelector: boolean;
 }
-
-export interface ElementGeneratorProps {
-  collection: string
-  globalConfig: Record<string, any> | null
-  element: dashboardModel.Element
-  removeElement: (value: string) => void
-  saveStore: (value: dashboardModel.Store) => void
-}

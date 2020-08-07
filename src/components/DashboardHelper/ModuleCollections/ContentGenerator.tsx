@@ -6,18 +6,18 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react';
 
 import * as dashboardModel from '@/utilities/dashboardModel';
-import { ContentGeneratorProps, ConvertRefProps } from './data.d';
+import { ContentGeneratorProps, ConvertProps, ConvertRefFR, ConvertRefProps } from './data.d';
 
 import styles from './Common.less';
 
 
-const emptyContent: dashboardModel.Content = {data: ""}
+const emptyContent: dashboardModel.Content = {data: ''}
 
 export const ContentGenerator = (cgProps: ContentGeneratorProps) => {
 
   const ConvertRef: React.FC<ConvertRefProps> = (crProps: ConvertRefProps) => {
     const [editable, setEditable] = useState<boolean>(false);
-    const [content, setContent] = useState<dashboardModel.Content | null>(crProps.content);
+    const [content, setContent] = useState<dashboardModel.Content>(crProps.content);
 
     const saveContent = (a: dashboardModel.Content) => {
       setContent(a);
@@ -30,21 +30,21 @@ export const ContentGenerator = (cgProps: ContentGeneratorProps) => {
 
     return <>
       {
-        content === null || editable ?
+        content?.data === '' || editable ?
           <cgProps.InputField
             content={emptyContent}
             saveContent={saveContent}
             styling={styles.cardContentAlter}
           /> :
           <cgProps.DisplayField
-            content={content}
+            content={content!}
             styling={crProps.displayStyles}
           />
       }
     </>
   };
 
-  return forwardRef((props: ConvertRefProps, ref: React.Ref<any>) =>
+  return forwardRef((props: ConvertProps, ref: React.Ref<ConvertRefFR>) =>
     <ConvertRef
       content={props.content}
       saveContent={props.saveContent}
@@ -52,4 +52,5 @@ export const ContentGenerator = (cgProps: ContentGeneratorProps) => {
       displayStyles={props.displayStyles}
     />
   );
-}
+};
+

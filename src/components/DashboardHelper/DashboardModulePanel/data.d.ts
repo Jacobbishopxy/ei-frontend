@@ -5,10 +5,11 @@
 import * as dashboardModel from '@/utilities/dashboardModel';
 
 export interface ModulePanelProps {
+  collection: string
+  anchorKey: dashboardModel.AnchorKey
   globalConfig: Record<string, any> | null
   category: dashboardModel.CategoryType
-  onRemove: (value: string) => void
-  content: dashboardModel.Content | null
+  onRemove: () => void
   saveContent: (value: dashboardModel.Content) => void
   headVisible: boolean
 }

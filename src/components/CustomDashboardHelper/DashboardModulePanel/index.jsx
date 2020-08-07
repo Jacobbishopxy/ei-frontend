@@ -49,7 +49,7 @@ export const DataCard = ({onRemove, initContent, saveContent, headVisible}) => {
 
   const editContent = () => {
     setEditOn(!editOn);
-    contentRef.current.edit();
+    if (contentRef.current) contentRef.current.edit();
   };
 
   return (

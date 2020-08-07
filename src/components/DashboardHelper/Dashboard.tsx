@@ -12,15 +12,43 @@ import * as dashboardModel from '@/utilities/dashboardModel';
 import * as dashboardService from '@/services/eiDashboard';
 
 import { DashboardEditor } from '@/components/DashboardHelper/DashboardController/DashboardEditor';
-import { ElementGenerator } from '@/components/DashboardHelper/ElementGenerator';
-import { DashboardProps } from './data';
+import { ModulePanel } from '@/components/DashboardHelper/DashboardModulePanel/ModulePanel';
+import { DashboardProps, ElementGeneratorProps } from './data';
 
 import styles from './Dashboard.less';
+
 
 const ReactGridLayout = WidthProvider(RGL);
 
 const genEmptyLayout = (tp: dashboardModel.TemplatePanel): dashboardModel.Layout =>
   new dashboardModel.Layout(tp, [])
+
+const elementGenerator = (props: ElementGeneratorProps) => {
+  const {anchorKey, coordinate} = props.element;
+  const anchor: dashboardModel.Anchor = {
+    anchorKey,
+    anchorConfig: props.globalConfig as dashboardModel.AnchorConfig
+  }
+
+  const removeItem = () => props.removeElement(anchorKey.identity)
+  const saveContent = (value: dashboardModel.Content) =>
+    props.saveStore({...anchor, content: value})
+
+
+  return (
+    <div key={anchorKey.identity} data-grid={coordinate}>
+      <ModulePanel
+        collection={props.collection}
+        anchorKey={anchorKey}
+        globalConfig={props.globalConfig}
+        onRemove={removeItem}
+        category={anchorKey.category}
+        saveContent={saveContent}
+        headVisible={props.headVisible}
+      />
+    </div>
+  );
+};
 
 
 export const Dashboard: React.FC<DashboardProps> = (props) => {
@@ -48,7 +76,7 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
 
   }, [layoutSaveTrigger]);
 
-  // todo: add symbol selector
+  // todo: add symbol & date selector
   const onChangeSymbol = (value: string) =>
     setGlobalConfig({...globalConfig, symbol: value})
 
@@ -58,8 +86,11 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
   const onChangeLayout = (rawLayout: dashboardModel.RawLayout[]) =>
     setLayout(dashboardModel.updateElementInLayout(layout, rawLayout))
 
-  const onRemoveElementFromLayout = (value: string) =>
+  const onRemoveElementFromLayout = (value: string) => {
+    console.log(' onRemoveElementFromLayout', value)
     setLayout(dashboardModel.removeElementFromLayout(layout, value));
+
+  }
 
   const onSaveModule = () =>
     setLayoutSaveTrigger(layoutSaveTrigger + 1);
@@ -80,7 +111,7 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
 
       <ReactGridLayout
         onLayoutChange={onChangeLayout}
-        draggableHandle=".draggableZone"
+        draggableHandle=".draggableHandler"
         className="layout"
         isDraggable={dashboardOnEdit}
         isResizable={dashboardOnEdit}
@@ -90,16 +121,14 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
         containerPadding={[10, 10]}
       >
         {
-          layout.layouts.map(ele => (
-            <ElementGenerator
-              key={ele.anchorKey.identity}
-              collection={props.collection}
-              globalConfig={globalConfig}
-              element={ele}
-              removeElement={onRemoveElementFromLayout}
-              saveStore={elementSaveStore}
-            />
-          ))
+          layout.layouts.map(ele => elementGenerator({
+            collection: props.collection,
+            globalConfig,
+            element: ele,
+            removeElement: onRemoveElementFromLayout,
+            saveStore: elementSaveStore,
+            headVisible: dashboardOnEdit,
+          }))
         }
       </ReactGridLayout>
 

@@ -148,10 +148,10 @@ export const updateElementInLayout = (layout: Layout, rawLayout: RawLayout[]): L
           ...ele.anchorKey,
         },
         coordinate: {
-          x: rlo[1].x,
-          y: rlo[1].y,
-          h: rlo[1].h,
-          w: rlo[1].w,
+          x: rlo.x,
+          y: rlo.y,
+          h: rlo.h,
+          w: rlo.w,
         }
       }
     });

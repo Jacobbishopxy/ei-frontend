@@ -136,6 +136,7 @@ export const DashboardEditor = (props: DashboardEditorProps) => {
 
   useEffect(() => {
     props.onEditModule(edit);
+    console.log("edit: ", edit)
   }, [edit]);
 
   const startEdit = () => setEdit(true);

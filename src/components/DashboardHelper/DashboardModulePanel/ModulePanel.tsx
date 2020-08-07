@@ -9,12 +9,14 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import * as dashboardModel from '@/utilities/dashboardModel';
 import { Emoji } from '@/components/Emoji';
+import { ConvertRefFR } from '@/components/DashboardHelper/ModuleCollections/data.d';
+import { fetchStore } from '@/services/eiDashboard';
 import { selectModuleToAdd } from './ModuleList';
 import { ModulePanelProps } from './data';
 
 import styles from './ModulePanel.less';
 
-const confirmDelete = (onRemove: (value: string) => void) =>
+const confirmDelete = (onRemove: () => void) =>
   Modal.confirm({
     title: '是否删除该模块？',
     icon: <ExclamationCircleOutlined/>,
@@ -24,18 +26,30 @@ const confirmDelete = (onRemove: (value: string) => void) =>
     onOk: onRemove
   });
 
+const emptyContent: dashboardModel.Content = {data: ''};
 
 export const ModulePanel = (props: ModulePanelProps) => {
 
-  const contentRef = useRef<React.Ref<any>>();
+  const contentRef = useRef<ConvertRefFR>(null);
 
   const [titleVisible, setTitleVisible] = useState<boolean>(true);
   const [editOn, setEditOn] = useState<boolean>(false);
-  const [content, setContent] = useState<dashboardModel.Content | null>(props.content)
+  const [content, setContent] = useState<dashboardModel.Content>(emptyContent);
 
   const selectModule = selectModuleToAdd(props.category)
 
-  useEffect(() => props.saveContent(content!), [content])
+  useEffect(() => {
+    const anchor: dashboardModel.Anchor = {
+      anchorKey: props.anchorKey,
+      anchorConfig: props.globalConfig as dashboardModel.AnchorConfig
+    }
+
+    fetchStore(props.collection, anchor)
+      .then(res => { if (res !== null) setContent(res.content) })
+      .catch(err => console.log(err));
+  });
+
+  useEffect(() => props.saveContent(content!), [content]);
 
   const changeTitle = (e: any) => {
     const {value} = e.target;
@@ -49,8 +63,7 @@ export const ModulePanel = (props: ModulePanelProps) => {
 
   const editContent = () => {
     setEditOn(!editOn);
-    // @ts-ignore
-    contentRef.current.edit();
+    if (contentRef.current) contentRef.current.edit();
   }
 
 
@@ -63,7 +76,7 @@ export const ModulePanel = (props: ModulePanelProps) => {
             size='small'
             onClick={() => setTitleVisible(false)}
           >
-            {props.content?.title}
+            {content.title}
           </Button> :
           <Input
             placeholder='请输入标题'
@@ -79,7 +92,7 @@ export const ModulePanel = (props: ModulePanelProps) => {
             shape='circle'
             size='small'
             type='link'
-            className='draggableZone'
+            className='draggableHandler'
           >
             <Emoji label="drag" symbol="🧲️️️️️"/>
           </Button>
@@ -116,7 +129,12 @@ export const ModulePanel = (props: ModulePanelProps) => {
     <div className={styles.cardMain}>
       {props.headVisible ? panelHead : <></>}
 
-      {selectModule(props.content!, props.saveContent, props.headVisible, contentRef)}
+      {selectModule({
+        content,
+        saveContent: props.saveContent,
+        headVisible: props.headVisible,
+        forwardedRef: contentRef
+      })}
     </div>
   );
 };

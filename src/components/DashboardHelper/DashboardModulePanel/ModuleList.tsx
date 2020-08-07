@@ -6,6 +6,7 @@ import React from 'react';
 
 import * as dashboardModel from '@/utilities/dashboardModel';
 import { EmbedLink } from '@/components/DashboardHelper/ModuleCollections/EmbedLink';
+import { ConvertRefFR } from '@/components/DashboardHelper/ModuleCollections/data.d';
 
 // import styles from './ModulePanel.less';
 
@@ -115,28 +116,34 @@ export const moduleList = [
       },
     ]
   },
-]
+];
 
-export const selectModuleToAdd = (moduleName: dashboardModel.CategoryType) =>
-  (content: dashboardModel.Content,
-   saveContent: (a: dashboardModel.Content) => void,
-   headVisible: boolean,
-   ref: React.Ref<any>) => {
 
-    // const contentStyles = headVisible ? styles.cardContent : styles.cardContentWithOutHead;
+export interface SelectedModuleProps {
+  content: dashboardModel.Content,
+  saveContent: (a: dashboardModel.Content) => void,
+  headVisible: boolean,
+  forwardedRef: React.Ref<ConvertRefFR>
+}
 
-    const defaultType = <EmbedLink
-      content={content}
-      saveContent={saveContent}
-      forwardedRef={ref}
-    />
+export const selectModuleToAdd =
+  (moduleName: dashboardModel.CategoryType): React.FC<SelectedModuleProps> =>
+    (props: SelectedModuleProps) => {
 
-    switch (moduleName) {
-      case dashboardModel.CategoryType.embedLink:
-        return defaultType;
-      default:
-        return defaultType;
+      // const contentStyles = headVisible ? styles.cardContent : styles.cardContentWithOutHead;
+
+      const defaultType = <EmbedLink
+        content={props.content}
+        saveContent={props.saveContent}
+        ref={props.forwardedRef}
+      />
+
+      switch (moduleName) {
+        case dashboardModel.CategoryType.embedLink:
+          return defaultType;
+        default:
+          return defaultType;
+      }
+
     }
-
-  }
 
