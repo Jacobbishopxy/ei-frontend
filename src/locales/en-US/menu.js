@@ -68,4 +68,5 @@ export default {
   'menu.demo.file-manager': 'File Manager',
   'menu.demo.tree-view': 'Tree View',
   'menu.demo.ts-test': 'Typescript Test',
+  'menu.demo.callchildfuncfromparent': 'CallChildFuncFromParent',
 };

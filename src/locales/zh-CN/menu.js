@@ -68,4 +68,5 @@ export default {
   'menu.demo.file-manager': '文件管理',
   'menu.demo.tree-view': '文件树',
   'menu.demo.ts-test': 'Typescript测试',
+  'menu.demo.callchildfuncfromparent': '父调用子函数',
 };

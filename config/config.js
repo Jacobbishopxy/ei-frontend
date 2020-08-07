@@ -149,6 +149,11 @@ export default defineConfig({
                   path: '/demo/tstest',
                   component: './demo/TsTest',
                 },
+                {
+                  name: 'callchildfuncfromparent',
+                  path: '/demo/callchildfuncfromparent',
+                  component: './demo/CallChildFuncFromParent',
+                },
               ],
             },
             {
