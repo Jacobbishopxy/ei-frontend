@@ -23,8 +23,7 @@ const InputField = (props: ModuleInputField) => {
   const inputOnChange = (e: any): void => setContent({data: e.target.value});
 
   return (
-    // <div style={props.styling}>
-    <div>
+    <div className={props.styling}>
       <Button
         type='primary'
         shape='round'
@@ -52,8 +51,7 @@ const InputField = (props: ModuleInputField) => {
 
 
 const DisplayField = (props: ModuleDisplayField) =>
-  // <embed style={props.styling} src={props.content.data}/>;
-  <embed src={props.content.data}/>;
+  <embed className={props.styling} src={props.content.data}/>;
 
 export const EmbedLink = ContentGenerator({InputField, DisplayField});
 

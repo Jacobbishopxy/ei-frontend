@@ -38,7 +38,7 @@ export const ContentGenerator = (cgProps: ContentGeneratorProps) => {
           /> :
           <cgProps.DisplayField
             content={content!}
-            styling={crProps.displayStyles}
+            styling={crProps.styling}
           />
       }
     </>
@@ -49,7 +49,7 @@ export const ContentGenerator = (cgProps: ContentGeneratorProps) => {
       content={props.content}
       saveContent={props.saveContent}
       forwardedRef={ref}
-      displayStyles={props.displayStyles}
+      styling={props.styling}
     />
   );
 };

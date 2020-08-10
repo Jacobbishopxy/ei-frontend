@@ -8,7 +8,7 @@ import * as dashboardModel from '@/utilities/dashboardModel';
 import { EmbedLink } from '@/components/DashboardHelper/ModuleCollections/EmbedLink';
 import { ConvertRefFR } from '@/components/DashboardHelper/ModuleCollections/data.d';
 
-// import styles from './ModulePanel.less';
+import styles from './ModulePanel.less';
 
 
 export const moduleList = [
@@ -130,12 +130,13 @@ export const selectModuleToAdd =
   (moduleName: dashboardModel.CategoryType): React.FC<SelectedModuleProps> =>
     (props: SelectedModuleProps) => {
 
-      // const contentStyles = headVisible ? styles.cardContent : styles.cardContentWithOutHead;
+      const styling = props.headVisible ? styles.cardContent : styles.cardContentWithOutHead;
 
       const defaultType = <EmbedLink
         content={props.content}
         saveContent={props.saveContent}
         ref={props.forwardedRef}
+        styling={styling}
       />
 
       switch (moduleName) {

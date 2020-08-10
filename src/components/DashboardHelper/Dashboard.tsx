@@ -54,6 +54,7 @@ const elementGenerator = (props: ElementGeneratorProps) => {
 export const Dashboard: React.FC<DashboardProps> = (props) => {
 
   const [layout, setLayout] = useState<dashboardModel.Layout>(genEmptyLayout(props.templatePanel));
+  // todo: needs useReducer here !
   const [stores, setStores] = useState<dashboardModel.Store[]>([]);
   const [layoutSaveTrigger, setLayoutSaveTrigger] = useState<number>(0);
   const [dashboardOnEdit, setDashboardOnEdit] = useState<boolean>(false);
@@ -95,8 +96,11 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
   const onSaveModule = () =>
     setLayoutSaveTrigger(layoutSaveTrigger + 1);
 
-  const elementSaveStore = (value: dashboardModel.Store) =>
+  const elementSaveStore = (value: dashboardModel.Store) => {
+
     setStores(dashboardModel.addStoreToStore(stores!, value))
+    console.log('elementSaveStore', stores)
+  }
 
 
   return (

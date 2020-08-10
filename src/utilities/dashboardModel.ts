@@ -118,8 +118,8 @@ export const addElementToLayout = (layout: Layout, category: CategoryType): Layo
     coordinate: {
       x: 0,
       y: Infinity,
-      h: 12,
-      w: 4,
+      h: 4,
+      w: 8,
     }
   };
   const newLayouts: Element[] = _.concat(layout.layouts, newElement);

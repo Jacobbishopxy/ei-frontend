@@ -29,7 +29,7 @@ const ModuleSelectionView = (props: ModuleSelectionViewProps) => (
           renderItem={item => (
             <List.Item>
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control,jsx-a11y/label-has-for */}
-              <label className={styles.moduleSelectionLabel} >
+              <label className={styles.moduleSelectionLabel}>
                 <input type="radio" name="radio-name" disabled={item.disabled} id={item.key}/>
                 <div id={item.key}>
                   <Card
@@ -134,10 +134,7 @@ export const DashboardEditor = (props: DashboardEditorProps) => {
   const [addModuleModalVisible, setAddModuleModalVisible] = useState<boolean>(false);
   const [confirmSaveModalVisible, setConfirmSaveModalVisible] = useState<boolean>(false);
 
-  useEffect(() => {
-    props.onEditModule(edit);
-    console.log("edit: ", edit)
-  }, [edit]);
+  useEffect(() => props.onEditModule(edit), [edit]);
 
   const startEdit = () => setEdit(true);
   const quitEdit = () => {

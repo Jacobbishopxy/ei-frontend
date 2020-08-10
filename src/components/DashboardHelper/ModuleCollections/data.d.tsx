@@ -21,14 +21,14 @@ export interface ConvertRefFR {
 export interface ConvertRefProps {
   content: ContentType
   saveContent: (a: ContentType) => void
-  displayStyles?: React.CSSProperties
+  styling?: React.CSSProperties
   forwardedRef: React.Ref<ConvertRefFR>
 }
 
 export interface ConvertProps {
   content: ContentType
   saveContent: (a: ContentType) => void
-  displayStyles?: React.CSSProperties
+  styling?: React.CSSProperties
 }
 
 

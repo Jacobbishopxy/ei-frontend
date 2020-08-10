@@ -3,7 +3,7 @@
  */
 
 import moment from 'moment';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 const dateFormat = 'YYYYMMDD';
 const dateFormat2 = 'YYYY-MM-DD';
@@ -23,5 +23,13 @@ export const useDidMountEffect = (func, deps) => {
     if (didMount.current) func();
     else didMount.current = true;
   }, deps)
+};
+
+export const useForceUpdate = () => {
+  const [, setTick] = useState(0);
+  const update = useCallback(() => {
+    setTick(tick => tick + 1);
+  }, []);
+  return update();
 };
 

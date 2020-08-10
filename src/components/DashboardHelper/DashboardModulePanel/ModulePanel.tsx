@@ -16,6 +16,7 @@ import { ModulePanelProps } from './data';
 
 import styles from './ModulePanel.less';
 
+// todo: add removeStore!!!
 const confirmDelete = (onRemove: () => void) =>
   Modal.confirm({
     title: '是否删除该模块？',
@@ -32,22 +33,28 @@ export const ModulePanel = (props: ModulePanelProps) => {
 
   const contentRef = useRef<ConvertRefFR>(null);
 
+  const anchor: dashboardModel.Anchor = {
+    anchorKey: props.anchorKey,
+    anchorConfig: props.globalConfig as dashboardModel.AnchorConfig
+  }
+
   const [titleVisible, setTitleVisible] = useState<boolean>(true);
   const [editOn, setEditOn] = useState<boolean>(false);
-  const [content, setContent] = useState<dashboardModel.Content>(emptyContent);
+  const [content, setContent] = useState<dashboardModel.Content>();
 
   const selectModule = selectModuleToAdd(props.category)
 
   useEffect(() => {
-    const anchor: dashboardModel.Anchor = {
-      anchorKey: props.anchorKey,
-      anchorConfig: props.globalConfig as dashboardModel.AnchorConfig
-    }
+    // if (content === undefined)
+      fetchStore(props.collection, anchor)
+        .then(res => {
+          if (res !== null) setContent(res.content)
+          else setContent(emptyContent)
+        })
+        .catch(err => console.log(err));
+    console.log("content", content)
+  }, []);
 
-    fetchStore(props.collection, anchor)
-      .then(res => { if (res !== null) setContent(res.content) })
-      .catch(err => console.log(err));
-  });
 
   useEffect(() => props.saveContent(content!), [content]);
 
@@ -76,7 +83,7 @@ export const ModulePanel = (props: ModulePanelProps) => {
             size='small'
             onClick={() => setTitleVisible(false)}
           >
-            {content.title}
+            {content === undefined ? '' : content.title}
           </Button> :
           <Input
             placeholder='请输入标题'
@@ -125,16 +132,24 @@ export const ModulePanel = (props: ModulePanelProps) => {
     </div>
   );
 
+  const panelBody = () => {
+
+    console.log("panelBody", content)
+
+    if (content !== null) return selectModule({
+      content: content === undefined ? emptyContent : content,
+      saveContent: props.saveContent,
+      headVisible: props.headVisible,
+      forwardedRef: contentRef
+    });
+    return <></>
+  }
+
   return (
     <div className={styles.cardMain}>
       {props.headVisible ? panelHead : <></>}
 
-      {selectModule({
-        content,
-        saveContent: props.saveContent,
-        headVisible: props.headVisible,
-        forwardedRef: contentRef
-      })}
+      {panelBody()}
     </div>
   );
 };
