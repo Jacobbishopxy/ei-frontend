@@ -69,4 +69,5 @@ export default {
   'menu.demo.tree-view': 'Tree View',
   'menu.demo.ts-test': 'Typescript Test',
   'menu.demo.callchildfuncfromparent': 'CallChildFuncFromParent',
+  'menu.demo.use-reducer': 'Use Reducer',
 };

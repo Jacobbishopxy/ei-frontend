@@ -154,6 +154,11 @@ export default defineConfig({
                   path: '/demo/callchildfuncfromparent',
                   component: './demo/CallChildFuncFromParent',
                 },
+                {
+                  name: 'use-reducer',
+                  path: '/demo/usereducer',
+                  component: './demo/UseReducer',
+                },
               ],
             },
             {
