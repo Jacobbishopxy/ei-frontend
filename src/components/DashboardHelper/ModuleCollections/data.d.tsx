@@ -19,27 +19,26 @@ export interface ConvertRefFR {
 }
 
 export interface ConvertRefProps {
-  content: ContentType
-  saveContent: (a: ContentType) => void
-  styling?: React.CSSProperties
+  content: ContentType | null
+  updateContent: (a: ContentType) => void
+  styling?: string
   forwardedRef: React.Ref<ConvertRefFR>
 }
 
 export interface ConvertProps {
-  content: ContentType
-  saveContent: (a: ContentType) => void
-  styling?: React.CSSProperties
+  content: ContentType | null
+  updateContent: (a: ContentType) => void
+  styling?: string
 }
-
 
 export interface ModuleInputField {
   content: ContentType
-  saveContent: (a: ContentType) => void
-  styling?: React.CSSProperties
+  updateContent: (a: ContentType) => void
+  styling?: string
 }
 
 export interface ModuleDisplayField {
   content: ContentType
-  styling?: React.CSSProperties
+  styling?: string
 }
 

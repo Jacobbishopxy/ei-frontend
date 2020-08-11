@@ -2,7 +2,7 @@
  * Created by Jacob Xie on 7/30/2020.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { message } from 'antd';
 import RGL, { WidthProvider } from 'react-grid-layout';
 
@@ -31,8 +31,10 @@ const elementGenerator = (props: ElementGeneratorProps) => {
   }
 
   const removeItem = () => props.removeElement(anchorKey.identity)
-  const saveContent = (value: dashboardModel.Content) =>
-    props.saveStore({...anchor, content: value})
+  const updateContent = (value: dashboardModel.Content) =>
+    props.updateStore({...anchor, content: value})
+  const deleteContent = () =>
+    props.deleteStore(anchor)
 
 
   return (
@@ -43,7 +45,8 @@ const elementGenerator = (props: ElementGeneratorProps) => {
         globalConfig={props.globalConfig}
         onRemove={removeItem}
         category={anchorKey.category}
-        saveContent={saveContent}
+        updateContent={updateContent}
+        deleteContent={deleteContent}
         headVisible={props.headVisible}
       />
     </div>
@@ -54,8 +57,8 @@ const elementGenerator = (props: ElementGeneratorProps) => {
 export const Dashboard: React.FC<DashboardProps> = (props) => {
 
   const [layout, setLayout] = useState<dashboardModel.Layout>(genEmptyLayout(props.templatePanel));
-  // todo: needs useReducer here !
-  const [stores, setStores] = useState<dashboardModel.Store[]>([]);
+  const [stores, storesDispatcher] = useReducer(dashboardModel.storeReducer, []);
+  const [storesToDelete, setStoresToDelete] = useState<dashboardModel.Anchor[]>([]);
   const [layoutSaveTrigger, setLayoutSaveTrigger] = useState<number>(0);
   const [dashboardOnEdit, setDashboardOnEdit] = useState<boolean>(false);
   const [globalConfig, setGlobalConfig] = useState<Record<string, any> | null>(null);
@@ -75,6 +78,10 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
       .then(() => message.success('保存成功'))
       .catch(() => message.warn('保存失败'));
 
+    dashboardService
+      .removeStores(props.collection, storesToDelete)
+      .then(() => setStoresToDelete([]));
+
   }, [layoutSaveTrigger]);
 
   // todo: add symbol & date selector
@@ -87,19 +94,24 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
   const onChangeLayout = (rawLayout: dashboardModel.RawLayout[]) =>
     setLayout(dashboardModel.updateElementInLayout(layout, rawLayout))
 
-  const onRemoveElementFromLayout = (value: string) => {
-    console.log(' onRemoveElementFromLayout', value)
+  const onRemoveElementFromLayout = (value: string) =>
     setLayout(dashboardModel.removeElementFromLayout(layout, value));
-
-  }
 
   const onSaveModule = () =>
     setLayoutSaveTrigger(layoutSaveTrigger + 1);
 
-  const elementSaveStore = (value: dashboardModel.Store) => {
+  const elementUpdate = (value: dashboardModel.Store) =>
+    storesDispatcher({
+      type: dashboardModel.StoreActions.UPDATE,
+      store: value
+    });
 
-    setStores(dashboardModel.addStoreToStore(stores!, value))
-    console.log('elementSaveStore', stores)
+  const elementDelete = (value: dashboardModel.Anchor) => {
+    storesDispatcher({
+      type: dashboardModel.StoreActions.DELETE,
+      anchor: value
+    });
+    setStoresToDelete(storesToDelete.concat(value));
   }
 
 
@@ -130,7 +142,8 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
             globalConfig,
             element: ele,
             removeElement: onRemoveElementFromLayout,
-            saveStore: elementSaveStore,
+            updateStore: elementUpdate,
+            deleteStore: elementDelete,
             headVisible: dashboardOnEdit,
           }))
         }

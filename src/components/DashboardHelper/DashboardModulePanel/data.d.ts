@@ -10,6 +10,7 @@ export interface ModulePanelProps {
   globalConfig: Record<string, any> | null
   category: dashboardModel.CategoryType
   onRemove: () => void
-  saveContent: (value: dashboardModel.Content) => void
+  updateContent: (value: dashboardModel.Content) => void
+  deleteContent: () => void
   headVisible: boolean
 }

@@ -12,11 +12,11 @@ import { ModuleInputField, ModuleDisplayField } from './data.d';
 
 const InputField = (props: ModuleInputField) => {
   const [visible, setVisible] = useState<boolean>(false);
-  const [content, setContent] = useState<dashboardModel.Content>(props.content)
+  const [content, setContent] = useState<dashboardModel.Content | null>(props.content)
 
 
   const handleOk = (): void => {
-    props.saveContent(content)
+    props.updateContent(content!)
     setVisible(false);
   }
 
@@ -42,7 +42,7 @@ const InputField = (props: ModuleInputField) => {
           placeholder='链接'
           allowClear
           onBlur={inputOnChange}
-          defaultValue={content.data}
+          defaultValue={content!.data}
         />
       </Modal>
     </div>

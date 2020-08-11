@@ -16,22 +16,11 @@ import { ModulePanelProps } from './data';
 
 import styles from './ModulePanel.less';
 
-// todo: add removeStore!!!
-const confirmDelete = (onRemove: () => void) =>
-  Modal.confirm({
-    title: '是否删除该模块？',
-    icon: <ExclamationCircleOutlined/>,
-    okText: '是',
-    okType: 'danger',
-    cancelText: '否',
-    onOk: onRemove
-  });
-
-const emptyContent: dashboardModel.Content = {data: ''};
 
 export const ModulePanel = (props: ModulePanelProps) => {
 
   const contentRef = useRef<ConvertRefFR>(null);
+  const selectModule = selectModuleToAdd(props.category)
 
   const anchor: dashboardModel.Anchor = {
     anchorKey: props.anchorKey,
@@ -40,28 +29,45 @@ export const ModulePanel = (props: ModulePanelProps) => {
 
   const [titleVisible, setTitleVisible] = useState<boolean>(true);
   const [editOn, setEditOn] = useState<boolean>(false);
-  const [content, setContent] = useState<dashboardModel.Content>();
+  const [content, setContent] = useState<dashboardModel.Content | null>();
 
-  const selectModule = selectModuleToAdd(props.category)
-
+  // Read from sever and update to Dashboard.stores
   useEffect(() => {
-    // if (content === undefined)
-      fetchStore(props.collection, anchor)
-        .then(res => {
-          if (res !== null) setContent(res.content)
-          else setContent(emptyContent)
-        })
-        .catch(err => console.log(err));
-    console.log("content", content)
+    const fn = async () => {
+      const res = await fetchStore(props.collection, anchor)
+      if (res === null)
+        setContent(res)
+      else {
+        setContent(res.content)
+        props.updateContent(res.content)
+      }
+    }
+
+    fn();
   }, []);
 
+  // Delete this modulePanel and update to Dashboard.stores
+  const confirmDelete = (onRemove: () => void) =>
+    Modal.confirm({
+      title: '是否删除该模块？',
+      icon: <ExclamationCircleOutlined/>,
+      okText: '是',
+      okType: 'danger',
+      cancelText: '否',
+      onOk: () => {
+        props.deleteContent()
+        onRemove()
+      }
+    });
 
-  useEffect(() => props.saveContent(content!), [content]);
 
   const changeTitle = (e: any) => {
     const {value} = e.target;
-    if (value !== '')
-      setContent({...content!, title: value})
+    if (value !== '') {
+      const newContent: dashboardModel.Content = {...content!, title: value}
+      setContent(newContent)
+      props.updateContent(newContent)
+    }
     else
       message.warning('标题不可为空')
 
@@ -74,83 +80,81 @@ export const ModulePanel = (props: ModulePanelProps) => {
   }
 
 
-  const panelHead = (
-    <div className={styles.cardHead}>
-      {
-        titleVisible ?
-          <Button
-            type='link'
-            size='small'
-            onClick={() => setTitleVisible(false)}
-          >
-            {content === undefined ? '' : content.title}
-          </Button> :
-          <Input
-            placeholder='请输入标题'
-            size='small'
-            allowClear
-            onPressEnter={changeTitle}
-            onBlur={changeTitle}
-          />
-      }
-      <Space>
-        <Tooltip title='拖拽'>
-          <Button
-            shape='circle'
-            size='small'
-            type='link'
-            className='draggableHandler'
-          >
-            <Emoji label="drag" symbol="🧲️️️️️"/>
-          </Button>
-        </Tooltip>
-        <Tooltip title="编辑">
-          <Button
-            shape='circle'
-            size='small'
-            type='link'
-            onClick={editContent}
-          >
-            {
-              editOn ?
-                <Emoji label="edit" symbol="❌️"/> :
-                <Emoji label="edit" symbol="⚙️"/>
-            }
-          </Button>
-        </Tooltip>
-        <Tooltip title="删除">
-          <Button
-            shape='circle'
-            size='small'
-            type='link'
-            onClick={() => confirmDelete(props.onRemove)}
-          >
-            <Emoji label="delete" symbol="🗑️️️"/>
-          </Button>
-        </Tooltip>
-      </Space>
-    </div>
-  );
-
-  const panelBody = () => {
-
-    console.log("panelBody", content)
-
-    if (content !== null) return selectModule({
-      content: content === undefined ? emptyContent : content,
-      saveContent: props.saveContent,
-      headVisible: props.headVisible,
-      forwardedRef: contentRef
-    });
-    return <></>
+  const panelHead = (ct: dashboardModel.Content | null) => {
+    if (props.headVisible) return (
+      <div className={styles.cardHead}>
+        {
+          titleVisible ?
+            <Button
+              type='link'
+              size='small'
+              onClick={() => setTitleVisible(false)}
+            >
+              {ct?.title === undefined ? '请输入标题' : ct.title}
+            </Button> :
+            <Input
+              placeholder='请输入标题'
+              size='small'
+              allowClear
+              onPressEnter={changeTitle}
+              onBlur={changeTitle}
+            />
+        }
+        <Space>
+          <Tooltip title='拖拽'>
+            <Button
+              shape='circle'
+              size='small'
+              type='link'
+              className='draggableHandler'
+            >
+              <Emoji label="drag" symbol="🧲️️️️️"/>
+            </Button>
+          </Tooltip>
+          <Tooltip title="编辑">
+            <Button
+              shape='circle'
+              size='small'
+              type='link'
+              onClick={editContent}
+            >
+              {
+                editOn ?
+                  <Emoji label="edit" symbol="❌️"/> :
+                  <Emoji label="edit" symbol="⚙️"/>
+              }
+            </Button>
+          </Tooltip>
+          <Tooltip title="删除">
+            <Button
+              shape='circle'
+              size='small'
+              type='link'
+              onClick={() => confirmDelete(props.onRemove)}
+            >
+              <Emoji label="delete" symbol="🗑️️️"/>
+            </Button>
+          </Tooltip>
+        </Space>
+      </div>
+    )
+    return <></>;
   }
 
   return (
     <div className={styles.cardMain}>
-      {props.headVisible ? panelHead : <></>}
+      {content === undefined ? <></> : panelHead(content)}
 
-      {panelBody()}
+      {content === undefined ?
+        <></> :
+        selectModule({
+          content,
+          updateContent: props.updateContent,
+          headVisible: props.headVisible,
+          forwardedRef: contentRef
+        })}
     </div>
   );
+
 };
 

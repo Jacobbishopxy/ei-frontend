@@ -18,6 +18,7 @@ export interface ElementGeneratorProps {
   globalConfig: Record<string, any> | null
   element: dashboardModel.Element
   removeElement: (value: string) => void
-  saveStore: (value: dashboardModel.Store) => void
+  updateStore: (value: dashboardModel.Store) => void
+  deleteStore: (value: dashboardModel.Anchor) => void
   headVisible: boolean
 }

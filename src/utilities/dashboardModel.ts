@@ -109,6 +109,8 @@ export class LayoutWithStore {
 }
 
 
+// layout handlers
+
 export const addElementToLayout = (layout: Layout, category: CategoryType): Layout => {
   const newElement: Element = {
     anchorKey: {
@@ -126,9 +128,6 @@ export const addElementToLayout = (layout: Layout, category: CategoryType): Layo
 
   return new Layout(layout.templatePanel, newLayouts);
 };
-
-export const addStoreToStore = (stores: Store[], store: Store): Store[] =>
-  _.concat(stores, store)
 
 export const removeElementFromLayout = (layout: Layout, identity: string): Layout => {
   const newLayouts: Element[] = _.reject(layout.layouts, ele => (ele.anchorKey.identity === identity))
@@ -159,5 +158,36 @@ export const updateElementInLayout = (layout: Layout, rawLayout: RawLayout[]): L
   return new Layout(layout.templatePanel, newLayouts);
 };
 
+// store handlers
 
+export enum StoreActions {
+  UPDATE,
+  DELETE,
+}
+
+export type StoreAction =
+  | { type: StoreActions.UPDATE, store: Store }
+  | { type: StoreActions.DELETE, anchor: Anchor }
+
+
+export const initStores = (stores: Store[]) => stores;
+
+const matchStore = (ele: Store, payload: Store | Anchor) =>
+  _.isEqual(ele.anchorKey, payload.anchorKey) &&
+  _.isEqual(ele.anchorConfig, payload.anchorConfig);
+
+
+export const storeReducer = (state: Store[], action: StoreAction) => {
+  switch (action.type) {
+    case StoreActions.UPDATE:
+      if (_.findIndex(state, (ele: Store) => matchStore(ele, action.store)) === -1) {
+        return _.concat(state, action.store);
+      }
+      return _.map(state, ele => (matchStore(ele, action.store) ? action.store : ele));
+    case StoreActions.DELETE:
+      return _.filter(state, ele => !matchStore(ele, action.anchor));
+    default:
+      return state;
+  }
+};
 

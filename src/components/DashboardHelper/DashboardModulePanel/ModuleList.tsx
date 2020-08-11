@@ -120,8 +120,8 @@ export const moduleList = [
 
 
 export interface SelectedModuleProps {
-  content: dashboardModel.Content,
-  saveContent: (a: dashboardModel.Content) => void,
+  content: dashboardModel.Content | null,
+  updateContent: (a: dashboardModel.Content) => void,
   headVisible: boolean,
   forwardedRef: React.Ref<ConvertRefFR>
 }
@@ -134,7 +134,7 @@ export const selectModuleToAdd =
 
       const defaultType = <EmbedLink
         content={props.content}
-        saveContent={props.saveContent}
+        updateContent={props.updateContent}
         ref={props.forwardedRef}
         styling={styling}
       />

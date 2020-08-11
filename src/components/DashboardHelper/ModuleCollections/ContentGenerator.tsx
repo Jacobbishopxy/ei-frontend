@@ -17,11 +17,11 @@ export const ContentGenerator = (cgProps: ContentGeneratorProps) => {
 
   const ConvertRef: React.FC<ConvertRefProps> = (crProps: ConvertRefProps) => {
     const [editable, setEditable] = useState<boolean>(false);
-    const [content, setContent] = useState<dashboardModel.Content>(crProps.content);
+    const [content, setContent] = useState<dashboardModel.Content | null>(crProps.content);
 
-    const saveContent = (a: dashboardModel.Content) => {
+    const updateContent = (a: dashboardModel.Content) => {
       setContent(a);
-      crProps.saveContent(a);
+      crProps.updateContent(a);
     };
 
     useImperativeHandle(crProps.forwardedRef, () => ({
@@ -30,14 +30,14 @@ export const ContentGenerator = (cgProps: ContentGeneratorProps) => {
 
     return <>
       {
-        content?.data === '' || editable ?
+        content === null || editable ?
           <cgProps.InputField
             content={emptyContent}
-            saveContent={saveContent}
+            updateContent={updateContent}
             styling={styles.cardContentAlter}
           /> :
           <cgProps.DisplayField
-            content={content!}
+            content={content}
             styling={crProps.styling}
           />
       }
@@ -47,7 +47,7 @@ export const ContentGenerator = (cgProps: ContentGeneratorProps) => {
   return forwardRef((props: ConvertProps, ref: React.Ref<ConvertRefFR>) =>
     <ConvertRef
       content={props.content}
-      saveContent={props.saveContent}
+      updateContent={props.updateContent}
       forwardedRef={ref}
       styling={props.styling}
     />
