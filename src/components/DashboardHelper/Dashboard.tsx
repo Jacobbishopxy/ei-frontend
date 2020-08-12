@@ -16,6 +16,7 @@ import { ModulePanel } from '@/components/DashboardHelper/DashboardModulePanel/M
 import { DashboardProps, ElementGeneratorProps } from './data';
 
 import styles from './Dashboard.less';
+import { SymbolSelector } from '@/components/DashboardHelper/DashboardController/SymbolSelector';
 
 
 const ReactGridLayout = WidthProvider(RGL);
@@ -84,9 +85,10 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
 
   }, [layoutSaveTrigger]);
 
-  // todo: add symbol & date selector
-  const onChangeSymbol = (value: string) =>
+  const onChangeSymbol = (value: string) => {
     setGlobalConfig({...globalConfig, symbol: value})
+    return value;   // todo: fetch symbol name
+  }
 
   const onAddElementToLayout = (selectedCategory: dashboardModel.CategoryType) =>
     setLayout(dashboardModel.addElementToLayout(layout, selectedCategory))
@@ -118,6 +120,14 @@ export const Dashboard: React.FC<DashboardProps> = (props) => {
   return (
     <div className={styles.main}>
       <div className={styles.controlMain}>
+        {
+          props.hasSymbolSelector ?
+            <SymbolSelector
+              onSelectSymbol={onChangeSymbol}
+              defaultSymbol="000001" // todo: use local storage
+            /> :
+            <div/>
+        }
         <DashboardEditor
           onAddModule={onAddElementToLayout}
           onSaveModule={onSaveModule}

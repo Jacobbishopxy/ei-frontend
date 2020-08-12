@@ -30,3 +30,9 @@ export interface DashboardEditorProps {
   onSaveModule: () => void
   onEditModule: (value: boolean) => void
 }
+
+export interface SymbolSelectorProps {
+  onSelectSymbol: (value: string) => string
+  defaultSymbol: string
+}
+

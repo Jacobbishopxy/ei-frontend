@@ -22,7 +22,7 @@ export default () => {
       storeDb={storeDb}
       collection={collection}
       templatePanel={templatePanel}
-      hasSymbolSelector={false}
+      hasSymbolSelector
     />
   );
 };
