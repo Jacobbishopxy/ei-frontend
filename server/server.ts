@@ -2,15 +2,16 @@
  * Created by Jacob Xie on 12/17/2019.
  */
 
-const express = require('express');
-const path = require('path');
-const fetch = require('node-fetch');
-const config = require('./resources/config.json');
+import express, { Request, Response } from 'express';
+import path from 'path';
+import fetch from 'node-fetch';
+import config from '../resources/config.json';
+import { JSONType } from './data';
 
 const {eiBackendUrl} = config;
 
 
-function commonPostParam(data) {
+function commonPostParam(data: JSONType) {
   return {
     method: 'post',
     body: JSON.stringify(data),
@@ -18,11 +19,11 @@ function commonPostParam(data) {
   }
 }
 
-function fetchGet(url) {
+function fetchGet(url: string) {
   return fetch(url).then(res => res.text());
 }
 
-function fetchPost(url, jsonData) {
+function fetchPost(url: string, jsonData: JSONType) {
   return fetch(url, commonPostParam(jsonData)).then(res => res.text());
 }
 
@@ -36,8 +37,9 @@ app.use(express.urlencoded({extended: true}));
 // ---------------------------------------------------------------------------------------------------------------------
 
 // todo
-app.post('/api/login/account', (req, res) => {
-  const {password, userName, type} = req.body;
+app.post('/api/login/account', (req: Request, res: Response) => {
+  // const {password, userName, type} = req.body;
+  const {type} = req.body;
 
   res.send({
     status: 'ok',
@@ -46,11 +48,11 @@ app.post('/api/login/account', (req, res) => {
   });
 });
 
-app.get('/api/currentUserAvatar', (req, res) => {
-  res.sendFile(path.join(__dirname, 'src/assets', 'logo-simple.png'))
+app.get('/api/currentUserAvatar', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, '/assets', 'avatar.png'))
 });
 
-app.get('/api/currentUser', (req, res) => {
+app.get('/api/currentUser', (req: Request, res: Response) => {
   res.send({
     name: 'Jacob Xie',
     avatar: '/api/currentUserAvatar',
@@ -68,7 +70,7 @@ app.get('/api/currentUser', (req, res) => {
 /**
  * get grid layout
  */
-app.get('/api/ei-grid-layout', (req, res) => {
+app.get('/api/ei-grid-layout', (req: Request, res: Response) => {
   const {db, collection, template, panel} = req.query;
 
   fetchGet(`${eiBackendUrl}/dashboard/grid-layout?db=${db}&collection=${collection}&template=${template}&panel=${panel}`)
@@ -79,7 +81,7 @@ app.get('/api/ei-grid-layout', (req, res) => {
 /**
  * update grid layout
  */
-app.post('/api/ei-grid-layout', (req, res) => {
+app.post('/api/ei-grid-layout', (req: Request, res: Response) => {
   const {db, collection} = req.query;
   fetchPost(`${eiBackendUrl}/dashboard/grid-layout?db=${db}&collection=${collection}`, req.body)
     .then(json => res.send(json))
@@ -91,7 +93,7 @@ app.post('/api/ei-grid-layout', (req, res) => {
 /**
  * fetch industry-store
  */
-app.post('/api/dashboard-store-fetch', (req, res) => {
+app.post('/api/dashboard-store-fetch', (req: Request, res: Response) => {
   const {collection} = req.query;
 
   fetchPost(`${eiBackendUrl}/dashboard/industry-store-fetch?collection=${collection}`, req.body)
@@ -102,7 +104,7 @@ app.post('/api/dashboard-store-fetch', (req, res) => {
 /**
  * fetch industry-stores
  */
-app.post('/api/dashboard-stores-fetch', (req, res) => {
+app.post('/api/dashboard-stores-fetch', (req: Request, res: Response) => {
   const {collection} = req.query;
 
   fetchPost(`${eiBackendUrl}/dashboard/industry-stores-fetch?collection=${collection}`, req.body)
@@ -113,7 +115,7 @@ app.post('/api/dashboard-stores-fetch', (req, res) => {
 /**
  * modify industry-store
  */
-app.post('/api/dashboard-store-modify', (req, res) => {
+app.post('/api/dashboard-store-modify', (req: Request, res: Response) => {
   const {collection} = req.query;
 
   fetchPost(`${eiBackendUrl}/dashboard/industry-store-modify?collection=${collection}`, req.body)
@@ -124,7 +126,7 @@ app.post('/api/dashboard-store-modify', (req, res) => {
 /**
  * modify industry-stores
  */
-app.post('/api/dashboard-stores-modify', (req, res) => {
+app.post('/api/dashboard-stores-modify', (req: Request, res: Response) => {
   const {collection} = req.query;
 
   fetchPost(`${eiBackendUrl}/dashboard/industry-stores-modify?collection=${collection}`, req.body)
@@ -136,7 +138,7 @@ app.post('/api/dashboard-stores-modify', (req, res) => {
 /**
  * remove industry-store
  */
-app.post('/api/dashboard-store-remove', (req, res) => {
+app.post('/api/dashboard-store-remove', (req: Request, res: Response) => {
   const {collection} = req.query;
 
   fetchPost(`${eiBackendUrl}/dashboard/industry-store-remove?collection=${collection}`, req.body)
@@ -147,7 +149,7 @@ app.post('/api/dashboard-store-remove', (req, res) => {
 /**
  * remove industry-stores
  */
-app.post('/api/dashboard-stores-remove', (req, res) => {
+app.post('/api/dashboard-stores-remove', (req: Request, res: Response) => {
   const {collection} = req.query;
 
   fetchPost(`${eiBackendUrl}/dashboard/industry-stores-remove?collection=${collection}`, req.body)
@@ -158,7 +160,7 @@ app.post('/api/dashboard-stores-remove', (req, res) => {
 /**
  * fetch template-layout
  */
-app.post('/api/dashboard-layout-fetch', (req, res) => {
+app.post('/api/dashboard-layout-fetch', (req: Request, res: Response) => {
   const {collection} = req.query;
 
   fetchPost(`${eiBackendUrl}/dashboard/template-layout-fetch?collection=${collection}`, req.body)
@@ -169,7 +171,7 @@ app.post('/api/dashboard-layout-fetch', (req, res) => {
 /**
  * modify template-layout
  */
-app.post('/api/dashboard-layout-modify', (req, res) => {
+app.post('/api/dashboard-layout-modify', (req: Request, res: Response) => {
   const {collection} = req.query;
 
   fetchPost(`${eiBackendUrl}/dashboard/template-layout-modify?collection=${collection}`, req.body)
@@ -180,7 +182,7 @@ app.post('/api/dashboard-layout-modify', (req, res) => {
 /**
  * remove template-layout
  */
-app.post('/api/dashboard-layout-remove', (req, res) => {
+app.post('/api/dashboard-layout-remove', (req: Request, res: Response) => {
   const {collection} = req.query;
 
   fetchPost(`${eiBackendUrl}/dashboard/template-layout-remove?collection=${collection}`, req.body)
@@ -191,7 +193,7 @@ app.post('/api/dashboard-layout-remove', (req, res) => {
 /**
  * modify template-layout-industry-store
  */
-app.post('/api/dashboard-layout-store-modify', (req, res) => {
+app.post('/api/dashboard-layout-store-modify', (req: Request, res: Response) => {
   const {collection} = req.query;
 
   fetchPost(`${eiBackendUrl}/dashboard/template-layout-industry-store-modify?collection=${collection}`, req.body)
@@ -205,7 +207,7 @@ app.post('/api/dashboard-layout-store-modify', (req, res) => {
 /**
  * list file structure
  */
-app.get('/api/ei-file-structure', (req, res) => {
+app.get('/api/ei-file-structure', (req: Request, res: Response) => {
   const {type, subFolderPath} = req.query;
   const p = `${eiBackendUrl}/file/listFileStructure?type=${type}&subFolderPath=${subFolderPath}&removeFolderDir=true`
   fetchGet(encodeURI(p))
@@ -213,7 +215,7 @@ app.get('/api/ei-file-structure', (req, res) => {
     .catch(err => console.log(err));
 });
 
-app.get('/api/ei-pro-file-structure', (req, res) => {
+app.get('/api/ei-pro-file-structure', (req: Request, res: Response) => {
   const {type, subFolderPath} = req.query;
   const p = `${eiBackendUrl}/file/listProFileStructure?type=${type}&subFolderPath=${subFolderPath}&removeFolderDir=true`
   fetchGet(encodeURI(p))
@@ -227,7 +229,7 @@ app.get('/api/ei-pro-file-structure', (req, res) => {
 /**
  * show-collections
  */
-app.get('/api/ei-admin/show-collections', (req, res) =>
+app.get('/api/ei-admin/show-collections', (req: Request, res: Response) =>
   fetchGet(`${eiBackendUrl}/admin/show-collections`)
     .then(json => res.send(json))
     .catch(err => console.log(err))
@@ -237,7 +239,7 @@ app.get('/api/ei-admin/show-collections', (req, res) =>
 /**
  * does-collection-exist
  */
-app.get('/api/ei-admin/does-collection-exist', (req, res) => {
+app.get('/api/ei-admin/does-collection-exist', (req: Request, res: Response) => {
   const {collection} = req.query;
 
   fetchGet(`${eiBackendUrl}/admin/does-collection-exist?collection=${collection}`)
@@ -248,7 +250,7 @@ app.get('/api/ei-admin/does-collection-exist', (req, res) => {
 /**
  * show-collection
  */
-app.get('/api/ei-admin/show-collection', (req, res) => {
+app.get('/api/ei-admin/show-collection', (req: Request, res: Response) => {
   const {collection} = req.query;
 
   fetchGet(`${eiBackendUrl}/admin/show-collection?collection=${collection}`)
@@ -259,7 +261,7 @@ app.get('/api/ei-admin/show-collection', (req, res) => {
 /**
  * create-collection
  */
-app.post('/api/ei-admin/create-collection', (req, res) =>
+app.post('/api/ei-admin/create-collection', (req: Request, res: Response) =>
   fetchPost(`${eiBackendUrl}/admin/create-collection`, req.body)
     .then(json => res.send(json))
     .catch(err => console.log(err))
@@ -268,7 +270,7 @@ app.post('/api/ei-admin/create-collection', (req, res) =>
 /**
  * modify-collection
  */
-app.post('/api/ei-admin/modify-collection', (req, res) =>
+app.post('/api/ei-admin/modify-collection', (req: Request, res: Response) =>
   fetchPost(`${eiBackendUrl}/admin/modify-collection`, req.body)
     .then(json => res.send(json))
     .catch(err => console.log(err))
@@ -277,7 +279,7 @@ app.post('/api/ei-admin/modify-collection', (req, res) =>
 /**
  * show-index
  */
-app.get('/api/ei-admin/show-index', (req, res) => {
+app.get('/api/ei-admin/show-index', (req: Request, res: Response) => {
   const {collection} = req.query;
 
   fetchGet(`${eiBackendUrl}/admin/show-index?collection=${collection}`)
@@ -288,7 +290,7 @@ app.get('/api/ei-admin/show-index', (req, res) => {
 /**
  * insert-data
  */
-app.post('/api/ei-admin/insert-data', (req, res) => {
+app.post('/api/ei-admin/insert-data', (req: Request, res: Response) => {
   const {collection} = req.query;
 
   fetchPost(`${eiBackendUrl}/admin/insert-data?collection=${collection}`, req.body)
@@ -299,7 +301,7 @@ app.post('/api/ei-admin/insert-data', (req, res) => {
 /**
  * query-data
  */
-app.post('/api/ei-admin/query-data', (req, res) => {
+app.post('/api/ei-admin/query-data', (req: Request, res: Response) => {
   const {collection} = req.query;
 
   fetchPost(`${eiBackendUrl}/admin/query-data?collection=${collection}`, req.body)
@@ -310,7 +312,7 @@ app.post('/api/ei-admin/query-data', (req, res) => {
 /**
  * delete-data
  */
-app.post('/api/ei-admin/delete-data', (req, res) => {
+app.post('/api/ei-admin/delete-data', (req: Request, res: Response) => {
   const {collection} = req.query;
 
   fetchPost(`${eiBackendUrl}/admin/delete-data?collection=${collection}`, req.body)
@@ -324,7 +326,7 @@ app.post('/api/ei-admin/delete-data', (req, res) => {
 if (process.env.NODE_ENV === 'production') {
   app.use('/', express.static('dist'));
 
-  app.get('*', (req, res) => {
+  app.get('*', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
   });
 }

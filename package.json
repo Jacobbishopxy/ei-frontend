@@ -31,8 +31,8 @@
     "test:all": "node ./tests/run-tests.js",
     "test:component": "umi test ./src/components",
     "tsc": "tsc",
-    "serve": "cross-env NODE_ENV=production node server.js",
-    "serve:dev": "cross-env node server.js"
+    "serve": "cross-env NODE_ENV=production ts-node --project tsconfig.server.json server/server.ts",
+    "serve:dev": "cross-env ts-node-dev --project tsconfig.server.json server/server.ts"
   },
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
@@ -82,6 +82,7 @@
     "@types/history": "^4.7.6",
     "@types/jest": "^25.2.3",
     "@types/lodash": "^4.14.159",
+    "@types/node-fetch": "^2.5.7",
     "@types/qs": "^6.9.3",
     "@types/react": "^16.9.41",
     "@types/react-dom": "^16.9.8",
@@ -107,7 +108,10 @@
     "prettier": "^2.0.5",
     "pro-download": "1.0.1",
     "puppeteer-core": "^2.1.1",
-    "stylelint": "^13.6.1"
+    "stylelint": "^13.6.1",
+    "ts-node": "^8.10.2",
+    "ts-node-dev": "^1.0.0-pre.56",
+    "typescript": "^3.9.7"
   },
   "engines": {
     "node": ">=10.0.0"
