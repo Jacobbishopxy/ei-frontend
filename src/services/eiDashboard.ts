@@ -2,14 +2,14 @@
  * Created by Jacob Xie on 4/24/2020.
  */
 
-import request from '@/utils/request';
+import request from "umi-request";
 import * as dashboardModel from '@/utilities/dashboardModel';
 
 
-export const getGridLayout = async (db, collection, template, panel) =>
+export const getGridLayout = async (db: string, collection: string, template: string, panel: string) =>
   request(`/api/ei-grid-layout?db=${db}&collection=${collection}&template=${template}&panel=${panel}`)
 
-export const updateGridLayout = async (db, collection, json) =>
+export const updateGridLayout = async (db: string, collection: string, json: any) =>
   request(`/api/ei-grid-layout?db=${db}&collection=${collection}`, {method: 'POST', data: json});
 
 

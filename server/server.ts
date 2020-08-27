@@ -5,8 +5,14 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
 import fetch from 'node-fetch';
+import { ConnectionOptions } from "typeorm"
+
 import config from '../resources/config.json';
 import { JSONType } from './data';
+import { postCategoryConnect } from "./orm"
+import conDev from "../resources/databaseDev"
+import conProd from "../resources/databaseProd"
+
 
 const {eiBackendUrl} = config;
 
@@ -49,6 +55,10 @@ app.post('/api/login/account', (req: Request, res: Response) => {
 });
 
 app.get('/api/currentUserAvatar', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, '/assets', 'avatar.png'))
+});
+
+app.get('/api/homeLogo', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '/assets', 'avatar.png'))
 });
 
@@ -323,13 +333,22 @@ app.post('/api/ei-admin/delete-data', (req: Request, res: Response) => {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
+let connectionOptions: ConnectionOptions
+
 if (process.env.NODE_ENV === 'production') {
+  connectionOptions = conProd
+
   app.use('/', express.static('dist'));
 
   app.get('*', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
   });
+} else {
+  connectionOptions = conDev
 }
+
+postCategoryConnect(app, connectionOptions)
+  .then(() => console.log(`Connected to ${JSON.stringify(connectionOptions, null, 2)}`))
 
 const port = 7999;
 app.listen(port, () => console.log(`App listening on port ${port}`));

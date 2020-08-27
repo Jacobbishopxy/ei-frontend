@@ -17,5 +17,6 @@ COPY    yarn.lock /app
 WORKDIR /app
 
 # install packages
-RUN     yarn
+#RUN     yarn
+RUN     npm install
 

@@ -3,7 +3,7 @@
  */
 
 import _ from 'lodash';
-import request from '@/utils/request';
+import request from "umi-request";
 
 
 export const showCollections = async () =>

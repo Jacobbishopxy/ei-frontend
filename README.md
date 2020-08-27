@@ -50,9 +50,9 @@ yarn test
 
 ```
 config
-    |---config.js
+    |---config.ts
     |---defaultSetting.js
-    |---plugin.config.js
+    |---plugin.config.ts
 
 public
 
@@ -66,7 +66,7 @@ src
 ```
 
 
-1. `config/config.js`: Basic menu config
+1. `config/config.ts`: Basic menu config
 
 1. src
 
