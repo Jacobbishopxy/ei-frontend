@@ -51,6 +51,9 @@ export default {
 
   'menu.business-data': 'Business Data',
 
+  'menu.estate': 'Estate',
+  'menu.estate.comment': 'Comment',
+
   'menu.research': 'Research',
   'menu.research.candlestick': 'Candlestick',
   'menu.research.grafana': 'Grafana',

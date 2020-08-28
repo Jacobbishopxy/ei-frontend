@@ -12,9 +12,10 @@ export default defineConfig({
     hmr: true,
   },
   layout: {
-    name: 'Ant Design Pro',
+    name: 'InforeCapital',
     locale: true,
-    siderWidth: 208,
+    siderWidth: 200,
+    logo: '/api/homeLogo'
   },
   locale: {
     // default zh-CN
@@ -62,6 +63,18 @@ export default defineConfig({
           component: './Welcome',
         },
       ],
+    },
+    {
+      name: "estate",
+      path: "/estate",
+      icon: "ReadOutlined",
+      routes: [
+        {
+          name: "comment",
+          path: "/estate/comment",
+          component: "./estate/Comment"
+        }
+      ]
     },
     {
       name: 'research',

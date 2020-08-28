@@ -3,7 +3,7 @@ import { Settings as LayoutSettings } from '@ant-design/pro-layout'
 export default {
   navTheme: 'light',
   primaryColor: '#722ED1',
-  headerHeight: 35,
+  headerHeight: 40,
   layout: 'side',
   contentWidth: 'Fluid',
   fixedHeader: false,
@@ -15,7 +15,7 @@ export default {
   },
   title: 'InforeCapital',
   pwa: false,
-  iconfontUrl: '/api/homeLogo',
+  iconfontUrl: '',
 } as LayoutSettings & {
   pwa: boolean
 }

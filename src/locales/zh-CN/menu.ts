@@ -51,6 +51,9 @@ export default {
 
   'menu.business-data': '数据',
 
+  'menu.estate': '资产',
+  'menu.estate.comment': '点评',
+
   'menu.research': '投研',
   'menu.research.candlestick': 'K线',
   'menu.research.grafana': 'Grafana',

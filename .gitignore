@@ -39,5 +39,6 @@ screenshot
 
 build
 resources/config.json
+resources/databaseProd.ts
 cache
 !cache/.gitkeep
