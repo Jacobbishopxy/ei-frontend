@@ -20,3 +20,5 @@ WORKDIR /app
 #RUN     yarn
 RUN     npm install
 
+# fixing vulnerable dependecies
+#RUN     npm audit fix
