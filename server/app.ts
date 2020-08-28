@@ -342,7 +342,20 @@ else
 
 
 postCategoryConnect(app, connectionOptions)
-  .then(() => console.log(`Connected to ${ JSON.stringify(connectionOptions, null, 2) }`))
+  .then(() => {
+    const connInfo = JSON.stringify(connectionOptions, null, 2)
+    console.log(`Connected to ${ connInfo }`)
+
+    if (process.env.NODE_ENV === 'production') {
+      const frontendRoot = path.join(__dirname, '../dist')
+
+      app.use('/', express.static(frontendRoot))
+
+      app.get('/', (req: Request, res: Response) => {
+        res.sendFile(path.join(frontendRoot, 'index.html'))
+      })
+    }
+  })
 
 export default app
 
