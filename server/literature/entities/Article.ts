@@ -6,9 +6,11 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
+  OneToOne,
   ManyToOne,
   ManyToMany,
   JoinTable,
+  JoinColumn,
   Unique,
   CreateDateColumn,
   UpdateDateColumn,
@@ -16,31 +18,47 @@ import {
 } from "typeorm"
 
 import * as common from "../common"
+import * as utils from "../../utils"
 import { Category } from "./Category"
 import { Tag } from "./Tag"
 import { Author } from "./Author"
-
-const dateType = process.env.NODE_ENV === 'production' ? "timestamp" : "datetime"
+import { Config } from "./Config"
 
 @Entity({ name: common.article })
 @Unique([common.category, common.date])
 export class Article {
 
-  @PrimaryGeneratedColumn()
-  id!: number
+  @PrimaryGeneratedColumn("uuid")
+  id!: string
 
-  @ManyToOne(() => Category, category => category.articles)
+  /**
+   * bi-directional
+   */
+  @ManyToOne(() => Category, category => category.articles, { nullable: false })
   category!: Category
 
-  @ManyToMany(() => Tag, tag => tag.articles, { cascade: true })
+  /**
+   * bi-directional, tags creatable, nullable
+   */
+  @ManyToMany(() => Tag, tag => tag.articles, { cascade: true, nullable: true })
   @JoinTable()
   tags?: Tag[]
 
-  @Column(dateType)
-  date!: string
+  /**
+   * uni-directional, config creatable, nullable
+   */
+  @OneToOne(() => Config, { cascade: true, nullable: true })
+  @JoinColumn()
+  config?: Config
 
-  @ManyToOne(() => Author, author => author.articles, { cascade: true })
+  /**
+   * bi-directional, author creatable, nullable
+   */
+  @ManyToOne(() => Author, author => author.articles, { cascade: true, nullable: true })
   author!: Author
+
+  @Column(utils.dateType, { nullable: false })
+  date!: string
 
   @Column("text", { nullable: false })
   title!: string

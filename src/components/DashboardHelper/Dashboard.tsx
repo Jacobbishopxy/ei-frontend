@@ -13,10 +13,10 @@ import * as dashboardService from '@/services/eiDashboard';
 
 import { DashboardEditor } from '@/components/DashboardHelper/DashboardController/DashboardEditor';
 import { ModulePanel } from '@/components/DashboardHelper/DashboardModulePanel/ModulePanel';
+import { SymbolSelector } from '@/components/DashboardHelper/DashboardController/SymbolSelector';
 import { DashboardProps, ElementGeneratorProps } from './data';
 
 import styles from './Dashboard.less';
-import { SymbolSelector } from '@/components/DashboardHelper/DashboardController/SymbolSelector';
 
 
 const ReactGridLayout = WidthProvider(RGL);

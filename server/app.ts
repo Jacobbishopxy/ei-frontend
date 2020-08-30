@@ -9,9 +9,9 @@ import { ConnectionOptions } from "typeorm"
 
 import config from '../resources/config.json'
 import { JSONType } from './data'
-import { postCategoryConnect } from "./orm"
-import conDev from "../resources/databaseDev"
-import conProd from "../resources/databaseProd"
+import { literatureConnect } from "./orm"
+import { connProdLiterature } from "../resources/databaseProd"
+import { connDevLiterature } from "../resources/databaseDev"
 
 
 const { eiBackendUrl } = config
@@ -36,6 +36,8 @@ function fetchPost(url: string, jsonData: JSONType) {
 
 const app = express()
 
+app.set("port", process.env.PORT || 7999)
+app.set("env", process.env.NODE_ENV === 'production' ? "prod" : "dev")
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -333,29 +335,16 @@ app.post('/api/ei-admin/delete-data', (req: Request, res: Response) => {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-let connectionOptions: ConnectionOptions
+async function connectionsAwaitLiterature() {
+  const literatureConnOptions: ConnectionOptions =
+    app.get("env") === "prod" ? connProdLiterature : connDevLiterature
 
-if (process.env.NODE_ENV === 'production')
-  connectionOptions = conProd
-else
-  connectionOptions = conDev
+  await literatureConnect(app, literatureConnOptions)
+
+  const connInfo = JSON.stringify(literatureConnOptions, null, 2)
+  console.log(`Connected to ${ connInfo }`)
+}
 
 
-postCategoryConnect(app, connectionOptions)
-  .then(() => {
-    const connInfo = JSON.stringify(connectionOptions, null, 2)
-    console.log(`Connected to ${ connInfo }`)
-
-    if (process.env.NODE_ENV === 'production') {
-      const frontendRoot = path.join(__dirname, '../dist')
-
-      app.use('/', express.static(frontendRoot))
-
-      app.get('/', (req: Request, res: Response) => {
-        res.sendFile(path.join(frontendRoot, 'index.html'))
-      })
-    }
-  })
-
-export default app
+export default { app, connectionsAwaitLiterature }
 
