@@ -346,5 +346,5 @@ async function connectionsAwaitLiterature() {
 }
 
 
-export default { app, connectionsAwaitLiterature }
+export { app, connectionsAwaitLiterature }
 

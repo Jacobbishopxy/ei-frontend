@@ -9,15 +9,22 @@ import { CustomDashboard } from '@/components/CustomDashboardHelper';
 import { BulbOutlined, FileOutlined, PayCircleOutlined, StarOutlined } from '@ant-design/icons';
 
 
-const db = 'bank';
+const db = 'manufacture';
 const collection = 'layout';
+const symbolList = [
+  {
+    key: '002714.SZ',
+    name: "牧原股份",
+    author: "刘东渐"
+  }
+]
+const defaultSymbol = '002714.SZ'
 
 export default () => {
   return (
     <Tabs
       defaultActiveKey='1'
       onChange={k => console.log(k)}
-      type="editable-card"
     >
       <Tabs.TabPane
         tab={<span><BulbOutlined/>要点</span>}
@@ -27,7 +34,8 @@ export default () => {
           db={db}
           collection={collection}
           panel='intro'
-          hasSymbolSelector
+          symbolList={symbolList}
+          defaultSymbol={defaultSymbol}
         />
       </Tabs.TabPane>
       <Tabs.TabPane
@@ -38,7 +46,8 @@ export default () => {
           db={db}
           collection={collection}
           panel='report'
-          hasSymbolSelector
+          symbolList={symbolList}
+          defaultSymbol={defaultSymbol}
         />
       </Tabs.TabPane>
       <Tabs.TabPane
@@ -49,7 +58,8 @@ export default () => {
           db={db}
           collection={collection}
           panel='finance'
-          hasSymbolSelector
+          symbolList={symbolList}
+          defaultSymbol={defaultSymbol}
         />
       </Tabs.TabPane>
       <Tabs.TabPane
@@ -60,7 +70,8 @@ export default () => {
           db={db}
           collection={collection}
           panel='core'
-          hasSymbolSelector
+          symbolList={symbolList}
+          defaultSymbol={defaultSymbol}
         />
       </Tabs.TabPane>
 

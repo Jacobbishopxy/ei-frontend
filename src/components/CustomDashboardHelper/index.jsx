@@ -2,14 +2,14 @@
  * Created by Jacob Xie on 4/27/2020.
  */
 
-import React, { useState, useEffect } from 'react';
-import { message } from 'antd';
-import RGL, { WidthProvider } from 'react-grid-layout';
+import React, {useState, useEffect} from 'react';
+import {message} from 'antd';
+import RGL, {WidthProvider} from 'react-grid-layout';
 
-import { DataCard } from '@/components/CustomDashboardHelper/DashboardModulePanel';
-import { SymbolSelector } from '@/components/CustomDashboardHelper/DashboardController/SymbolSelector';
-import { DashboardEditor } from '@/components/CustomDashboardHelper/DashboardController/DashboardEditor';
-import { useDidMountEffect } from '@/utilities/utils';
+import {DataCard} from '@/components/CustomDashboardHelper/DashboardModulePanel';
+import {SymbolSelector} from '@/components/CustomDashboardHelper/DashboardController/SymbolSelector';
+import {DashboardEditor} from '@/components/CustomDashboardHelper/DashboardController/DashboardEditor';
+import {useDidMountEffect} from '@/utilities/utils';
 
 import {
   updateModels,
@@ -28,14 +28,17 @@ import styles from './index.less';
 const ReactGridLayout = WidthProvider(RGL);
 
 
-export const CustomDashboard = ({db, collection, panel, hasSymbolSelector = false}) => {
+export const CustomDashboard = ({db, collection, panel, symbolList, defaultSymbol}) => {
 
   const [cards, setCards] = useState([]);
   const [counter, setCounter] = useState(0);
   const [saveLayout, setSaveLayout] = useState(0);
   const [dashboardOnEdit, setDashboardOnEdit] = useState(false);
-  const [template, setTemplate] = useState('600036');
-  const [symbol, setSymbol] = useState('600036');  // todo: common param
+  const [template, setTemplate] = useState(defaultSymbol);
+
+  useEffect(() => {
+    setTemplate(defaultSymbol)
+  }, [defaultSymbol])
 
   useEffect(() => {
     getGridLayout(db, collection, template, panel)
@@ -53,8 +56,12 @@ export const CustomDashboard = ({db, collection, panel, hasSymbolSelector = fals
     };
 
     updateGridLayout(db, collection, saveMode)
-      .then(() => {message.success(`保存成功`)})
-      .catch(() => {message.warn(`保存失败`)});
+      .then(() => {
+        message.success(`保存成功`)
+      })
+      .catch(() => {
+        message.warn(`保存失败`)
+      });
   }, [saveLayout]);
 
   const onAddItem = selectedMode => {
@@ -74,7 +81,6 @@ export const CustomDashboard = ({db, collection, panel, hasSymbolSelector = fals
     setCards(newCards)
   };
 
-  // todo: element with common param
   const createElement = (el, index) => {
     const {coordinate, content} = el;
 
@@ -109,19 +115,17 @@ export const CustomDashboard = ({db, collection, panel, hasSymbolSelector = fals
 
   const onSaveModule = () => setSaveLayout(saveLayout + 1);
 
+  const onChangeSymbol = value => setTemplate(value)
+
   return (
     <div className={styles.main}>
       <div className={styles.controlMain}>
-        {
-          hasSymbolSelector ?
-            <SymbolSelector
-              className={styles.content}
-              onSelectSymbol={setSymbol}
-              onSearchSymbol={e => {}}
-              defaultSymbol={symbol}
-            /> :
-            <div/>
-        }
+        <SymbolSelector
+          className={styles.content}
+          onChangeSymbol={onChangeSymbol}
+          symbolList={symbolList}
+          defaultSymbol={template}
+        />
         <DashboardEditor
           className={styles.content}
           onAddModule={onAddItem}

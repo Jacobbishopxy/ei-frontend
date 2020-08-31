@@ -81,35 +81,45 @@ export default defineConfig({
       path: '/research',
       icon: 'experiment',
       routes: [
-        // {
-        //   name: 'candlestick',
-        //   path: '/research/tradingview',
-        //   component: './research/TradingView',
-        // },
-        // {
-        //   name: 'grafana',
-        //   path: '/research/grafanaview',
-        //   component: './research/GrafanaView',
-        // },
-        // {
-        //   name: 'mongo',
-        //   path: '/research/mongoview',
-        //   component: './research/MongoView',
-        // },
-        // {
-        //   name: 'postgres',
-        //   path: '/research/postgresview',
-        //   component: './research/PostgresView',
-        // },
+        {
+          name: 'cyclicalindustry',
+          path: '/research/cyclicalindustry',
+          component: './research/CyclicalIndustry',
+        },
+        {
+          name: 'biomedicine',
+          path: '/research/biomedicine',
+          component: './research/Biomedicine',
+        },
+        {
+          name: 'finance',
+          path: '/research/finance',
+          component: './research/Finance',
+        },
+        {
+          name: 'consumption',
+          path: '/research/consumption',
+          component: './research/Consumption',
+        },
+        {
+          name: 'manufacture',
+          path: '/research/manufacture',
+          component: './research/Manufacture',
+        },
+        {
+          name: 'tmt&internet',
+          path: '/research/tmtandinternet',
+          component: './research/TmtAndInternet',
+        },
+        {
+          name: 'monopoly',
+          path: '/research/monopoly',
+          component: './research/Monopoly',
+        },
         {
           name: 'market',
           path: '/research/market',
           component: './research/Market',
-        },
-        {
-          name: 'bank',
-          path: '/research/bank',
-          component: './research/Bank',
         },
       ],
     },

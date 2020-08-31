@@ -2,54 +2,44 @@
  * Created by Jacob Xie on 7/6/2020.
  */
 
-import React from 'react';
-import { Input } from 'antd';
+import React, {useState} from 'react';
+import {Select, Space} from 'antd';
 
 
-// todo: display symbol's company name by fetching API
-export const SymbolSelector = ({onSelectSymbol, onSearchSymbol, defaultSymbol}) => {
+export const SymbolSelector = ({symbolList, onChangeSymbol, defaultSymbol}) => {
 
-  const selectSymbol = ({target: {value}}) => onSelectSymbol(value);
-  const searchSymbol = ({target: {value}}) => onSearchSymbol(value);
+  const [symbol, setSymbol] = useState(defaultSymbol)
 
-  const inputField = <Input
-    disabled
-    onPressEnter={selectSymbol}
-    onBlur={selectSymbol}
-    defaultValue={defaultSymbol}
-    placeholder="股票代码"
-    size="small"
-    style={{width: 120, marginRight: 5}}
-  />;
+  const selectOnChange = value => {
+    onChangeSymbol(value)
+    setSymbol(value)
+  }
 
-  const inputSearchField = <Input.Search
-    disabled
-    onPressEnter={selectSymbol}
-    onBlur={selectSymbol}
-    onSearch={searchSymbol}
-    defaultValue={defaultSymbol}
-    placeholder="股票代码"
-    size="small"
-    style={{width: 120, marginRight: 5}}
-  />;
+  const findSymbolName = () =>
+    symbolList.filter(i => i.key === symbol)[0].name
+
+  const findSymbolAuthor = () =>
+    symbolList.filter(i => i.key === symbol)[0].author
 
   return (
-    <>
-      {
-        onSearchSymbol === undefined ?
-          <div>
-            {inputField}
-            <span style={{fontWeight: "bold", fontSize: 17, marginLeft: 10}}>招商银行</span>
-          </div>
-          : <div>
-            {inputSearchField}
-            <span style={{fontWeight: "bold", fontSize: 17, marginLeft: 10}}>招商银行</span>
-          </div>
-
-      }
-    </>
-
+    <Space>
+      <Select
+        style={{width: 150}}
+        onChange={selectOnChange}
+        defaultValue={defaultSymbol}
+      >
+        {
+          symbolList.map(n =>
+            <Select.Option key={n.key} value={n.key}>
+              {n.key}
+            </Select.Option>
+          )
+        }
+      </Select>
+      <span style={{fontWeight: "bold"}}>{findSymbolName(symbol)}</span>
+      <span style={{color: "gray"}}>{findSymbolAuthor(symbol)}</span>
+    </Space>
   )
-};
+}
 
 export default SymbolSelector;
